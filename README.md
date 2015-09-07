@@ -17,7 +17,7 @@ Go to [3] to learn more about lilypond and how to install it. In OS X, you must 
 you to run it from the command line which is a prerequisite for the external to compile the score automatically from 
 within Pd [4].
 
-notes is programmed by Jaime Oliver La Rosa [5] (la.rosa@nyu.edu) at the NYU Waverly Labs [6] and is released under 
+notes is programmed by Jaime Oliver La Rosa [5] [la.rosa@nyu.edu] at the NYU Waverly Labs [6] and is released under 
 the GPL License [7]. It is currently in alpha stage.
 
 
