@@ -2904,15 +2904,13 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				post("notes: Opening PDF score ");
 			////	OPEN PDF SCORE ________________________________________________________
 				if(x->OS == 1)	{
-					strcpy( command, "xdg-open ");
-                    strcat( command, buf);
-                    strcat( command, ".pdf");
+					strcpy( command, "xdg-open ");  
 				}
 				if(x->OS == 0)	{
 					strcpy( command, "open ");
-					strcat( command, x->lily_dir);
-				}				
-			//	strcat( command, "/temp.pdf");
+				}	
+                strcat( command, buf);
+                strcat( command, ".pdf");
 				system( command);
 			}
 		} // if a file is correctly provided.
