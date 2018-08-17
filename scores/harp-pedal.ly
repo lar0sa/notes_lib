@@ -34,12 +34,22 @@ inst_part = \relative c'
  c8  d8 
 	c8  d8 
 		f8  g8 
-			e8_\markup { \combine \arrow-head #Y #UP ##t \draw-line #'(0 . -3)}_\markup { \harp-pedal #"^v-|vv-^" }  c8  |
+			e8  fis8  |
 % ________________________________________bar 2 :
-d8  c8 
-	d8  f8 
-		g8 c8 
-	d8  f8 
+c8_\markup { \combine \arrow-head #Y #UP ##t \draw-line #'(0 . -2)}_\markup { \harp-pedal #"v-^|ov-^v" }  d8 
+	c8  d8 
+		f8  g8 
+			e8  fis8  |
+% ________________________________________bar 3 :
+c8  d8 
+	c8  d8 
+		f8  g8 
+			e8  fis8  |
+% ________________________________________bar 4 :
+c8_\markup { \combine \arrow-head #Y #UP ##t \draw-line #'(0 . -2)}_\markup { \harp-pedal #"v-^|o^-^v" }  d8 
+	c8  d8 
+		f8  g8 
+			e8  fis8 
 }
 
 \score {
