@@ -440,6 +440,7 @@ int readbarfile(int a[][8], FILE *f)		{
 	size_t len = 0;
 	ssize_t read;
 	char ss[10];
+    temp=j=0;
 
 	ii=0;
 	while ((read = getline(&line, &len, f)) != -1) {
@@ -484,15 +485,16 @@ typedef struct notes 													{
   FILE *fp1;
   
 ////////////////// ******* RAW INPUT DATA:
-// pitch, duration, articulation, tie, dynamics, articulation, tempo, meter, 
+// pitch, duration, articulation, tie, dynamics, articulation, tempo, meter, text, harp-pedals
 // add rehearsal marks, tremolo
 
   int ri_index;
   int ri_cho[MXS], ri_dur[MXS], ri_tie[MXS], ri_clu[MXS], ri_clef[MXS], ri_acc[MXS], ri_trm[MXS], ri_arp[MXS];
-  int ri_dyn_n[MXS], ri_art_n[MXS], ri_smn_n[MXS], ri_spa_n[MXS], ri_txt_n[MXS], ri_txt_spn_n[MXS], ri_hrm_n[MXS], ri_nhs_n[MXS];
+  int ri_dyn_n[MXS], ri_art_n[MXS], ri_smn_n[MXS], ri_spa_n[MXS], ri_txt_n[MXS], ri_txt_spn_n[MXS], ri_hrm_n[MXS], ri_nhs_n[MXS], ri_hpp_n[MXS];
   float ri_pit[MXS][128], ri_spa_p[MXS]; 
   int ri_mtr[MXS][2], ri_tmp[MXS][2], ri_grc[MXS][2], ri_tup[MXS][3], ri_dyn[MXS][16], ri_art[MXS][16], ri_smn[MXS][8], ri_spa[MXS][8], ri_hrm[MXS][8], ri_nhs[MXS][16], ri_txt_spn[MXS][6];
   char ri_txt[MXS][32][64];
+  char ri_hpp[MXS][16];
   
   int ri_index_sort[MXS];
   
@@ -525,7 +527,7 @@ t_notes;
   
 ////	____________________________________________________ INPUT
 void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
-	int a, i, j, input_check[20];	
+	int a, i, j, input_check[21];	
 	float temp_f, temp_f_array[128];
 	x->dummysym = s->s_name;
 	
@@ -541,16 +543,17 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	t_symbol *nt_accidentals	= gensym("-acc"); // accidentals.
 	t_symbol *nt_tremolo		= gensym("-trm"); // tremolo.
 	t_symbol *nt_span			= gensym("-spa"); // tremolo.
-	t_symbol *nt_text			= gensym("-txt"); // text
 	t_symbol *nt_grace			= gensym("-grc"); // grace notes
 	t_symbol *nt_harmonic		= gensym("-hrm"); // stopped harmonics
 	t_symbol *nt_noteheads		= gensym("-nhs"); // noteheads
 	t_symbol *nt_tie			= gensym("-tie"); // tie
 	t_symbol *nt_cluster		= gensym("-clu"); // clusters
-	t_symbol *nt_arpeggio		= gensym("-arp"); // clusters
+	t_symbol *nt_arpeggio		= gensym("-arp"); // arpeggio
+	t_symbol *nt_text			= gensym("-txt"); // text
+    t_symbol *nt_harppedal 		= gensym("-hpp"); // harp_pedal
 	
 	if (x->debug >= 1) post("INDEX ========= %d", x->ri_index);
-	for (a = 0; a < 20; a++) { input_check[a] = 0;	};
+	for (a = 0; a < 21; a++) { input_check[a] = 0;	};
     for (a = 0; a < argcount; a++) {
     	if (x->debug >= 1) post("notes: Input index %d received", x->ri_index);
     	if (argvec[a].a_type == A_SYMBOL) {
@@ -747,6 +750,17 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		x->ri_spa_n[x->ri_index] = i;
 				input_check[11] = 1;
 	    	}
+//_____________________________________________________________________________
+	    	else if ( argvec[a].a_w.w_symbol == nt_harppedal)			{
+                if (argvec[a+1].a_type == A_SYMBOL && a < argcount-1){
+                    a++;
+                    atom_string(argvec+a, x->ri_hpp[x->ri_index], 1000);
+                    x->ri_hpp_n[x->ri_index] = 1;
+                    input_check[20] = 1;
+                //    post("pedal:");
+                //    post(x->ri_hpp[x->ri_index]);
+                }
+            }
 //_____________________________________________________________________________
 	    	else if ( argvec[a].a_w.w_symbol == nt_text)			{
 	    		j = 0;
@@ -1034,7 +1048,10 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	} // cluster
 	if (input_check[19] == 0) 	{ 
 		x->ri_arp[x->ri_index] = 0;
-	} // cluster
+	} // arpeggio
+    if (input_check[20] == 0) 	{ 
+		x->ri_hpp_n[x->ri_index] = 0;
+	} // harp-pedal
 	x->ri_index++;
 }
 ////	____________________________________________________ WRITE
@@ -1042,7 +1059,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 	int i, j, k, barcount, barsize, beatsize, dur_remainder, bar_number, beatcount, beat_number, sub_beatsize, subdiv;
 	int pow2dot_array[18] = {0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384};
 	int harmonics[6][2] = { {12, 12}, {7, 19}, {5, 24}, {4, 28}, {3, 31}, {2, 34}}; 
-	float temp_f;//, temp_f2;
+	float temp_f=0;//, temp_f2;
 	bar_number=beatcount=barcount=dur_remainder=beat_number = j= i=k= 0;
 	x->sb_tp_index = x->i_index = x->tp_index = x->tp_n = x->b_index = x->be_index = x->sb_index = 0;
 	
@@ -2106,7 +2123,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 	//// _______________________________________________ WRITE SCORE	
 		else 							{  
 			post("notes: writing into %s", scorename);
-			fprintf(fp1, "%% [notes] external for Pure Data\n%% development-version July 14, 2014 \n%% by Jaime E. Oliver La Rosa\n%% la.rosa@nyu.edu\n%% @ the Waverly Labs in NYU MUSIC FAS\n%% Open this file with Lilypond\n%% more information is available at lilypond.org\n%% Released under the GNU General Public License.\n\n");
+			fprintf(fp1, "%% [notes] external for Pure Data\n%% development-version August 16, 2018 \n%% by Jaime E. Oliver La Rosa\n%% la.rosa@nyu.edu\n%% @ the Waverly Labs in NYU MUSIC FAS\n%% Open this file with Lilypond\n%% more information is available at lilypond.org\n%% Released under the GNU General Public License.\n\n");
 			fprintf(fp1, "%% HEADERS\n\nglissandoSkipOn = {\n\t\\override NoteColumn.glissando-skip = ##t\n\t\\hide NoteHead\n\t\\hide Accidental\n\t\\hide Tie\n\t\\override NoteHead.no-ledgers = ##t\n}\n\nglissandoSkipOff = {\n\t\\revert NoteColumn.glissando-skip\n\t\\undo \\hide NoteHead\n\t\\undo \\hide Tie\n\t\\undo \\hide Accidental\n\t\\revert NoteHead.no-ledgers\n}\n");
 			
 			if (x->auth_n > 0 || x->titl_n > 0 || x->sub_title_n > 0) {
@@ -2205,7 +2222,6 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								break;
 							}
 						//	post("grace loop=%d\t x->ri_index_sort[j] == %d", j, x->ri_index_sort[j]);
-			
 						// text Spans_____________________________________________________
 								if (x->ri_txt_spn[j][0] == 1 && x->ri_txt_spn_n[j] > 0) {
 									if (i==0 || j != x->sb_rii[i-1]) {
@@ -2251,7 +2267,6 @@ void notes_write(t_notes *x, t_symbol *s)								{
 										fprintf(fp2, "\n");
 									}
 								}
-
 						// chord run ________________________________________________________	
 							if (x->ri_cho[j]>1 || x->ri_hrm_n[j]>0) fprintf(fp2, "<");
 							for (k=0; k<x->ri_cho[j]; k++) {
@@ -2350,7 +2365,14 @@ void notes_write(t_notes *x, t_symbol *s)								{
 									find_dynamics((int) x->ri_dyn[j][k], (FILE *) fp2);
 								}
 							}
-						// texts ________________________________________________________
+                        // harp-pedal ________________________________________________________
+							if (x->ri_hpp_n[j] > 0 && j != x->sb_rii[i-1]) {
+								fprintf(fp2, "_\\markup { \\combine \\arrow-head #Y #UP ##t \\draw-line #'(0 . -2)}_\\markup { \\harp-pedal ");
+                                strcpy( o_text, x->ri_hpp[j]);
+								fprintf(fp2, "%s", o_text);
+                                fprintf(fp2, " }");
+                            }
+                        // texts ________________________________________________________
 							if (x->ri_txt_n[j] > 0 && j != x->sb_rii[i-1]) {
 								fprintf(fp2, "-\\markup {");
 								for (k=0; k<x->ri_txt_n[j]; k++){
@@ -2713,6 +2735,13 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							}
 						}
 					}
+                // harp-pedal ________________________________________________________
+                    if (x->ri_hpp_n[j] > 0 && j != x->sb_rii[i-1]) {
+                        fprintf(fp2, "_\\markup { \\combine \\arrow-head #Y #UP ##t \\draw-line #'(0 . -2)}_\\markup { \\harp-pedal ");
+                        strcpy( o_text, x->ri_hpp[j]);
+                        fprintf(fp2, "%s", o_text);
+                        fprintf(fp2, " }");
+                    }
 				// texts ________________________________________________________
 					if (x->ri_txt_n[j] > 0 && x->ri_txt_spn[j][0] == 0) {
 						if (i==0 || j != x->sb_rii[i-1]) {
@@ -2830,7 +2859,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				else fprintf(fp1, "\")");
 				fprintf(fp1, "\n\t}\n\t\\midi { }\n}");
 			//// ____________________________________________________________ CLOSE SCORE 
-				fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% notes Pd External version testing \n");
+				fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% notes Pd External testing version  \n");
 				fclose(fp1);
 				post("notes: .ly score finished");
 				
@@ -2865,27 +2894,25 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					strcpy( command, "exec ");
 					strcat( command, x->lily_dir);
 					strcat( command, "/");
-					strcat( command, "lilypond -o ");
-					strcat( command, x->lily_dir);
 				}
-				if(x->OS == 1)	{
-					strcpy( command, "lilypond -o ");
-					strcat( command, "~");
-				}
-				strcat( command, "/temp ");
-				strcat( command, scorename);
+                strcpy( command, "lilypond -o ");
+                strcat( command, buf); // relative position to patch found whenopening fp1 above
+                strcat( command, " ");
+                strcat( command, scorename);
 				system( command);
+                
 				post("notes: Opening PDF score ");
 			////	OPEN PDF SCORE ________________________________________________________
 				if(x->OS == 1)	{
 					strcpy( command, "xdg-open ");
-					strcat( command, "~");
+                    strcat( command, buf);
+                    strcat( command, ".pdf");
 				}
 				if(x->OS == 0)	{
 					strcpy( command, "open ");
 					strcat( command, x->lily_dir);
 				}				
-				strcat( command, "/temp.pdf");
+			//	strcat( command, "/temp.pdf");
 				system( command);
 			}
 		} // if a file is correctly provided.
@@ -2970,7 +2997,7 @@ void notes_inst(t_notes *x, t_symbol *s) 		{
 }
 ////	____________________________________________________ Lilypond Location
 void notes_lily_dir(t_notes *x, t_symbol *s, int argc, t_atom *argv) 	{
-	int i; i = argc;
+	int i; i = argc; i++;
 	x->dummysym = s->s_name;
 	atom_string(argv, x->lily_dir, 1000);
 	post("notes: Lilypond directory set to: %s", x->lily_dir);
@@ -3026,5 +3053,5 @@ void notes_setup(void)														{
 	class_addmethod(notes_class, (t_method)notes_render, 	gensym("render"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
-	post("notes:\t\ttesting version: 2015-03-27-17");
+	post("notes:\t Testing version: 2018-08-16");
 }
