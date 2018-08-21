@@ -1,4 +1,4 @@
-#N canvas 2652 147 655 780 10;
+#N canvas 2630 130 655 780 10;
 #N canvas 148 114 650 567 rhythm-test 0;
 #X obj 49 20 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
 -1;
@@ -1834,7 +1834,7 @@ or arrow)., f 49;
 #X connect 42 0 13 0;
 #X connect 43 0 13 0;
 #X connect 44 0 4 0;
-#X restore 585 423 pd text;
+#X restore 588 403 pd text;
 #X text 83 51 clear all input;
 #X msg 212 520 author www.nyu-waverlylabs.org;
 #X obj 140 459 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -2355,26 +2355,26 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X connect 87 0 80 1;
 #X restore 19 80 pd testing-relative;
 #X restore 38 711 pd working-stuff;
-#N canvas 76 86 326 232 layout 0;
-#X obj -277 119 notes;
-#N canvas 0 50 414 391 somecontent 0;
-#X obj -117 114 until;
-#X floatatom -117 200 5 0 0 0 - - -, f 5;
-#X obj -193 51 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj -193 71 t b b b, f 26;
-#X obj -117 179 + 1;
-#X text -174 51 <----- Click here to generate 20 random durations;
-#X obj -117 157 random 48;
-#X obj -54 153 f;
-#X obj -27 154 + 1;
-#X obj -117 219 pack, f 11;
-#X obj -117 136 t b b;
-#X msg -39 102 0;
-#X obj -13 334 outlet;
-#X obj -192 25 loadbang;
-#X msg -117 255 input -mtr 4 4 -pit 60 -dur \$1;
-#X msg -117 92 100;
+#N canvas 66 78 414 279 layout 0;
+#X obj 49 210 notes;
+#N canvas 0 58 414 391 somecontent 0;
+#X obj 127 120 until;
+#X floatatom 127 206 5 0 0 0 - - -, f 5;
+#X obj 51 57 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 51 77 t b b b, f 26;
+#X obj 127 185 + 1;
+#X text 70 57 <----- Click here to generate 20 random durations;
+#X obj 127 163 random 48;
+#X obj 190 159 f;
+#X obj 217 160 + 1;
+#X obj 127 225 pack, f 11;
+#X obj 127 142 t b b;
+#X msg 205 108 0;
+#X obj 231 340 outlet;
+#X obj 52 31 loadbang;
+#X msg 127 261 input -mtr 4 4 -pit 60 -dur \$1;
+#X msg 127 98 100;
 #X connect 0 0 10 0;
 #X connect 1 0 9 0;
 #X connect 2 0 3 0;
@@ -2392,23 +2392,23 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X connect 13 0 2 0;
 #X connect 14 0 12 0;
 #X connect 15 0 0 0;
-#X restore -277 -71 pd somecontent;
-#X msg -122 82 clear;
-#X msg -139 37 paper 3 1;
-#X text -65 39 a3 landscape;
-#X msg -139 -5 paper 4;
-#X text -81 -5 a4;
-#X msg -139 16 paper 4 1;
-#X msg -156 -52 write ./scores/14-layout;
-#X text -65 18 a4 landscape;
-#X text -139 -26 test each of these options;
+#X restore 49 20 pd somecontent;
+#X msg 204 173 clear;
+#X msg 187 128 paper 3 1;
+#X text 261 130 a3 landscape;
+#X msg 187 86 paper 4;
+#X text 245 86 a4;
+#X msg 187 107 paper 4 1;
+#X msg 170 39 write ./scores/14-layout;
+#X text 261 109 a4 landscape;
+#X text 187 65 test each of these options;
 #X connect 1 0 0 0;
 #X connect 2 0 0 0;
 #X connect 3 0 0 0;
 #X connect 5 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X restore 573 445 pd layout;
+#X restore 558 509 pd layout;
 #N canvas 17 135 802 674 simple-probabilities 0;
 #X obj 182 158 t b b;
 #X obj 275 333 *;
@@ -2812,104 +2812,6 @@ a chord., f 36;
 #X connect 21 0 11 0;
 #X connect 21 0 20 0;
 #X restore 556 380 pd noteheads;
-#N canvas 17 80 673 489 harmonics 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 17 39 t b b b, f 19;
-#X text 38 15 <--- click here to test, f 37;
-#X obj 299 452 notes;
-#X msg 413 178 clear;
-#X obj 386 132 t b b;
-#X obj 297 339 t a;
-#X obj 126 123 t b b;
-#X obj 370 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 159 144 + 1;
-#X obj 126 99 until;
-#X obj 127 144 f;
-#X msg 13 284 write ./scores/12-harmonics;
-#X msg 386 152 title stopped harmonics;
-#X obj 127 188 + 1;
-#X obj 64 155 t b b;
-#X obj 97 176 + 1;
-#X obj 64 131 until;
-#X obj 65 176 f;
-#X obj 65 220 + 1;
-#X obj 63 73 t b b;
-#X text 409 265 Stopped harmonics can be specified with the -hrm flag
-and are automatically generated depending on their number. -hrm 1 generates
-the first harmonic (touch 8va) \, -hrm 2 is a touch 5th \, -hrm 3 is
-touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
-, f 40;
-#N canvas 213 50 630 562 harmonic 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X obj 17 39 t b b b, f 19;
-#X text 38 15 <--- click here to test, f 37;
-#X msg 456 174 clear;
-#X obj 415 129 t b b;
-#X obj 116 391 t a;
-#X obj 18 -7 inlet;
-#X msg 415 149 title harmonic gliss, f 27;
-#X msg 15 463 write ./scores/12-harmonic-glissb;
-#X msg 77 264 input -pit 67 -dur 8 -hrm 3 -spa 0 \, input -pit 79 -grc
-2 16 -hrm 3 \, input -pit 64 -dur 8 -hrm 3 -spa 7 \, input -pit 69
--dur 8 -hrm 3 \, input -pit 72 -dur 8 -hrm 3 -spa 8 \, input -pit 83
--grc 2 16 -hrm 3 \, input -pit 67 -dur 8 -hrm 3 \,, f 36;
-#X obj 209 531 outlet;
-#X connect 0 0 1 0;
-#X connect 1 0 8 0;
-#X connect 1 1 9 0;
-#X connect 1 2 4 0;
-#X connect 3 0 10 0;
-#X connect 4 0 7 0;
-#X connect 4 1 3 0;
-#X connect 5 0 10 0;
-#X connect 6 0 0 0;
-#X connect 7 0 10 0;
-#X connect 8 0 10 0;
-#X connect 9 0 5 0;
-#X restore 370 415 pd harmonic glisses;
-#X text 388 392 test here;
-#X obj 65 198 % 6;
-#X obj 127 166 % 6;
-#X msg 126 77 6;
-#X msg 64 109 6;
-#X msg 65 243 input -pit 61 -dur 12 -hrm \$1 -smn \$1 -mtr 6 4;
-#X msg 127 211 input -pit 60 -dur 8 -hrm \$1 -smn \$1 -mtr 6 4;
-#X connect 0 0 1 0;
-#X connect 1 0 12 0;
-#X connect 1 1 20 0;
-#X connect 1 2 5 0;
-#X connect 4 0 3 0;
-#X connect 5 0 13 0;
-#X connect 5 1 4 0;
-#X connect 6 0 3 0;
-#X connect 7 0 11 0;
-#X connect 8 0 22 0;
-#X connect 9 0 11 1;
-#X connect 10 0 7 0;
-#X connect 11 0 9 0;
-#X connect 11 0 25 0;
-#X connect 12 0 3 0;
-#X connect 13 0 3 0;
-#X connect 14 0 29 0;
-#X connect 15 0 18 0;
-#X connect 16 0 18 1;
-#X connect 17 0 15 0;
-#X connect 18 0 16 0;
-#X connect 18 0 24 0;
-#X connect 19 0 28 0;
-#X connect 20 0 27 0;
-#X connect 20 1 26 0;
-#X connect 22 0 3 0;
-#X connect 24 0 19 0;
-#X connect 25 0 14 0;
-#X connect 26 0 10 0;
-#X connect 27 0 17 0;
-#X connect 28 0 6 0;
-#X connect 29 0 6 0;
-#X restore 556 401 pd harmonics;
 #N canvas 83 78 373 422 tie 0;
 #X obj 48 318 notes;
 #X obj 17 21 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
@@ -3028,7 +2930,7 @@ touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 #X connect 9 0 0 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X restore 567 466 pd cluster;
+#X restore 570 425 pd cluster;
 #N canvas 0 50 450 300 arpeggios 0;
 #X obj -429 -125 t b b b, f 14;
 #X obj -429 -151 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
@@ -3066,8 +2968,9 @@ produce., f 35;
 #X connect 12 0 10 1;
 #X connect 13 0 4 0;
 #X connect 14 0 4 0;
-#X restore 554 486 pd arpeggios;
-#N canvas 2067 212 771 573 instrument-specific 0;
+#X restore 558 446 pd arpeggios;
+#N canvas 2047 224 279 310 instrument-specific 0;
+#N canvas 0 60 805 610 harp-pedal 0;
 #X obj 173 506 notes;
 #X msg 305 438 write ./scores/harp-pedal;
 #X msg 225 398 clear;
@@ -3099,28 +3002,28 @@ produce., f 35;
 #X obj 465 701 makefilename not-set-yet;
 #X msg 540 658 set \$1;
 #X floatatom 417 156 5 0 0 0 - - -, f 5;
-#X obj 468 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 468 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 236 156 5 0 0 0 - - -, f 5;
-#X obj 287 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 287 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 156 156 5 0 0 0 - - -, f 5;
-#X obj 207 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 207 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 76 156 5 0 0 0 - - -, f 5;
-#X obj 127 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 127 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 657 156 5 0 0 0 - - -, f 5;
-#X obj 708 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 708 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 577 156 5 0 0 0 - - -, f 5;
-#X obj 628 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 628 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X floatatom 497 156 5 0 0 0 - - -, f 5;
-#X obj 548 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 548 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 831 115 inlet;
-#X obj 831 141 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 831 141 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text 853 140 highlight changes;
 #X obj 368 277 makefilename %%s%s;
@@ -3217,7 +3120,7 @@ Pedal are specified in the following format:;
 #X text 38 59 #"^v-|vv-^";
 #X obj 383 229 list prepend -hpp;
 #X msg 390 146 -1 0 1 1 0 1 -1;
-#X obj 505 154 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 505 154 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X text 527 153 highlight changes;
 #X msg 314 307 input -pit \$1 -dur 4;
@@ -3252,10 +3155,109 @@ in -1 0 1 to V - ^ respectively, f 33;
 #X connect 20 5 18 0;
 #X connect 20 6 2 0;
 #X connect 20 6 3 0;
-#X restore 496 509 pd instrument-specific;
+#X restore 16 40 pd harp-pedal;
+#N canvas 7 72 673 489 harmonics 0;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 17 39 t b b b, f 19;
+#X text 38 15 <--- click here to test, f 37;
+#X obj 299 452 notes;
+#X msg 413 178 clear;
+#X obj 386 132 t b b;
+#X obj 297 339 t a;
+#X obj 126 123 t b b;
+#X obj 370 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X obj 159 144 + 1;
+#X obj 126 99 until;
+#X obj 127 144 f;
+#X msg 13 284 write ./scores/12-harmonics;
+#X msg 386 152 title stopped harmonics;
+#X obj 127 188 + 1;
+#X obj 64 155 t b b;
+#X obj 97 176 + 1;
+#X obj 64 131 until;
+#X obj 65 176 f;
+#X obj 65 220 + 1;
+#X obj 63 73 t b b;
+#X text 409 265 Stopped harmonics can be specified with the -hrm flag
+and are automatically generated depending on their number. -hrm 1 generates
+the first harmonic (touch 8va) \, -hrm 2 is a touch 5th \, -hrm 3 is
+touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
+, f 40;
+#N canvas 213 50 630 562 harmonic 0;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
+-1;
+#X obj 17 39 t b b b, f 19;
+#X text 38 15 <--- click here to test, f 37;
+#X msg 456 174 clear;
+#X obj 415 129 t b b;
+#X obj 116 391 t a;
+#X obj 18 -7 inlet;
+#X msg 415 149 title harmonic gliss, f 27;
+#X msg 15 463 write ./scores/12-harmonic-glissb;
+#X msg 77 264 input -pit 67 -dur 8 -hrm 3 -spa 0 \, input -pit 79 -grc
+2 16 -hrm 3 \, input -pit 64 -dur 8 -hrm 3 -spa 7 \, input -pit 69
+-dur 8 -hrm 3 \, input -pit 72 -dur 8 -hrm 3 -spa 8 \, input -pit 83
+-grc 2 16 -hrm 3 \, input -pit 67 -dur 8 -hrm 3 \,, f 36;
+#X obj 209 531 outlet;
+#X connect 0 0 1 0;
+#X connect 1 0 8 0;
+#X connect 1 1 9 0;
+#X connect 1 2 4 0;
+#X connect 3 0 10 0;
+#X connect 4 0 7 0;
+#X connect 4 1 3 0;
+#X connect 5 0 10 0;
+#X connect 6 0 0 0;
+#X connect 7 0 10 0;
+#X connect 8 0 10 0;
+#X connect 9 0 5 0;
+#X restore 370 415 pd harmonic glisses;
+#X text 388 392 test here;
+#X obj 65 198 % 6;
+#X obj 127 166 % 6;
+#X msg 126 77 6;
+#X msg 64 109 6;
+#X msg 65 243 input -pit 61 -dur 12 -hrm \$1 -smn \$1 -mtr 6 4;
+#X msg 127 211 input -pit 60 -dur 8 -hrm \$1 -smn \$1 -mtr 6 4;
+#X connect 0 0 1 0;
+#X connect 1 0 12 0;
+#X connect 1 1 20 0;
+#X connect 1 2 5 0;
+#X connect 4 0 3 0;
+#X connect 5 0 13 0;
+#X connect 5 1 4 0;
+#X connect 6 0 3 0;
+#X connect 7 0 11 0;
+#X connect 8 0 22 0;
+#X connect 9 0 11 1;
+#X connect 10 0 7 0;
+#X connect 11 0 9 0;
+#X connect 11 0 25 0;
+#X connect 12 0 3 0;
+#X connect 13 0 3 0;
+#X connect 14 0 29 0;
+#X connect 15 0 18 0;
+#X connect 16 0 18 1;
+#X connect 17 0 15 0;
+#X connect 18 0 16 0;
+#X connect 18 0 24 0;
+#X connect 19 0 28 0;
+#X connect 20 0 27 0;
+#X connect 20 1 26 0;
+#X connect 22 0 3 0;
+#X connect 24 0 19 0;
+#X connect 25 0 14 0;
+#X connect 26 0 10 0;
+#X connect 27 0 17 0;
+#X connect 28 0 6 0;
+#X connect 29 0 6 0;
+#X restore 17 69 pd harmonics;
+#X restore 499 467 pd instrument-specific;
 #X text 90 736 Jaime E. Oliver La Rosa \, 2014-18 // la.rosa@nyu.edu
 // nyu-waverlylabs.org, f 83;
-#N canvas 0 58 427 120 multiple 1;
+#N canvas 0 60 427 120 multiple 0;
 #N canvas 51 74 534 682 multiple_voices 0;
 #X obj 68 368 s \$0-master-path;
 #X obj 238 429 r \$0-master-path;
@@ -3352,7 +3354,7 @@ and [mainscore] objects \, paper 4 1, f 29;
 #X connect 41 0 16 0;
 #X connect 42 0 16 0;
 #X restore 275 28 pd multiple_voices;
-#N canvas 13 65 1138 706 multiple_staves 0;
+#N canvas 3 58 1138 706 multiple_staves 0;
 #X obj 133 439 notes 1, f 18;
 #X obj 238 506 notes 1, f 19;
 #X obj 95 95 until;
