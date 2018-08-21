@@ -229,35 +229,31 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 			post("mainscore: Adjusting directories to Linux");
 			x->OS = 1;
 		} // 1 is linux
-		post("mainscore: compiling score ");
-	////	RENDER lilypond SCORE ________________________________________________
-		if(x->OS == 0)	{
-			strcpy( command, "exec ");
-			strcat( command, x->lily_dir);
-			strcat( command, "/");
-			strcat( command, "lilypond -o ");
-			strcat( command, x->lily_dir);
-		}
-		if(x->OS == 1)	{
-			strcpy( command, "lilypond -o ");
-			strcat( command, "~");
-		}
-		strcat( command, "/temp ");
-		strcat( command, scorename);
-		system( command);
-		post("mainscore: Opening PDF score ");
+        post("notes: compiling score ");
+    ////	RENDER lilypond SCORE ________________________________________________
+        if(x->OS == 0)	{
+            strcpy( command, "exec ");
+            strcat( command, x->lily_dir);
+            strcat( command, "/");
+        }
+        strcpy( command, "lilypond -o ");
+        strcat( command, buf); // relative position to patch found whenopening fp1 above
+        strcat( command, " ");
+        strcat( command, scorename);
+        system( command);
+
+        post("notes: Opening PDF score ");
 	////	OPEN PDF SCORE ________________________________________________________
-		if(x->OS == 1)	{
-			strcpy( command, "xdg-open ");
-			strcat( command, "~");
-		}
-		if(x->OS == 0)	{
-			strcpy( command, "open ");
-			strcat( command, x->lily_dir);
-		}				
-		strcat( command, "/temp.pdf");
-		system( command);
-	}  // if a file is correctly provided.
+        if(x->OS == 1)	{
+            strcpy( command, "xdg-open ");  
+        }
+        if(x->OS == 0)	{
+            strcpy( command, "open ");
+        }	
+        strcat( command, buf);
+        strcat( command, ".pdf");
+        system( command);
+    }  // if a file is correctly provided.
 	//*/
 }
 ////	____________________________________________________ CLEAR
