@@ -83,7 +83,7 @@ ifeq ($(UNAME),Darwin)
     EXTENSION = pd_darwin
     SHARED_EXTENSION = dylib
     OS = iphoneos
-    PD_PATH = /Applications/Pd-extended.app/Contents/Resources
+    PD_PATH = /Applications/Pd-0.49-0.app/Contents/Resources
     IPHONE_BASE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin
     CC=$(IPHONE_BASE)/gcc
     CPP=$(IPHONE_BASE)/cpp
@@ -102,8 +102,8 @@ ifeq ($(UNAME),Darwin)
     EXTENSION = pd_darwin
     SHARED_EXTENSION = dylib
     OS = macosx
-    PD_PATH = /Applications/Pd-extended.app/Contents/Resources
-    OPT_CFLAGS = -ftree-vectorize -ftree-vectorizer-verbose=2 -fast
+    PD_PATH = /Applications/Pd-0.49-0.app/Contents/Resources
+    OPT_CFLAGS = -ftree-vectorize  -fast
 # build universal 32-bit on 10.4 and 32/64 on newer
     ifeq ($(shell uname -r | sed 's|\([0-9][0-9]*\)\.[0-9][0-9]*\.[0-9][0-9]*|\1|'), 8)
       FAT_FLAGS = -arch ppc -arch i386 -mmacosx-version-min=10.4

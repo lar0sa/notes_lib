@@ -41,6 +41,21 @@ inst_part = \relative c'
  c8  d8 
 	e8  f8 
 		g8  a8 
+			b8  c8  |
+% ________________________________________bar 2 :
+c,8  d8 
+	e8  f8 
+		g8  a8 
+			b8  c8  |
+% ________________________________________bar 3 :
+c,8  d8 
+	e8  f8 
+		g8  a8 
+			b8  c8  |
+% ________________________________________bar 4 :
+c,8  d8 
+	e8  f8 
+		g8  a8 
 			b8  c8 
 }
 
@@ -74,4 +89,4 @@ inst_part = \relative c'
 }
 
 \version "2.18.2"
-% notes Pd External version testing 
+% notes Pd External testing version  
