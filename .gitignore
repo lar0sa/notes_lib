@@ -2,3 +2,4 @@
 *.o
 *.s
 *.pd_darwin
+.vscode/
