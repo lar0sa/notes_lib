@@ -7,7 +7,7 @@
 
 #include "notes_lib.h"
 
-typedef struct notesLibLib
+typedef struct notesLib
 {
   t_object t_ob;
 } t_notesLib;
