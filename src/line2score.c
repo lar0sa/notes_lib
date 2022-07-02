@@ -1,8 +1,11 @@
-/* code for the "line2score" pd class.  This adds a creation argument, of
-type "float".  */
+// code for the "line2score" pd class. 
+// Encodes information created in Pd into a Lilypond score (lilypond.org)
+// developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
+// @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
+// updated by Fede Camara Halac (fch226@nyu.edu)
+// Released under the GNU General Public License. 
 
-#include "m_pd.h"
-#define MXS 128
+#include "notes_lib.h"
  
 typedef struct line2score
 {
@@ -105,5 +108,7 @@ void line2score_setup(void)
 	class_addmethod(line2score_class, (t_method)line2score_output, 	gensym("output"), 			 0);
 	class_addmethod(line2score_class, (t_method)line2score_clear, 	gensym("clear"), 			 0);
 	class_addmethod(line2score_class, (t_method)line2score_ft1, 	gensym("ft1"),		A_FLOAT, 0);
+  class_sethelpsymbol(line2score_class, gensym("notes"));
+
 }
 

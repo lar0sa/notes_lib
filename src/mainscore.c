@@ -2,17 +2,10 @@
 // Encodes information created in Pd into a Lilypond score (lilypond.org)
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
+// updated by Fede Camara Halac (fch226@nyu.edu)
 // Released under the GNU General Public License. 
 
-#include "m_pd.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <sys/utsname.h> // get OS type
-#include "g_canvas.h" 
-#define MXV 128 // Maximum number of voices
-struct utsname unameData;
+#include "notes_lib.h" 
 
 ////	____________________________________________________ MAIN STRUCT
 typedef struct mainscore 														{
@@ -24,7 +17,7 @@ typedef struct mainscore 														{
   int part_n[MXV][2], i_part_n[MXV][2];
   char parts[MXV][2][130], i_parts[MXV][2][130];
   char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[130], *dummysym, barfile[150], inst[150];
-  int ii, debug, auth_n, titl_n, sub_title_n, OS;
+  int ii, debug, auth_n, titl_n, sub_title_n;
   int inst_n, papersize, paperorientation, part_i, i_part_i, voice, total_voices;
 } 
 t_mainscore;
@@ -215,44 +208,43 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 		fclose(fp1);
 		post("mainscore: .ly score finished");
 	//// ____________________________________________________________ COMPILE AND OPEN	
+#ifdef _WIN32
+         post("notes: compiling score on windows not implemented yet");
+#endif
+#ifdef __APPLE__
+          strcpy( command, "exec ");
+          strcat( command, x->lily_dir);
+          strcat( command, "/");
+#endif
+#ifdef UNIX
+          strcpy( command, "lilypond -o ");
+          strcat( command, buf); // relative position to patch found whenopening fp1 above
+          strcat( command, " ");
+          strcat( command, scorename);
+          if (x->debug >= 1) post("notes: command = %s", command);
+          // if (x->SLAVE == 0 && x->render == 1) 				{
+			////	RENDER lilypond SCORE ________________________________________________
+				    post("notes: compiling score "); 
+            system( command);
+          // }
+#endif
+#ifdef unix // linux
+          strcpy( command, "xdg-open ");  
+          strcat( command, buf);
+#endif
+#ifdef __APPLE__
+          strcpy( command, "open ");
+          strcat( command, buf);
+#endif
+#ifdef UNIX
+			////	OPEN PDF SCORE ________________________________________________________
+          // if (x->SLAVE == 0 && x->render == 1) 				{
+            post("notes: Opening PDF score ");
+			    	strcat( command, ".pdf");
+				    system( command);
+          // }
+#endif
 
-		strcpy( os_osx, "Darwin");
-		strcpy( os_linux, "Linux");
-		uname(&unameData);
-		strcpy( osname, unameData.sysname);
-		
-		if (strncmp(osname, os_osx, 5) == 0) {
-			post("mainscore: Adjusting directories to OS X");
-			x->OS = 0;
-		} // 0 is os x
-		if (strncmp(osname, os_linux, 5) == 0) {
-			post("mainscore: Adjusting directories to Linux");
-			x->OS = 1;
-		} // 1 is linux
-        post("notes: compiling score ");
-    ////	RENDER lilypond SCORE ________________________________________________
-        if(x->OS == 0)	{
-            strcpy( command, "exec ");
-            strcat( command, x->lily_dir);
-            strcat( command, "/");
-        }
-        strcpy( command, "lilypond -o ");
-        strcat( command, buf); // relative position to patch found whenopening fp1 above
-        strcat( command, " ");
-        strcat( command, scorename);
-        system( command);
-
-        post("notes: Opening PDF score ");
-	////	OPEN PDF SCORE ________________________________________________________
-        if(x->OS == 1)	{
-            strcpy( command, "xdg-open ");  
-        }
-        if(x->OS == 0)	{
-            strcpy( command, "open ");
-        }	
-        strcat( command, buf);
-        strcat( command, ".pdf");
-        system( command);
     }  // if a file is correctly provided.
 	//*/
 }
@@ -339,5 +331,6 @@ void mainscore_setup(void)														{
 	class_addmethod(mainscore_class, (t_method)mainscore_clear, 	gensym("clear"), 				0);
 	class_addmethod(mainscore_class, (t_method)mainscore_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(mainscore_class, (t_method)mainscore_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
-	post("mainscore:\ttesting version: 2015-03-26");
+  class_sethelpsymbol(mainscore_class, gensym("notes"));
+	// post("mainscore:\ttesting version: 2015-03-26");
 }
