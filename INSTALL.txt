@@ -1,0 +1,29 @@
+# about notes
+
+## loading the library in Pd
+
+[notes] is a library that contains three Pd objects. To use it, you can either 1) tell Pd to load the notesLib binary file at startup via Pd's "Preferences/Startup" dialog, or 2) use the [declare] object to load notes as needed per patch.
+
+For method 1), make a new startup path in the Startup dialog, and provide the path to the notesLib binary in this directory. Note that you must not list the extension of the notesLib file (i.e., pd_linux, pd_darwin, or dll). For example:
+
+/home/yourname/Pd/externals/notes/notesLib
+
+When using Pd's Startup dialog on Windows, note that you still give the path with forward slashes, and spaces in the path are ok. There is still no need to list the library file extension of .dll. For instance:
+
+C:/Users/Your Name/Documents/Pd/externals/notes/notesLib
+
+Once you have listed the path to notesLib in the Startup dialog, you must quit and restart Pd.
+
+For method 2), assuming notes is installed to the default Externals Install Directory, you can simply use the [declare] object like this:
+
+[declare -lib notes/notesLib]
+
+If notes is loaded successfully (using either method), you will see a message in Pd's post window stating the notes version number.
+
+## building notes from source
+
+As of notes 0.2, pd-lib-builder is used for building:
+
+<https://github.com/pure-data/pd-lib-builder>
+
+Once you have installed pd-lib-builder, you must specify its location at the bottom of the Makefile in this directory (default is one directory above, ie: "../"). Then, you can make notes by typing "make" in this directory.
