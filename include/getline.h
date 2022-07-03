@@ -6,15 +6,13 @@
  * rewrite readbarfile() to use fgets() instead of getline()
 */
 
+/* Only include our version of getline() if the POSIX version isn't available. */
+
 #include <stdio.h>
 #include <errno.h>
 #include <stdint.h>
 
-/* Only include our version of getline() if the POSIX version isn't available. */
-
-#if !(defined UNIX)
-
-ssize_t getline(char **pline_buf, size_t *pn, FILE *fin)
+static ssize_t getline(char **pline_buf, size_t *pn, FILE *fin)
 {
   const size_t INITALLOC = 16;
   const size_t ALLOCSTEP = 16;
@@ -100,10 +98,3 @@ ssize_t getline(char **pline_buf, size_t *pn, FILE *fin)
 
   return (ssize_t) num_read;
 }
-
-#endif
-
-/*
- * end getline routine
- *
-*/
