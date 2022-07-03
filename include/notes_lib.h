@@ -16,6 +16,9 @@
 
 #if  defined(__APPLE__) || defined(unix)
 #define UNIX 1 
+#else 
+// We need this for getline() to work on windows. TODO: remove this dependency.
+#include "getline.h" 
 #endif
 
 // these are defined in m_pd.h for file handling across platforms
