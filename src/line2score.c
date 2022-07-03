@@ -14,7 +14,7 @@ typedef struct line2score
   t_outlet *x_outlet2, *x_outlet3;
   float pit[MXS], o_pit[MXS], last_pit, o_grc[MXS];
   int dur[MXS], gli[MXS], o_dur[MXS], o_tie[MXS], o_gli[MXS], o_bounds[MXS], index;
-  char *dummysym;
+  const char *dummysym;
   
 } t_line2score;
 
