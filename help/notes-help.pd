@@ -1,14 +1,15 @@
-#N canvas 785 98 655 780 10;
+#N canvas 625 0 655 750 10;
+#X declare -lib notesLib;
 #N canvas 148 114 650 567 rhythm-test 0;
-#X obj 49 20 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 49 20 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 51 469 more on: http://www.lilypond.org/doc/v2.16/Documentation/notation/writing-rhythms
 , f 82;
 #N canvas 61 82 392 356 20-random-durations 0;
 #X obj -169 -22 until;
-#X floatatom -169 64 5 0 0 0 - - -;
-#X obj -245 -85 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X floatatom -169 64 5 0 0 0 - - - 0;
+#X obj -245 -85 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj -245 -65 t b b b, f 26;
 #X obj -169 43 + 1;
 #X text -226 -85 <----- Click here to generate 20 random durations
@@ -78,8 +79,8 @@ duration that can be used is a 16th note., f 82;
 is 32 \, and therefore to get a 16th note -dur must be 2 \, an 8th
 4 \, a quarter note 8 \, a half note 16 \, and so on., f 82;
 #X msg 49 302 write 03-durations;
-#X obj 377 278 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 377 278 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X connect 0 0 3 0;
 #X connect 2 0 8 0;
 #X connect 3 0 21 0;
@@ -102,10 +103,10 @@ is 32 \, and therefore to get a 16th note -dur must be 2 \, an 8th
 #X connect 18 0 8 0;
 #X connect 21 0 8 0;
 #X connect 22 0 2 0;
-#X restore 541 119 pd rhythm-test;
+#X restore 541 123 pd rhythm-test;
 #N canvas 284 58 515 711 tuplet-test 0;
-#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 33 t b b b, f 20;
 #X msg 43 249 input -pit 60 -dur \$1;
 #X text 38 11 <--- click here, f 16;
@@ -151,8 +152,8 @@ you'll get a warning., f 76;
 #X msg 302 265 debug 2;
 #X msg 205 125 input -pit 60 -dur 16;
 #N canvas 128 95 968 645 tuplets 0;
-#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 33 t b b b, f 20;
 #X msg 137 311 input -pit 60 -dur \$1;
 #X text 38 11 <--- click here, f 16;
@@ -164,19 +165,19 @@ you'll get a warning., f 76;
 #X obj 101 240 until;
 #X msg 375 70 title tuplets1;
 #X text 178 417 testerrr;
-#X obj 580 40 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 580 40 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 645 133 + 3;
-#X floatatom 645 155 5 0 0 0 - - -;
+#X floatatom 645 155 5 0 0 0 - - - 0;
 #X obj 645 112 random 10;
 #X obj 645 194 sqrt;
-#X floatatom 645 216 5 0 0 0 - - -;
+#X floatatom 645 216 5 0 0 0 - - - 0;
 #X obj 645 235 int;
 #X obj 645 257 t b f;
 #X obj 645 301 pow;
 #X msg 645 279 2;
-#X floatatom 645 323 5 0 0 0 - - -;
-#X floatatom 770 325 5 0 0 0 - - -;
+#X floatatom 645 323 5 0 0 0 - - - 0;
+#X floatatom 770 325 5 0 0 0 - - - 0;
 #X obj 644 392 spigot;
 #X obj 671 474 pack;
 #X obj 674 366 !=;
@@ -192,21 +193,21 @@ you'll get a warning., f 76;
 #X obj 494 188 t b f;
 #X msg 494 210 2;
 #X obj 494 232 pow;
-#X floatatom 494 254 5 0 0 0 - - -;
+#X floatatom 494 254 5 0 0 0 - - - 0;
 #X obj 553 420 /;
-#X floatatom 567 399 5 0 0 0 - - -;
-#X floatatom 553 442 5 0 0 0 - - -;
+#X floatatom 567 399 5 0 0 0 - - - 0;
+#X floatatom 553 442 5 0 0 0 - - - 0;
 #X obj 493 118 random 3;
 #X obj 492 139 + 1;
 #X msg 739 134 7;
-#X floatatom 492 161 5 0 0 0 - - -;
+#X floatatom 492 161 5 0 0 0 - - - 0;
 #X msg 514 295 4;
 #X obj 494 273 t f b f;
 #X obj 514 317 /;
-#X floatatom 514 339 5 0 0 0 - - -;
+#X floatatom 514 339 5 0 0 0 - - - 0;
 #X obj 514 358 * 32;
-#X floatatom 514 380 5 0 0 0 - - -;
-#X floatatom 494 440 5 0 0 0 - - -;
+#X floatatom 514 380 5 0 0 0 - - - 0;
+#X floatatom 494 440 5 0 0 0 - - - 0;
 #X obj 524 471 pack;
 #X obj 565 521 list append;
 #X obj 565 543 t a a;
@@ -218,8 +219,8 @@ you'll get a warning., f 76;
 #X obj 148 239 until;
 #X msg 148 261 8;
 #N canvas 0 50 493 658 test1 0;
-#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 33 t b b b, f 71;
 #X msg 142 470 input -pit 60 -dur \$1;
 #X text 38 11 <--- click here, f 16;
@@ -433,7 +434,7 @@ you'll get a warning., f 76;
 #X connect 35 0 23 0;
 #X connect 36 0 23 0;
 #X connect 37 0 2 0;
-#X restore 543 249 pd tuplet-test;
+#X restore 543 253 pd tuplet-test;
 #N canvas 233 58 462 328 chords 0;
 #N canvas 271 90 412 519 generating-chords 0;
 #X obj -412 -15 f;
@@ -441,7 +442,7 @@ you'll get a warning., f 76;
 #X obj -412 53 t b f;
 #X obj -412 75 f;
 #X obj -384 75 + 1;
-#X floatatom -413 118 5 0 0 0 - - -;
+#X floatatom -413 118 5 0 0 0 - - - 0;
 #X obj -413 138 pack, f 11;
 #X obj -412 97 % 4;
 #X obj -413 160 route 0 1 2 3;
@@ -450,8 +451,8 @@ you'll get a warning., f 76;
 #X obj -411 -39 until;
 #X obj -412 7 % 26;
 #X obj -381 -15 + 9;
-#X obj -450 -152 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj -450 -152 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text -430 -154 <---- click here;
 #X msg -413 204 input -pit \$1 \$2 \$3 \$4 -dur 40 -mtr 4 4;
 #X msg -411 -61 96;
@@ -497,8 +498,8 @@ you'll get a warning., f 76;
 #X connect 23 0 14 0;
 #X restore 173 247 pd generating-chords;
 #X obj 51 62 t b b b, f 14;
-#X obj 51 36 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 51 36 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 71 34 <---- click here;
 #X msg 91 154 60 64 67 72 \, 62 66 69 74 \, 64 68 71 76 \, 65 69 72
 77;
@@ -514,8 +515,8 @@ you'll get a warning., f 76;
 produce., f 35;
 #X msg 51 203 write 02-chords;
 #X msg 91 179 input -pit \$1 \$2 \$3 \$4 -dur 16;
-#X obj 174 226 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 174 226 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X connect 0 0 8 0;
 #X connect 1 0 13 0;
 #X connect 1 1 6 0;
@@ -531,25 +532,25 @@ produce., f 35;
 #X connect 13 0 8 0;
 #X connect 14 0 8 0;
 #X connect 15 0 0 0;
-#X restore 571 97 pd chords;
-#X obj 39 560 notes;
-#X msg 39 52 clear;
-#X msg 114 78 refdur 32;
+#X restore 571 101 pd chords;
+#X obj 39 564 notes;
+#X msg 39 56 clear;
+#X msg 114 82 refdur 32;
 #N canvas 249 58 448 421 rests 0;
-#X obj 17 49 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 49 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 72 t b b b, f 18;
 #X text 38 47 <--- Negative pitches produce rests for the specified
 duration., f 64;
 #N canvas 319 52 495 439 generating-rests 0;
 #X obj 36 311 list trim;
 #X obj 36 289 list prepend;
-#X obj -4 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -4 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -4 37 t b b b, f 14;
 #X obj 36 83 until;
-#X obj 36 109 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 36 109 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 36 131 sel 0 1, f 11;
 #X msg 36 176 -1;
 #X msg 67 176 1;
@@ -619,8 +620,8 @@ duration., f 64;
 #X msg 255 209 title writing rests;
 #X msg 17 335 write 05-rests;
 #X msg 69 208 -pit -1 -dur \$1;
-#X obj 259 317 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 259 317 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text 280 318 test here;
 #X connect 0 0 1 0;
 #X connect 1 0 14 0;
@@ -640,14 +641,14 @@ duration., f 64;
 #X connect 14 0 10 0;
 #X connect 15 0 4 0;
 #X connect 16 0 3 0;
-#X restore 577 162 pd rests;
+#X restore 577 166 pd rests;
 #N canvas 271 58 683 484 dynamics 0;
-#X obj 33 16 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 33 16 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 72 87 until;
 #X obj 72 109 f;
 #X obj 106 109 + 1;
-#X floatatom 72 131 5 0 0 0 - - -;
+#X floatatom 72 131 5 0 0 0 - - - 0;
 #X obj 33 36 t b b b b, f 20;
 #X msg 111 65 0;
 #X msg 72 65 23;
@@ -688,14 +689,14 @@ They can be stopped with a 2 or with any dynamic marking from 3 to
 #X connect 17 0 11 0;
 #X connect 18 0 11 0;
 #X connect 19 0 11 0;
-#X restore 561 205 pd dynamics;
+#X restore 561 209 pd dynamics;
 #N canvas 2131 188 467 373 articulation 0;
-#X obj 44 20 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 44 20 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 83 88 until;
 #X obj 83 110 f;
 #X obj 117 110 + 1;
-#X floatatom 83 132 5 0 0 0 - - -;
+#X floatatom 83 132 5 0 0 0 - - - 0;
 #X obj 44 40 t b b b b, f 20;
 #X msg 122 67 0;
 #X text 65 18 <--- click here to generate score, f 35;
@@ -708,11 +709,11 @@ They can be stopped with a 2 or with any dynamic marking from 3 to
 #X msg 44 188 write 07-articulation;
 #X msg 83 152 input -dur 16 -pit 60 -art \$1 -smn \$1;
 #X msg 83 66 51;
-#X obj 247 183 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 247 183 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #N canvas 309 136 390 412 stack-articulations 0;
-#X obj 0 7 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1 -1
-;
+#X obj 0 7 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 21 5 <--- click here to generate score, f 35;
 #X msg 228 90 clear;
 #X obj 201 50 t b b;
@@ -768,10 +769,10 @@ numbers 0 through 50, f 62;
 #X connect 15 0 1 0;
 #X connect 16 0 17 0;
 #X connect 17 0 8 0;
-#X restore 537 227 pd articulation;
+#X restore 537 231 pd articulation;
 #N canvas 15 74 403 481 meter 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 37 t b b b;
 #X text 41 16 <--- click here, f 16;
 #X text 10 411 Meter does not need to be specified on each note \,
@@ -805,10 +806,10 @@ to be to fit as in the example above.., f 63;
 #X connect 8 0 5 0;
 #X connect 11 0 5 0;
 #X connect 12 0 5 0;
-#X restore 579 271 pd meter;
+#X restore 579 275 pd meter;
 #N canvas 607 219 422 381 tempo 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 37 t b b b;
 #X text 41 16 <--- click here, f 16;
 #X text 12 306 Tempo is specified as -tmp 16 120 which means that there
@@ -835,12 +836,12 @@ are 120 quarter notes in a minute., f 65;
 #X connect 8 1 7 0;
 #X connect 9 0 6 0;
 #X connect 10 0 6 0;
-#X restore 580 293 pd tempo;
-#X msg 109 186 60 \, 62 \, 64 \, 65 \, 67 \, 69 \, 71 \, 72;
+#X restore 580 297 pd tempo;
+#X msg 109 190 60 \, 62 \, 64 \, 65 \, 67 \, 69 \, 71 \, 72;
 #N canvas 146 73 691 465 pitches 0;
 #X obj 139 320 notes;
-#X obj 108 23 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 108 23 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 108 43 t b b b b, f 16;
 #X msg 246 137 clear;
 #X msg 139 72 24;
@@ -856,14 +857,14 @@ and "-pit 60 64 67" will give you a major triad., f 26;
 #X text 454 161 Beware that negative pitches produce rests., f 26
 ;
 #N canvas 470 210 588 369 accidentals 0;
-#X obj 110 60 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 110 60 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 129 60 <----- Click here to generate a chromatic scale;
 #X text 273 227 Accidentals are given a sharp (#) by default \, and
 sharps can be specifically asked for with "-acc 0". flats can be obtained
 with "-acc 1", f 32;
-#X obj 127 145 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 127 145 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X msg 127 165 input -mtr 4 4 -pit 61 -dur 4 -acc \$1;
 #X obj 127 123 until;
 #X msg 127 102 16;
@@ -893,8 +894,8 @@ with "-acc 1", f 32;
 #X text 299 263 Choose sharps or flats;
 #X text 332 303 Quarter tones;
 #N canvas 92 50 511 384 Quarter_tones 0;
-#X obj -37 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -37 9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -37 29 t b b b b;
 #X obj -20 80 until;
 #X obj -20 102 f;
@@ -903,8 +904,8 @@ with "-acc 1", f 32;
 #X msg 13 58 0;
 #X obj -20 124 / 2;
 #X msg -20 58 25;
-#X obj 56 28 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 56 28 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 56 48 t b b b b;
 #X obj 73 99 until;
 #X obj 73 121 f;
@@ -977,10 +978,10 @@ to display. We'll use them in several examples to demonstrate the input
 we're using and its product in notation., f 74;
 #X msg 108 190 write 01-pitches;
 #X msg 139 160 input -pit \$1 -dur 4 -smn \$1;
-#X obj 203 241 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 223 284 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 203 241 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 223 284 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X connect 1 0 2 0;
 #X connect 2 0 23 0;
 #X connect 2 1 4 0;
@@ -1005,10 +1006,10 @@ we're using and its product in notation., f 74;
 #X connect 24 0 0 0;
 #X connect 25 0 13 0;
 #X connect 26 0 17 0;
-#X restore 565 76 pd pitches;
+#X restore 565 80 pd pitches;
 #N canvas 94 68 427 467 clefs 0;
-#X obj 80 54 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 80 54 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 80 74 t b b b b, f 21;
 #X obj 121 128 until;
 #X obj 121 150 f;
@@ -1046,10 +1047,10 @@ show how each number corresponds to each clef: -clf 0 is treble \,
 #X connect 13 1 12 0;
 #X connect 14 0 11 0;
 #X connect 15 0 11 0;
-#X restore 577 140 pd clefs;
+#X restore 577 144 pd clefs;
 #N canvas 61 82 658 457 tremolo 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 37 t b b b;
 #X text 41 16 <--- click here, f 16;
 #X obj 193 233 notes;
@@ -1074,77 +1075,77 @@ f 49;
 #X connect 7 0 3 0;
 #X connect 8 0 3 0;
 #X connect 9 0 3 0;
-#X restore 568 315 pd tremolo;
+#X restore 568 319 pd tremolo;
 #N canvas 142 183 662 727 analysis-to-score 0;
-#X obj 46 -10 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 46 -10 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 46 10 t b b, f 6;
 #X obj 90 200 readsf~;
 #X obj -12 336 dac~;
 #N canvas 0 50 661 269 formatting 0;
 #X obj 29 37 inlet;
 #X obj 29 59 ftom;
-#X floatatom 29 81 5 0 0 0 - - -;
+#X floatatom 29 81 5 0 0 0 - - - 0;
 #X obj 29 100 * 2;
 #X obj 29 146 int;
 #X obj 29 168 / 2;
-#X floatatom 29 190 5 0 0 0 - - -;
+#X floatatom 29 190 5 0 0 0 - - - 0;
 #X obj 29 209 outlet;
 #X obj 74 37 inlet;
 #X obj 74 59 ftom;
-#X floatatom 74 81 5 0 0 0 - - -;
+#X floatatom 74 81 5 0 0 0 - - - 0;
 #X obj 74 100 * 2;
 #X obj 74 146 int;
 #X obj 74 168 / 2;
-#X floatatom 74 190 5 0 0 0 - - -;
+#X floatatom 74 190 5 0 0 0 - - - 0;
 #X obj 74 209 outlet;
 #X obj 118 37 inlet;
 #X obj 118 59 ftom;
-#X floatatom 118 81 5 0 0 0 - - -;
+#X floatatom 118 81 5 0 0 0 - - - 0;
 #X obj 118 100 * 2;
 #X obj 118 146 int;
 #X obj 118 168 / 2;
-#X floatatom 118 190 5 0 0 0 - - -;
+#X floatatom 118 190 5 0 0 0 - - - 0;
 #X obj 118 209 outlet;
 #X obj 163 37 inlet;
 #X obj 163 59 ftom;
-#X floatatom 163 81 5 0 0 0 - - -;
+#X floatatom 163 81 5 0 0 0 - - - 0;
 #X obj 163 100 * 2;
 #X obj 163 146 int;
 #X obj 163 168 / 2;
-#X floatatom 163 190 5 0 0 0 - - -;
+#X floatatom 163 190 5 0 0 0 - - - 0;
 #X obj 163 209 outlet;
 #X obj 207 37 inlet;
 #X obj 207 59 ftom;
-#X floatatom 207 81 5 0 0 0 - - -;
+#X floatatom 207 81 5 0 0 0 - - - 0;
 #X obj 207 100 * 2;
 #X obj 207 146 int;
 #X obj 207 168 / 2;
-#X floatatom 207 190 5 0 0 0 - - -;
+#X floatatom 207 190 5 0 0 0 - - - 0;
 #X obj 207 209 outlet;
 #X obj 252 37 inlet;
 #X obj 252 59 ftom;
-#X floatatom 252 81 5 0 0 0 - - -;
+#X floatatom 252 81 5 0 0 0 - - - 0;
 #X obj 252 100 * 2;
 #X obj 252 146 int;
 #X obj 252 168 / 2;
-#X floatatom 252 190 5 0 0 0 - - -;
+#X floatatom 252 190 5 0 0 0 - - - 0;
 #X obj 252 209 outlet;
 #X obj 296 37 inlet;
 #X obj 296 59 ftom;
-#X floatatom 296 81 5 0 0 0 - - -;
+#X floatatom 296 81 5 0 0 0 - - - 0;
 #X obj 296 100 * 2;
 #X obj 296 146 int;
 #X obj 296 168 / 2;
-#X floatatom 296 190 5 0 0 0 - - -;
+#X floatatom 296 190 5 0 0 0 - - - 0;
 #X obj 296 209 outlet;
 #X obj 341 37 inlet;
 #X obj 341 59 ftom;
-#X floatatom 341 81 5 0 0 0 - - -;
+#X floatatom 341 81 5 0 0 0 - - - 0;
 #X obj 341 100 * 2;
 #X obj 341 146 int;
 #X obj 341 168 / 2;
-#X floatatom 341 190 5 0 0 0 - - -;
+#X floatatom 341 190 5 0 0 0 - - - 0;
 #X obj 341 209 outlet, f 20;
 #X obj 29 122 + 0.5;
 #X obj 74 122 + 0.5;
@@ -1154,9 +1155,9 @@ f 49;
 #X obj 252 122 + 0.5;
 #X obj 296 122 + 0.5;
 #X obj 341 122 + 0.5;
-#X floatatom 428 86 5 0 0 0 - - -;
-#X floatatom 436 108 5 0 0 0 - - -;
-#X floatatom 428 154 19 0 0 0 - - -;
+#X floatatom 428 86 5 0 0 0 - - - 0;
+#X floatatom 436 108 5 0 0 0 - - - 0;
+#X floatatom 428 154 19 0 0 0 - - - 0;
 #X obj 491 71 loadbang;
 #X msg 491 93 0.25;
 #X connect 0 0 1 0;
@@ -1258,14 +1259,14 @@ f 49;
 #X msg 336 481 clear;
 #X msg 282 337 1;
 #X msg 226 363 0;
-#X obj 87 58 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 87 58 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 127 332 pack f f f f f f f f;
 #X obj 127 279 route 0 1 2 3 4 5 6 7;
-#X obj 132 124 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 132 124 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj 132 144 t b b, f 6;
-#X floatatom 424 282 5 0 0 0 - - -;
+#X floatatom 424 282 5 0 0 0 - - - 0;
 #X obj -12 301 *~ 0.3;
 #X msg 46 32 0 \, open ./samp/gong.wav \, 1;
 #X msg 87 100 0 \, open ./samp/accordion.wav \, 1;
@@ -1344,10 +1345,10 @@ f 49;
 #X connect 38 1 17 0;
 #X connect 39 0 10 0;
 #X connect 40 0 8 0;
-#X restore 504 651 pd analysis-to-score;
+#X restore 504 625 pd analysis-to-score;
 #N canvas 301 81 624 790 spans 0;
-#X obj 31 7 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 31 7 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 55 6 <--- click here, f 16;
 #X obj 125 297 until;
 #X obj 31 27 t b b b b, f 24;
@@ -1360,8 +1361,8 @@ f 49;
 #X msg 194 275 1;
 #X msg 125 439 input -pit \$1 -dur 4;
 #X obj 125 464 list append;
-#X obj 243 393 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 243 393 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X msg 187 415 -spa \$1 -smn \$1;
 #X obj 125 486 list trim;
 #X msg 125 274 16;
@@ -1376,8 +1377,8 @@ f 49;
 #X msg 31 512 write 12-spans;
 #X obj 67 71 t b b;
 #N canvas 0 50 405 429 chord-gliss 0;
-#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 27 -78 <--- click here, f 16;
 #X msg 249 187 clear;
 #X obj 219 141 t b b;
@@ -1405,18 +1406,18 @@ f 49;
 -dur 24 -spa 6 0 -smn 6 0 -txt glissando \, input -pit 60 -dur 8 -spa
 0 -smn 0 \, input -pit 67 -dur 16 -spa 0 -smn 0 \, input -pit 62 -dur
 16, f 50;
-#X obj 198 612 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 198 612 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text 215 612 test chord glisses here;
 #X msg 67 161 input -pit -1 -dur 4 \, input -pit 82 -dur 4 -spa 7 -smn
 7 -txt glissando \, input -pit 80 -dur 8 \, input -pit 75 -dur 8 \,
 input -pit 70 -dur 8 -spa 8 -smn 8 \, input -pit 66 -dur 2 \, input
 -pit 77 -dur 30, f 50;
-#X obj 200 659 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 200 659 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #N canvas 65 105 1054 539 long-gliss 0;
-#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 27 -78 <--- click here, f 16;
 #X msg 357 250 clear;
 #X obj 330 -6 t b b;
@@ -1432,8 +1433,8 @@ input -pit 64 -dur 8 \, input -pit 64 -dur 8 -spa 8 \, input -pit 66
 8 -spa 7 \, input -pit 71 -dur 8 -spa 8 \, input -pit 74 -dur 8 -spa
 7 \, input -pit 76 -dur 16 \, input -pit 77 -dur 8 -spa 8 \, input
 -pit 78 -grc 1 16 -spa 0 \, input -pit 65 -dur 32, f 34;
-#X obj 516 -47 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 516 -47 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text 540 -48 <--- click here, f 16;
 #X msg 866 148 clear;
 #X obj 843 24 t b b;
@@ -1473,12 +1474,12 @@ notes. In this case \, 0 begins a gliss and the target note ends it
 \, 1 begins a pedal marking and 2 ends it. 3 begins a slur and 4 ends
 it. 5 begins a trill and 6 ends it \, etc. Click on the top bang to
 see all options, f 35;
-#X obj 200 700 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 200 700 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text 217 700 pitched trills;
 #N canvas 259 50 389 527 pitched-trills 0;
-#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 3 -77 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 27 -78 <--- click here, f 16;
 #X msg 248 254 clear;
 #X obj 218 208 t b b;
@@ -1508,7 +1509,7 @@ see all options, f 35;
 #X restore 200 720 pd pitched-trills;
 #X obj 190 509 print;
 #X obj 165 363 sel 0 7, f 17;
-#X floatatom 220 325 5 0 0 0 - - -;
+#X floatatom 220 325 5 0 0 0 - - - 0;
 #X obj 125 396 * 2;
 #X connect 0 0 3 0;
 #X connect 2 0 5 0;
@@ -1557,10 +1558,10 @@ see all options, f 35;
 #X connect 39 2 13 0;
 #X connect 40 0 7 0;
 #X connect 41 0 17 0;
-#X restore 580 337 pd spans;
+#X restore 580 341 pd spans;
 #N canvas 158 50 621 732 text 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 298 43 write text beneath a note.;
 #X text 38 15 <--- click here to test, f 24;
@@ -1569,8 +1570,8 @@ see all options, f 35;
 #X obj 332 75 t b b;
 #X msg 332 95 title writing text;
 #X msg 16 161 write 13-text;
-#X obj 347 150 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 347 150 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X msg 67 72 input -pit 63 -txt this is a text -dur 16 -art 2 \, input
 -pit 63 -dur 16 -art 2 \,, f 36;
 #X obj 25 324 t b b b, f 19;
@@ -1578,8 +1579,8 @@ see all options, f 35;
 #X obj 209 689 notes;
 #X msg 358 492 clear;
 #X obj 331 452 t b b;
-#X obj 24 302 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 24 302 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X msg 331 472 title writing text spans;
 #X msg 19 623 write 13-text-spans;
 #N canvas 0 50 556 328 ritardando 0;
@@ -1587,8 +1588,8 @@ see all options, f 35;
 #X text 67 36 <--- click here to test, f 37;
 #X msg 388 136 clear;
 #X obj 361 96 t b b;
-#X obj 45 38 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 45 38 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X msg 361 116 title writing text spans;
 #X msg 45 212 write 13-text-spans;
 #X obj 47 13 inlet;
@@ -1608,8 +1609,8 @@ see all options, f 35;
 #X connect 7 0 4 0;
 #X connect 8 0 9 0;
 #X restore 390 646 pd ritardando example;
-#X obj 390 627 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 390 627 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X msg 99 532 input -pit \$1;
 #X obj 99 487 random 18;
 #X obj 99 509 + 60;
@@ -1630,17 +1631,17 @@ see all options, f 35;
 #X msg 81 348 4;
 #X msg 81 436 2;
 #X msg 112 437 6;
-#X obj 389 582 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 391 666 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 389 582 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 391 666 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #N canvas 0 50 556 328 sul 0;
 #X obj 46 60 t b b b, f 19;
 #X text 67 36 <--- click here to test, f 37;
 #X msg 388 136 clear;
 #X obj 361 96 t b b;
-#X obj 45 38 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 45 38 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X msg 361 116 title writing text spans;
 #X msg 43 291 write 13-text-spans;
 #X obj 47 13 inlet;
@@ -1680,8 +1681,8 @@ see all options, f 35;
 #X text 53 27 <--- click here to test, f 37;
 #X msg 459 278 clear;
 #X obj 432 238 t b b;
-#X obj 31 29 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 31 29 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X msg 432 258 title writing text spans;
 #X msg 26 350 write 13-text-spans;
 #X msg 106 259 input -pit \$1;
@@ -1738,8 +1739,8 @@ see all options, f 35;
 #X connect 25 0 22 0;
 #X restore 389 602 pd only text1;
 #N canvas 0 50 524 524 moretexts 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 288 472 write text beneath a note.;
 #X text 38 15 <--- click here to test, f 37;
@@ -1834,22 +1835,22 @@ or arrow)., f 49;
 #X connect 42 0 13 0;
 #X connect 43 0 13 0;
 #X connect 44 0 4 0;
-#X restore 588 403 pd text;
-#X text 83 51 clear all input;
-#X msg 212 520 author www.nyu-waverlylabs.org;
-#X obj 140 459 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X obj 137 435 loadbang;
-#X text 222 429 titles and subtitles;
-#X msg 212 450 title notes: a music notation external for Pd, f 24
+#X restore 588 407 pd text;
+#X text 83 55 clear all input;
+#X msg 212 524 author www.nyu-waverlylabs.org;
+#X obj 140 463 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
+#X obj 137 439 loadbang;
+#X text 222 433 titles and subtitles;
+#X msg 212 454 title notes: a music notation external for Pd, f 24
 ;
-#X msg 212 485 sub_title encodes your pd generated information into
+#X msg 212 489 sub_title encodes your pd generated information into
 lilyond readable syntax, f 41;
-#X text 138 101 1) For [notes] to generate a valid score \, you must
+#X text 138 105 1) For [notes] to generate a valid score \, you must
 provide a reference duration. [refdur 32( means that the smallest duration
 that will be provided (1) will be a 32nd. This is also the default.
 All durations must be integers., f 57;
-#X text 137 354 3) Finally \, the "write" message will produce the
+#X text 137 358 3) Finally \, the "write" message will produce the
 score \, encode it in lilypond syntax(other syntaxes would be possible)
 \, save it in the specified path and file name (in this case "./temp.ly")
 \, compile \, and open it., f 57;
@@ -1909,10 +1910,10 @@ to hear your suggestions \, requests \, and bug reports. Of course
 , f 68;
 #X text -4 506 Thanks!;
 #X text 236 550 Jaime E. Oliver La Rosa \, la.rosa@nyu.edu, f 24;
-#X restore 348 711 pd some ideas on configuration and suggestions;
-#X text 36 698 **************************************************************************************************
+#X restore 348 685 pd some ideas on configuration and suggestions;
+#X text 36 672 **************************************************************************************************
 , f 98;
-#X text 37 37 **************************************************************************************************
+#X text 37 41 **************************************************************************************************
 , f 98;
 #N canvas 0 84 221 131 working-stuff 0;
 #N canvas 0 50 164 74 to_do 0;
@@ -1923,8 +1924,8 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X msg 147 323 lily_dir ~/bin;
 #X msg 166 301 open /Users/jo57/test-score.ly;
 #X msg 191 252 clear;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X text 38 15 <--- click here to generate score, f 37;
 #X obj 128 230 t b b b b b;
 #X msg 176 274 title text;
@@ -1966,8 +1967,8 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X text 131 13 interval testing, f 21;
 #X msg 153 98 title testing intervals;
 #X msg -19 52 60 \, 59 \, 61 \, 58 \, 62 \, 57 \, 63 \, 56 \, 64;
-#X obj -36 6 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -36 6 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -36 26 t b b b;
 #X obj 91 308 notes;
 #X msg 179 281 clear;
@@ -1975,8 +1976,8 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X msg -37 268 write temp-score.ly;
 #X msg 152 261 title testing intervals;
 #X msg -20 190 60 \, 59 \, 61 \, 58 \, 62 \, 57 \, 63 \, 56 \, 64;
-#X obj -37 144 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj -37 144 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj -37 164 t b b b;
 #X obj -20 212 + 1;
 #X obj 94 665 notes;
@@ -1984,32 +1985,32 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X obj 155 630 t b b;
 #X msg -34 625 write temp-score.ly;
 #X msg 155 650 title testing intervals;
-#X obj -37 309 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj -37 309 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj -37 329 t b b b;
 #X obj 435 146 notes;
 #X msg 523 119 clear;
 #X obj 496 79 t b b;
 #X msg 307 106 write temp-score.ly;
 #X msg 496 99 title testing intervals;
-#X obj 307 7 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 307 7 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 307 27 t b b b;
 #X obj 434 309 notes;
 #X msg 522 282 clear;
 #X obj 495 242 t b b;
 #X msg 306 269 write temp-score.ly;
 #X msg 495 262 title testing intervals;
-#X obj 306 145 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 306 145 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj 306 165 t b b b;
 #X obj 323 213 + 1;
 #X obj 434 474 notes;
 #X obj 495 407 t b b;
 #X msg 306 434 write temp-score.ly;
 #X msg 495 427 title testing intervals;
-#X obj 306 310 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 306 310 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj 306 330 t b b b;
 #X msg 324 53 60 \, 61 \, 59 \, 62 \, 58 \, 63 \, 57 \, 64 \, 58 \,
 65;
@@ -2043,8 +2044,8 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X obj 871 386 t b b;
 #X msg 682 381 write temp-score.ly;
 #X msg 871 406 title testing intervals;
-#X obj 679 65 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 679 65 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 679 85 t b b b;
 #X obj 697 258 + 1;
 #X obj 698 109 t b b b b;
@@ -2179,8 +2180,8 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X obj 373 526 t b b;
 #X text -70 -10 <- click here;
 #X text 256 40 <- generate some note expressions, f 16;
-#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -173 261 notes 1;
 #X obj -95 304 notes 1;
 #X obj -16 347 notes 1;
@@ -2354,14 +2355,14 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X connect 86 0 87 0;
 #X connect 87 0 80 1;
 #X restore 19 80 pd testing-relative;
-#X restore 38 711 pd working-stuff;
+#X restore 38 685 pd working-stuff;
 #N canvas 66 78 414 279 layout 0;
 #X obj 49 210 notes;
 #N canvas 0 58 414 391 somecontent 0;
 #X obj 127 120 until;
-#X floatatom 127 206 5 0 0 0 - - -;
-#X obj 51 57 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X floatatom 127 206 5 0 0 0 - - - 0;
+#X obj 51 57 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 51 77 t b b b, f 26;
 #X obj 127 185 + 1;
 #X text 70 57 <----- Click here to generate 20 random durations;
@@ -2408,27 +2409,27 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X connect 5 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X restore 558 509 pd layout;
+#X restore 558 503 pd layout;
 #N canvas 17 135 802 674 simple-probabilities 0;
 #X obj 182 158 t b b;
 #X obj 275 333 *;
 #N canvas 744 150 306 361 tempo 0;
 #X obj 105 133 r ref-dur;
 #X obj 76 190 /;
-#X floatatom 105 155 5 0 0 0 - - -;
+#X floatatom 105 155 5 0 0 0 - - - 0;
 #X obj 32 94 t b f;
 #X obj 32 138 /;
-#X floatatom 76 212 5 0 0 0 - - -;
+#X floatatom 76 212 5 0 0 0 - - - 0;
 #X msg 32 116 60;
 #X obj 32 160 * 1000;
 #X obj 76 302 s time;
 #X text 27 15 Quarter = 72;
 #X obj 32 47 r tempo;
-#X floatatom 32 69 5 0 0 0 - - -;
+#X floatatom 32 69 5 0 0 0 - - - 0;
 #X obj 76 252 int;
 #X text 117 242 round to nearest integer;
 #X obj 76 231 + 0.5;
-#X floatatom 76 274 5 0 0 0 - - -;
+#X floatatom 76 274 5 0 0 0 - - - 0;
 #X connect 0 0 2 0;
 #X connect 1 0 5 0;
 #X connect 2 0 1 1;
@@ -2448,7 +2449,7 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X msg 404 427 refdur \$1;
 #X obj 307 579 notes;
 #X obj 290 293 r time;
-#X floatatom 290 315 5 0 0 0 - - -;
+#X floatatom 290 315 5 0 0 0 - - - 0;
 #X obj 318 354 del;
 #X obj 318 376 s compute;
 #X obj 155 93 r compute;
@@ -2457,12 +2458,12 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X obj 135 221 % 13;
 #X obj 135 243 + 60;
 #X obj 135 313 t f f;
-#X floatatom 248 242 5 0 0 0 - - -;
+#X floatatom 248 242 5 0 0 0 - - - 0;
 #X obj 248 260 pow 2;
 #X obj 248 197 random 3;
 #X obj 248 219 + 1;
-#X obj 231 113 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 231 113 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 248 311 t f f;
 #X obj 135 430 pack;
 #X obj 275 355 t f f;
@@ -2474,7 +2475,7 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X text 422 247 STOP;
 #N canvas 0 50 221 297 envelope 0;
 #X obj 49 32 inlet;
-#X floatatom 49 55 5 0 0 0 - - -;
+#X floatatom 49 55 5 0 0 0 - - - 0;
 #X msg 49 96 20;
 #X obj 49 74 t b f;
 #X msg 49 167 1 \$1;
@@ -2502,7 +2503,7 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X restore 275 402 pd envelope;
 #N canvas 0 50 450 300 oscil 0;
 #X obj 74 52 mtof;
-#X floatatom 74 74 5 0 0 0 - - -;
+#X floatatom 74 74 5 0 0 0 - - - 0;
 #X obj 74 93 osc~;
 #X obj 108 142 *~;
 #X obj 100 173 dac~;
@@ -2528,9 +2529,9 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X obj 135 518 list trim;
 #X msg 403 267 \; sw 0 \; write bang \;;
 #X obj 135 283 nbx 2 25 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 25
--262144 -1 -1 0 256;
+#fcfcfc #000000 #000000 0 256;
 #X obj 248 281 nbx 1 25 -1e+37 1e+37 0 0 empty empty empty 0 -8 0 25
--262144 -1 -1 0 256;
+#fcfcfc #000000 #000000 0 256;
 #X msg 403 363 title a simple algorithmic melody \, write example-02-generative
 , f 38;
 #X msg 135 452 input pit \$1 dur \$2;
@@ -2578,23 +2579,23 @@ to hear your suggestions \, requests \, and bug reports. Of course
 #X connect 42 0 5 0;
 #X connect 43 0 34 0;
 #X connect 44 0 34 1;
-#X restore 486 673 pd simple-probabilities;
-#X text 40 18 [notes] - an external to fit data into music notation
-and engraving it using lilypond, f 96;
-#X text 499 58 Single line EXAMPLES:;
-#X text 509 548 multiple voices and staves EXAMPLES:, f 19;
-#X msg 112 330 write test-score;
-#X text 497 630 EXAMPLE APPLICATIONS:;
-#X text 136 228 2) Every note expression begins with the word "input"
+#X restore 486 647 pd simple-probabilities;
+#X text 37 15 [notes] - an external to fit data into music notation
+and engraving it using lilypond, f 70;
+#X text 499 62 Single line EXAMPLES:;
+#X text 509 522 multiple voices and staves EXAMPLES:, f 19;
+#X msg 112 334 write test-score;
+#X text 497 604 EXAMPLE APPLICATIONS:;
+#X text 136 232 2) Every note expression begins with the word "input"
 followed by a note's attributes. "-pit" for pitch \, "-dur" for duration
 \, -mtr for meter \, etc. In this case \, the first note "-pit 60"
 produces a middle C \, with a duration of 4 32nds ("-dur 4") which
 produces an 8th note. You must have at least one of these to generate
 a score., f 59;
-#X msg 109 207 input -pit \$1 -dur 4;
+#X msg 109 211 input -pit \$1 -dur 4;
 #N canvas 449 138 647 548 grace 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 38 15 <--- click here to test, f 37;
 #X obj 299 507 notes;
@@ -2616,8 +2617,8 @@ to write the -grc flag and then 1 for grace \, 2 for slashed grace
 in pairs and the second element specifies the rhythic value so 16 means
 16th notes., f 38;
 #N canvas 0 50 621 568 grace 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 38 15 <--- click here to test, f 37;
 #X msg 442 191 clear;
@@ -2636,20 +2637,20 @@ in pairs and the second element specifies the rhythic value so 16 means
 #X obj 72 118 f;
 #X obj 101 118 + 1;
 #X obj 72 140 % 2;
-#X floatatom 72 162 5 0 0 0 - - -;
+#X floatatom 72 162 5 0 0 0 - - - 0;
 #X obj 72 181 sel 1 0;
 #X obj 265 213 random 2;
 #X obj 265 235 + 1;
 #X obj 265 257 * 4;
-#X floatatom 265 279 5 0 0 0 - - -;
+#X floatatom 265 279 5 0 0 0 - - - 0;
 #X obj 203 220 f;
 #X obj 231 218 + 6;
 #X obj 203 242 % 15;
-#X floatatom 203 289 5 0 0 0 - - -;
+#X floatatom 203 289 5 0 0 0 - - - 0;
 #X obj 203 264 + 60;
 #X obj 203 308 pack;
 #X obj 78 277 f;
-#X floatatom 78 346 5 0 0 0 - - -;
+#X floatatom 78 346 5 0 0 0 - - - 0;
 #X obj 78 321 + 72;
 #X obj 106 275 + 3;
 #X obj 78 299 % 7;
@@ -2711,8 +2712,8 @@ in pairs and the second element specifies the rhythic value so 16 means
 #X connect 39 0 0 0;
 #X connect 40 0 41 0;
 #X restore 360 453 pd grace;
-#X obj 360 430 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 360 430 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text 378 430 random grace notes;
 #X msg 269 183 input -pit 68 -grc 1 8 -smn 1 8;
 #X msg 254 205 input -pit 69 -grc 2 16 -smn 2 16;
@@ -2757,10 +2758,10 @@ in pairs and the second element specifies the rhythic value so 16 means
 #X connect 17 0 16 0;
 #X connect 19 0 8 0;
 #X connect 20 0 8 0;
-#X restore 580 359 pd grace;
+#X restore 580 363 pd grace;
 #N canvas 17 80 646 444 noteheads 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 38 15 <--- click here to test, f 37;
 #X obj 299 393 notes;
@@ -2775,8 +2776,8 @@ in pairs and the second element specifies the rhythic value so 16 means
 #X obj 73 173 t f f;
 #X obj 72 84 until;
 #X obj 180 71 sel 0;
-#X obj 180 95 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 180 95 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 180 115 + 1;
 #X obj 180 137 * 8;
 #X obj 73 195 pack;
@@ -2811,11 +2812,11 @@ a chord., f 36;
 #X connect 20 0 12 0;
 #X connect 21 0 11 0;
 #X connect 21 0 20 0;
-#X restore 556 380 pd noteheads;
+#X restore 556 384 pd noteheads;
 #N canvas 83 78 373 422 tie 0;
 #X obj 48 318 notes;
-#X obj 17 21 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 21 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 41 t b b b b, f 16;
 #X msg 205 128 clear;
 #X obj 160 64 t b b b;
@@ -2823,11 +2824,11 @@ a chord., f 36;
 #X msg 160 84 title ties;
 #X msg 48 174 input -pit 60 -dur 16;
 #X msg 79 153 input -pit 60 -dur 16 -tie 1 -smn 1 -txt tie=1;
-#X obj 220 341 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 220 341 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #N canvas 397 50 297 383 tie 0;
-#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -53 29 t b b b b, f 16;
 #X msg 141 117 clear;
 #X obj 90 52 t b b b;
@@ -2869,11 +2870,11 @@ a chord., f 36;
 #X connect 9 0 10 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X restore 590 184 pd tie;
+#X restore 590 188 pd tie;
 #N canvas 159 67 634 453 cluster 0;
 #X obj -22 342 notes;
-#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -53 29 t b b b b, f 16;
 #X msg 135 116 clear;
 #X text -34 9 <----- Click here to generate a chromatic scale;
@@ -2881,8 +2882,8 @@ a chord., f 36;
 #X msg 90 72 title ties;
 #X text 293 34 ties.., f 26;
 #N canvas 0 50 522 377 test 0;
-#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -53 29 t b b b b, f 16;
 #X msg 141 117 clear;
 #X text -34 9 <----- Click here to generate a chromatic scale;
@@ -2930,11 +2931,11 @@ a chord., f 36;
 #X connect 9 0 0 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X restore 570 425 pd cluster;
+#X restore 570 429 pd cluster;
 #N canvas 0 50 450 300 arpeggios 0;
 #X obj -429 -125 t b b b, f 14;
-#X obj -429 -151 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj -429 -151 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text -409 -153 <---- click here;
 #X obj -389 -79 until;
 #X obj -347 114 notes;
@@ -2968,7 +2969,7 @@ produce., f 35;
 #X connect 12 0 10 1;
 #X connect 13 0 4 0;
 #X connect 14 0 4 0;
-#X restore 558 446 pd arpeggios;
+#X restore 558 450 pd arpeggios;
 #N canvas 2047 224 279 310 instrument-specific 0;
 #N canvas 0 60 805 610 harp-pedal 0;
 #X obj 173 506 notes;
@@ -3001,30 +3002,30 @@ produce., f 35;
 #X obj 8 354 symbol;
 #X obj 465 701 makefilename not-set-yet;
 #X msg 540 658 set \$1;
-#X floatatom 417 156 5 0 0 0 - - -;
-#X obj 468 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 236 156 5 0 0 0 - - -;
-#X obj 287 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 156 156 5 0 0 0 - - -;
-#X obj 207 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 76 156 5 0 0 0 - - -;
-#X obj 127 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 657 156 5 0 0 0 - - -;
-#X obj 708 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 577 156 5 0 0 0 - - -;
-#X obj 628 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
-#X floatatom 497 156 5 0 0 0 - - -;
-#X obj 548 156 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X floatatom 417 156 5 0 0 0 - - - 0;
+#X obj 468 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 236 156 5 0 0 0 - - - 0;
+#X obj 287 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 156 156 5 0 0 0 - - - 0;
+#X obj 207 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 76 156 5 0 0 0 - - - 0;
+#X obj 127 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 657 156 5 0 0 0 - - - 0;
+#X obj 708 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 577 156 5 0 0 0 - - - 0;
+#X obj 628 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
+#X floatatom 497 156 5 0 0 0 - - - 0;
+#X obj 548 156 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X obj 831 115 inlet;
-#X obj 831 141 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 831 141 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X text 853 140 highlight changes;
 #X obj 368 277 makefilename %%s%s;
 #X obj 368 255 symbol;
@@ -3108,9 +3109,9 @@ produce., f 35;
 #X connect 53 0 9 0;
 #X connect 54 0 10 0;
 #X restore 383 188 pd format-harp-pedal;
-#X obj 155 97 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
-#X symbolatom 383 210 20 0 0 0 - - -;
+#X obj 155 97 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
+#X symbolatom 383 210 20 0 0 0 - - - 0;
 #X obj 313 329 list append;
 #X obj 313 351 t a b;
 #X obj 313 373 list trim;
@@ -3120,8 +3121,8 @@ Pedal are specified in the following format:;
 #X text 38 59 #"^v-|vv-^";
 #X obj 383 229 list prepend -hpp;
 #X msg 390 146 -1 0 1 1 0 1 -1;
-#X obj 505 154 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
-1;
+#X obj 505 154 tgl 15 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000 0 1;
 #X text 527 153 highlight changes;
 #X msg 314 307 input -pit \$1 -dur 4;
 #X msg 85 338 input -pit \$1 -dur 4;
@@ -3157,8 +3158,8 @@ in -1 0 1 to V - ^ respectively, f 33;
 #X connect 20 6 3 0;
 #X restore 16 40 pd harp-pedal;
 #N canvas 7 72 673 489 harmonics 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 38 15 <--- click here to test, f 37;
 #X obj 299 452 notes;
@@ -3166,8 +3167,8 @@ in -1 0 1 to V - ^ respectively, f 33;
 #X obj 386 132 t b b;
 #X obj 297 339 t a;
 #X obj 126 123 t b b;
-#X obj 370 392 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj 370 392 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X obj 159 144 + 1;
 #X obj 126 99 until;
 #X obj 127 144 f;
@@ -3186,8 +3187,8 @@ the first harmonic (touch 8va) \, -hrm 2 is a touch 5th \, -hrm 3 is
 touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 , f 40;
 #N canvas 213 50 630 562 harmonic 0;
-#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 17 39 t b b b, f 19;
 #X text 38 15 <--- click here to test, f 37;
 #X msg 456 174 clear;
@@ -3254,8 +3255,8 @@ touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 #X connect 28 0 6 0;
 #X connect 29 0 6 0;
 #X restore 17 69 pd harmonics;
-#X restore 499 467 pd instrument-specific;
-#X text 90 736 Jaime E. Oliver La Rosa \, 2014-18 // la.rosa@nyu.edu
+#X restore 499 471 pd instrument-specific;
+#X text 90 710 Jaime E. Oliver La Rosa \, 2014-18 // la.rosa@nyu.edu
 // nyu-waverlylabs.org, f 83;
 #N canvas 0 60 427 120 multiple 0;
 #N canvas 51 74 534 682 multiple_voices 0;
@@ -3283,8 +3284,8 @@ touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 #X obj 238 478 t b b;
 #X obj 16 270 t a b, f 14;
 #X text 76 38 <- generate some note expressions, f 16;
-#X obj 16 -38 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 16 -38 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 16 -2 t b b b, f 8;
 #X obj 219 132 % 2;
 #X obj 117 105 random 5;
@@ -3375,14 +3376,13 @@ and [mainscore] objects \, paper 4 1, f 29;
 #X msg 547 650 clear;
 #X msg 180 16 0 \, 1 \, 2;
 #X obj 254 566 t b b;
-#X msg 34 280 inst instr_one \, render 0 \, write instone
-\,;
+#X msg 34 280 inst instr_one \, render 0 \, write instone \,;
 #X msg 133 394 inst instr_two \, write insttwo;
 #X msg 238 461 inst instr_three \, write instthree;
 #X text 56 13 <- click here;
 #X text 125 73 <- generate some note expressions;
-#X obj 34 15 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj 34 15 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 34 35 t b b b, f 21;
 #X text 237 15 clear all parts;
 #X text 757 31 The [mainscore] object allows for multiple staves in
@@ -3491,8 +3491,8 @@ and [mainscore] objects \, paper 4 1, f 34;
 #X obj 373 589 t b b;
 #X text -70 -10 <- click here;
 #X text 91 76 <- generate some note expressions, f 16;
-#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj 241 176 t f f;
 #X obj -173 324 notes 1;
 #X obj -95 367 notes 1;
@@ -3561,7 +3561,7 @@ and [mainscore] objects \, paper 4 1, f 34;
 #X msg 140 456 inst gg \, write gg;
 #X msg 217 501 inst hh \, write hh;
 #X msg 296 544 inst ii \, write ii;
-#X floatatom 234 220 5 0 0 0 - - -;
+#X floatatom 234 220 5 0 0 0 - - - 0;
 #X obj -92 11 t b b b b, f 29;
 #X obj 53 144 random 3;
 #X msg 93 12 0 \, 1 \, 2 \, 3 \, 4 \, 5 \, 6 \, 7 \, 8;
@@ -3690,12 +3690,12 @@ and [mainscore] objects \, paper 4 1, f 34;
 #X msg -231 143 clear;
 #X obj 117 445 t b b;
 #X obj -292 141 t a b;
-#X obj -292 100 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
+#X obj -292 100 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#000000 #000000;
 #X text -70 -10 <- click here;
 #X text 98 71 <- generate some note expressions, f 16;
-#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144 -1
--1;
+#X obj -92 -9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
+#000000;
 #X obj -92 17 t b b b, f 29;
 #X obj 248 171 t f f;
 #X msg -209 237 inst Itwo \, write insttwo;
@@ -3814,8 +3814,9 @@ with [notes] and [mainscore] objects \, paper 4 1, f 23;
 material \, try to use [notes 0] and then mainscore. Whenever possible
 give meter markings to all parts rather than trusting the automatic
 metering from a main part on to others., f 40;
-#X restore 555 589 pd multiple;
-#X text 198 755 https://github.com/lar0sa/notes_lib;
+#X restore 555 563 pd multiple;
+#X text 198 729 https://github.com/lar0sa/notes_lib;
+#X obj 497 18 declare -lib notesLib;
 #X connect 4 0 3 0;
 #X connect 5 0 3 0;
 #X connect 11 0 39 0;
