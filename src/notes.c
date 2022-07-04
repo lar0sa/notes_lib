@@ -1632,7 +1632,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		}
 		post("notes: ... Formatting Score... ");
 	//// _______________________________________________ ENGRAVING Programs
-		char o_pitch[10], o_jump[15], o_text[64], command[150];
+		char o_pitch[10], o_jump[15], o_text[64], command[MAXPDSTRING];
 		int o_dur, t, f, tp;	
 		char buf[MAXPDSTRING], partname[MAXPDSTRING], scorename[MAXPDSTRING], linename[MAXPDSTRING];
 		int m, tempint, span_switch, gliss_switch, clu_switch, gliss_break_switch;
@@ -2412,18 +2412,22 @@ void notes_write(t_notes *x, t_symbol *s)								{
          post("notes: compiling score on windows not implemented yet");
 #endif
 #ifdef __APPLE__
+          // post("notes: compiling score on mac");
           strcpy( command, "exec ");
           strcat( command, x->lily_dir);
           strcat( command, "/");
+#elif unix
+          strcpy( command, "lilypond -o ")
 #endif
 #ifdef UNIX
-          strcpy( command, "lilypond -o ");
+          // post("notes: compiling score on unix");
+          strcat( command, "lilypond -o ");
           strcat( command, buf); // relative position to patch found whenopening fp1 above
           strcat( command, " ");
           strcat( command, scorename);
           if (x->debug >= 1) post("notes: command = %s", command);
-          if (x->SLAVE == 0 && x->render == 1) 				{
 			////	RENDER lilypond SCORE ________________________________________________
+          if (x->SLAVE == 0 && x->render == 1) 				{
 				    post("notes: compiling score "); 
             system( command);
           }
