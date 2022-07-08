@@ -1,9 +1,9 @@
-// code for the "notes" pd class. 
+// code for the "notes" pd class.
 // Encodes information created in Pd into a Lilypond score (lilypond.org)
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
 // updated by Fede Camara Halac (fch226@nyu.edu)
-// Released under the GNU General Public License. 
+// Released under the GNU General Public License.
 
 #include "notes_lib.h"
 
@@ -13,7 +13,7 @@ typedef struct notes 													{
   t_outlet *x_outlet0, *x_outlet1, *x_outlet2, *x_outlet3;
   t_canvas *x_canvas;
   FILE *fp1;
-  
+
 ////////////////// ******* RAW INPUT DATA:
 // pitch, duration, articulation, tie, dynamics, articulation, tempo, meter, text, harp-pedals
 // add rehearsal marks, tremolo
@@ -21,17 +21,17 @@ typedef struct notes 													{
   int ri_index;
   int ri_cho[MXS], ri_dur[MXS], ri_tie[MXS], ri_clu[MXS], ri_clef[MXS], ri_acc[MXS], ri_trm[MXS], ri_arp[MXS];
   int ri_dyn_n[MXS], ri_art_n[MXS], ri_smn_n[MXS], ri_spa_n[MXS], ri_txt_n[MXS], ri_txt_spn_n[MXS], ri_hrm_n[MXS], ri_nhs_n[MXS], ri_hpp_n[MXS];
-  float ri_pit[MXS][128], ri_spa_p[MXS]; 
+  float ri_pit[MXS][128], ri_spa_p[MXS];
   int ri_mtr[MXS][2], ri_tmp[MXS][2], ri_grc[MXS][2], ri_tup[MXS][3], ri_dyn[MXS][16], ri_art[MXS][16], ri_smn[MXS][8], ri_spa[MXS][8], ri_hrm[MXS][8], ri_nhs[MXS][16], ri_txt_spn[MXS][6];
   char ri_txt[MXS][32][64];
   char ri_hpp[MXS][16];
-  
+
   int ri_index_sort[MXS];
-  
+
 ////////////////// ******* CLEAN INPUT DATA:
   int i_index, i_rii[MXS];
   int i_cho[MXS], i_dur[MXS], i_mtr[MXS][2], i_tup[MXS], i_tie[MXS];
-  
+
 ////////////////// ******* TUPLET DATA:
   int tp_info[MXS][5], tp_n;
   int tp_index, tp_dur[MXS], tp_i[MXS], tp_ri[MXS], tp_tie[MXS], tp_num[MXS];
@@ -40,7 +40,7 @@ typedef struct notes 													{
   int sb_tp_start[MXS], sb_tp_end[MXS];
 ////////////////// ******* GRACE DATA:
   int g_index, g_rii[MXS], g_dur[MXS];
-  
+
 ////////////////// ******* BAR DATA:
   int b_index, bar_n[MXS], b_tie[MXS], b_dur[MXS], b_i[MXS], b_mtr[MXS][2], b_tmp[MXS][2], b_rii[MXS], b_tup[MXS];
   int bar_info[MXS][8]; // 0 = initial position, 1 = num, 2 = den
@@ -48,20 +48,20 @@ typedef struct notes 													{
   int be_index, be_bar_n[MXS], be_beat_n[MXS], be_tie[MXS], be_dur[MXS], be_i[MXS], be_rii[MXS], be_tup[MXS];
 ////////////////// ******* SUB-BEAT DATA:
   int sb_index, sb_bar_n[MXS], sb_beat_n[MXS], sb_tie[MXS], sb_dur[MXS], sb_i[MXS], sb_rii[MXS], sb_tup[MXS];
-  
+
   char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[130], barfile[150], inst[150];
   const char *dummysym; // const to remove warning
   int ii, refdur, debug, auth_n, titl_n, sub_title_n, tempo, OS, lastpit_ch, lastpit;
   int SLAVE, inst_n, papersize, paperorientation, render;
-} 
+}
 t_notes;
-  
+
 ////	____________________________________________________ INPUT
 void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
-	int a, i, j, input_check[21];	
+	int a, i, j, input_check[21];
 	float temp_f, temp_f_array[128];
 	x->dummysym = s->s_name;
-	
+
 	t_symbol *nt_pitch 			= gensym("-pit"); // float = single note & list = chord
 	t_symbol *nt_rhythm 		= gensym("-dur"); // float = duration
 	t_symbol *nt_dynamics 		= gensym("-dyn"); // float = dynamics list (0 = nothing, 1 = pppp, etc..)
@@ -82,7 +82,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	t_symbol *nt_arpeggio		= gensym("-arp"); // arpeggio
 	t_symbol *nt_text			= gensym("-txt"); // text
     t_symbol *nt_harppedal 		= gensym("-hpp"); // harp_pedal
-	
+
 	if (x->debug >= 1) post("INDEX ========= %d", x->ri_index);
 	for (a = 0; a < 21; a++) { input_check[a] = 0;	};
     for (a = 0; a < argcount; a++) {
@@ -93,7 +93,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    	if 		( argvec[a].a_w.w_symbol == nt_pitch)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-	    			a++; 
+	    			a++;
 	    			x->ri_pit[x->ri_index][i] 		= argvec[a].a_w.w_float;
 	    		//	post("pitch =\t%f", x->ri_pit[x->ri_index][i]);
 	    			i++;
@@ -110,21 +110,21 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 							}
 						}
 						else {
-							if (x->ri_pit[x->ri_index][i] < temp_f && 
+							if (x->ri_pit[x->ri_index][i] < temp_f &&
 								x->ri_pit[x->ri_index][i] > temp_f_array[j-1]) {
 								temp_f = x->ri_pit[x->ri_index][i];
 							}
 						}
 					}
 					temp_f_array[j] = temp_f;
-					if (x->debug >= 1) post("o.pitch =\t%f", temp_f_array[j]); 
+					if (x->debug >= 1) post("o.pitch =\t%f", temp_f_array[j]);
 				}
 				for (j=0; j<x->ri_cho[x->ri_index]; j++) {
-					x->ri_pit[x->ri_index][j]	= temp_f_array[j];	
+					x->ri_pit[x->ri_index][j]	= temp_f_array[j];
 				}
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_rhythm)			{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_rhythm)			{
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
 	    			x->ri_dur[x->ri_index]	 	= argvec[a].a_w.w_float;
@@ -138,10 +138,10 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    				input_check[1] = 1;
 	    			}
 	    		}
-	    		
+
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_dynamics)		{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_dynamics)		{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -156,7 +156,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    	else if ( argvec[a].a_w.w_symbol == nt_tuplet)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-	    			a++; 
+	    			a++;
 	    			x->ri_tup[x->ri_index][i] 		= argvec[a].a_w.w_float;
 	    			i++;
 	    		}
@@ -168,9 +168,9 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    	else if ( argvec[a].a_w.w_symbol == nt_meter)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-	    			a++; 
+	    			a++;
 	    			x->ri_mtr[x->ri_index][i] 		= argvec[a].a_w.w_float;
-	    			i++;	
+	    			i++;
 	    		}
 	    		if (i != 2) {
 	    			post("notes: ERROR: not enough arguments for meter (need 2... see help file)");
@@ -182,7 +182,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		}
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_articulation)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_articulation)	{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -190,16 +190,16 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    			i++;
 	    		}
 	    		x->ri_art_n[x->ri_index] = i;
-			    if (x->debug >= 1) 	post("articulation = %d", x->ri_art_n[x->ri_index]);//if (x->debug >= 1) 
+			    if (x->debug >= 1) 	post("articulation = %d", x->ri_art_n[x->ri_index]);//if (x->debug >= 1)
 	    		input_check[5] = 1;
 	    	}
 //_____________________________________________________________________________
 	    	else if ( argvec[a].a_w.w_symbol == nt_tempo)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-	    			a++; 
+	    			a++;
 	    			x->ri_tmp[x->ri_index][i] 		= argvec[a].a_w.w_float;
-	    			i++;	
+	    			i++;
 	    		}
 	    		if (i != 2) {
 	    			post("notes: ERROR: not enough arguments for tempo (need 2... see help file)");
@@ -212,7 +212,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 				}
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_small_numbers)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_small_numbers)	{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -221,11 +221,11 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    			i++;
 	    		}
 	    		x->ri_smn_n[x->ri_index] = i;
-	    		
+
 	    		input_check[7] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_clef)			{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_clef)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -235,7 +235,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		input_check[8] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_accidentals)		{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_accidentals)		{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -247,7 +247,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		input_check[9] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_tremolo)			{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_tremolo)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -266,7 +266,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		}
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_span)			{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_span)			{
 	    		i = 0;
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
@@ -311,12 +311,12 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 							 && argvec[a+1].a_w.w_symbol != nt_meter 	&& argvec[a+1].a_w.w_symbol != nt_articulation
 							 && argvec[a+1].a_w.w_symbol != nt_tempo 	&& argvec[a+1].a_w.w_symbol != nt_small_numbers
 							 && argvec[a+1].a_w.w_symbol != nt_clef 	&& argvec[a+1].a_w.w_symbol != nt_accidentals
-							 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span 
+							 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span
 							 && argvec[a+1].a_w.w_symbol != nt_grace	&& argvec[a+1].a_w.w_symbol != nt_harmonic
 							 && argvec[a+1].a_w.w_symbol != nt_noteheads) {
 								a++;
 								atom_string(argvec+a, x->ri_txt[x->ri_index][i], 1000);
-								post(x->ri_txt[x->ri_index][i]); // if (x->debug >= 1) 
+								post(x->ri_txt[x->ri_index][i]); // if (x->debug >= 1)
 								i++;
 							}
 							else break;
@@ -332,12 +332,12 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 							 && argvec[a+1].a_w.w_symbol != nt_meter 	&& argvec[a+1].a_w.w_symbol != nt_articulation
 							 && argvec[a+1].a_w.w_symbol != nt_tempo 	&& argvec[a+1].a_w.w_symbol != nt_small_numbers
 							 && argvec[a+1].a_w.w_symbol != nt_clef 	&& argvec[a+1].a_w.w_symbol != nt_accidentals
-							 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span 
+							 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span
 							 && argvec[a+1].a_w.w_symbol != nt_grace	&& argvec[a+1].a_w.w_symbol != nt_harmonic
 							 && argvec[a+1].a_w.w_symbol != nt_noteheads) {
 								a++;
 								atom_string(argvec+a, x->ri_txt[x->ri_index][i], 1000);
-								post(x->ri_txt[x->ri_index][i]); // if (x->debug >= 1) 
+								post(x->ri_txt[x->ri_index][i]); // if (x->debug >= 1)
 								i++;
 							}
 							else break;
@@ -371,7 +371,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 						 && argvec[a+1].a_w.w_symbol != nt_meter 	&& argvec[a+1].a_w.w_symbol != nt_articulation
 						 && argvec[a+1].a_w.w_symbol != nt_tempo 	&& argvec[a+1].a_w.w_symbol != nt_small_numbers
 						 && argvec[a+1].a_w.w_symbol != nt_clef 	&& argvec[a+1].a_w.w_symbol != nt_accidentals
-						 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span 
+						 && argvec[a+1].a_w.w_symbol != nt_tremolo 	&& argvec[a+1].a_w.w_symbol != nt_span
 						 && argvec[a+1].a_w.w_symbol != nt_grace	&& argvec[a+1].a_w.w_symbol != nt_harmonic
 						 && argvec[a+1].a_w.w_symbol != nt_noteheads) {
 							a++;
@@ -384,7 +384,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 					}
 				}
 				x->ri_txt_n[x->ri_index] = i; //
-				if (x->ri_txt_n[x->ri_index] >= 1) input_check[15] = 1; 
+				if (x->ri_txt_n[x->ri_index] >= 1) input_check[15] = 1;
 				if (x->ri_txt_spn_n[x->ri_index] >= 1) input_check[16] = 1;
 				if (x->debug >= 1) post("text n = %d", x->ri_txt_n[x->ri_index]);
 	    	}
@@ -393,9 +393,9 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    		i = 0;
 	    		if (x->debug >= 1) post ("GRACE!");
 				while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-					a++; 
+					a++;
 					x->ri_grc[x->ri_index][i] 		= argvec[a].a_w.w_float;
-					i++;	
+					i++;
 				}
 				if (x->ri_grc[x->ri_index][0] < 0) x->ri_grc[x->ri_index][0] = 0;
 				if (x->ri_grc[x->ri_index][0] > 3) x->ri_grc[x->ri_index][0] = 3;
@@ -403,7 +403,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 					post("grace duration == 0, this is a bug, fix me");
 					x->ri_grc[x->ri_index][1] = 32;
 				}
-				
+
 				i=x->ri_grc[x->ri_index][1];
 				if(i==128||i==64||i==32||i==16||i==8) {
 					if (x->debug >= 1) post("grace = %d", i);
@@ -419,24 +419,24 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 //_____________________________________________________________________________
 	    	else if ( argvec[a].a_w.w_symbol == nt_harmonic)		{
 	    		i = 0;
-	    		
+
 				while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
-					a++; 
+					a++;
 					x->ri_hrm[x->ri_index][i] 		= argvec[a].a_w.w_float;
-					
-					i++;	
+
+					i++;
 				}
 				x->ri_hrm_n[x->ri_index] = i;
 				for (i=0; i<x->ri_hrm_n[x->ri_index]; i++){
 					if 		(x->ri_hrm[x->ri_index][i]<=0) {x->ri_hrm[x->ri_index][i] = 1;post("ERROR, you asked for %d, but only harmonics 1 through 5 are allowed", x->ri_hrm[x->ri_index][i]);}
-					else if (x->ri_hrm[x->ri_index][i]> 6) {x->ri_hrm[x->ri_index][i] = 6;post("ERROR, you asked for %d, but only harmonics 1 through 5 are allowed", x->ri_hrm[x->ri_index][i]);}					
+					else if (x->ri_hrm[x->ri_index][i]> 6) {x->ri_hrm[x->ri_index][i] = 6;post("ERROR, you asked for %d, but only harmonics 1 through 5 are allowed", x->ri_hrm[x->ri_index][i]);}
 					if (x->debug >= 1) post ("HARMONIC! %d", x->ri_hrm[x->ri_index][i]);
 				}
-	    	//	post("harmonic = %d", x->ri_hrm_n[x->ri_index]);//if (x->debug >= 1) 
+	    	//	post("harmonic = %d", x->ri_hrm_n[x->ri_index]);//if (x->debug >= 1)
 	    		input_check[13] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_noteheads)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_noteheads)	{
 	    		i = 0;
 	    		if (x->debug >= 1) post ("NOTE HEADS!");
 	    		while (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
@@ -445,38 +445,38 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	    			i++;
 	    		}
 	    		x->ri_nhs_n[x->ri_index] = i;
-	    		if (x->debug >= 1) post("noteheads = %d", x->ri_art_n[x->ri_index]);//if (x->debug >= 1) 
+	    		if (x->debug >= 1) post("noteheads = %d", x->ri_art_n[x->ri_index]);//if (x->debug >= 1)
 	    		input_check[14] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_tie)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_tie)	{
 	    		if (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
 	    			x->ri_tie[x->ri_index] 		= argvec[a].a_w.w_float;
 	    			if (x->debug >= 1) post("tie = %d", x->ri_tie[x->ri_index]);
-	    		}	    		
+	    		}
 	    		input_check[17] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_arpeggio)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_arpeggio)	{
 	    		if (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
 	    			x->ri_arp[x->ri_index] 		= argvec[a].a_w.w_float;
 	    			if (x->debug >= 1) post("arp = %d", x->ri_arp[x->ri_index]);
-	    		}	    		
+	    		}
 	    		input_check[19] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if ( argvec[a].a_w.w_symbol == nt_cluster)	{ 
+	    	else if ( argvec[a].a_w.w_symbol == nt_cluster)	{
 	    		if (argvec[a+1].a_type == A_FLOAT && a < argcount-1) {
 	    			a++;
 	    			x->ri_clu[x->ri_index] 		= argvec[a].a_w.w_float;
 	    			if (x->debug >= 1) post("tuplet = %d", x->ri_clu[x->ri_index]);
-	    		}	    		
+	    		}
 	    		input_check[18] = 1;
 	    	}
 //_____________________________________________________________________________
-	    	else if (argvec[a].a_type == A_FLOAT) post("WARNING::::::: this float escaped: %f", argvec[a].a_w.w_float); 
+	    	else if (argvec[a].a_type == A_FLOAT) post("WARNING::::::: this float escaped: %f", argvec[a].a_w.w_float);
 	    }
 	}
 	// post("INPUT CHECKs");
@@ -496,14 +496,14 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 	if (input_check[1] == 0) 	{ // if no rhythmic value is provided then the previous one is kept.
 		if 	(x->ri_index == 0)	x->ri_dur[x->ri_index]	= 8;
 		else					x->ri_dur[x->ri_index] 	= x->ri_dur[x->ri_index - 1];
-	} // Duration	
+	} // Duration
 	if (input_check[2] == 0) 	{
 		x->ri_dyn_n[x->ri_index]	= 0;
 	} // Dynamics
-	if (input_check[3] == 0) 	{ 
+	if (input_check[3] == 0) 	{
 		x->ri_tup[x->ri_index][0] = x->ri_tup[x->ri_index][1] = x->ri_tup[x->ri_index][2] = 0;
 	} // Tuplet
-	if (input_check[4] == 0) 	{ 
+	if (input_check[4] == 0) 	{
 		if (x->ri_index == 0) {
 			x->ri_mtr[x->ri_index][0] = 4;
 			x->ri_mtr[x->ri_index][1] = 4;
@@ -511,12 +511,12 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 		else {
 			x->ri_mtr[x->ri_index][0] = x->ri_mtr[x->ri_index-1][0];
 			x->ri_mtr[x->ri_index][1] = x->ri_mtr[x->ri_index-1][1];
-		}	
+		}
 	} // Meter
-	if (input_check[5] == 0) 	{ 
+	if (input_check[5] == 0) 	{
 		x->ri_art_n[x->ri_index] = 0;
 	} // Articulation
-	if (input_check[6] == 0) 	{ 
+	if (input_check[6] == 0) 	{
 		if (x->ri_index == 0) {
 			x->ri_tmp[x->ri_index][0] = 8;
 			x->ri_tmp[x->ri_index][1] = 60;
@@ -527,11 +527,11 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 		}
 	//	post("wrote tempo");
 	} // Tempo
-	if (input_check[7] == 0) 	{ 
+	if (input_check[7] == 0) 	{
 		x->ri_smn_n[x->ri_index] = 0;
 	//	post("no small numbers");
 	} // small numbers
-	if (input_check[8] == 0) 	{ 
+	if (input_check[8] == 0) 	{
 		if (x->ri_index == 0) {
 			x->ri_clef[x->ri_index] = 0;
 		}
@@ -540,7 +540,7 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 		}
 	//	post("wrote clef");
 	} // Clef
-	if (input_check[9] == 0) 	{ 
+	if (input_check[9] == 0) 	{
 		if (x->ri_index == 0) {
 			x->ri_acc[x->ri_index] = 0;
 		}
@@ -549,38 +549,38 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 		}
 	//	post("wrote clef");
 	} // accidentals
-	if (input_check[10] == 0) 	{ 
+	if (input_check[10] == 0) 	{
 			x->ri_trm[x->ri_index] = 0;
 	//	post("wrote tremolo");
 	} // tremolo
-	if (input_check[11] == 0) 	{ 
+	if (input_check[11] == 0) 	{
 		x->ri_spa_n[x->ri_index] = 0;
 	} // Spans
-	if (input_check[12] == 0) 	{ 
+	if (input_check[12] == 0) 	{
 		x->ri_grc[x->ri_index][0] = 0;
 	} // grace notes
-	if (input_check[13] == 0) 	{ 
+	if (input_check[13] == 0) 	{
 		x->ri_hrm_n[x->ri_index] = 0;
 	} // harmonics
-	if (input_check[14] == 0) 	{ 
+	if (input_check[14] == 0) 	{
 		x->ri_nhs_n[x->ri_index] = 0;
 	} // note heads
-	if (input_check[15] == 0) 	{ 
+	if (input_check[15] == 0) 	{
 		x->ri_txt_n[x->ri_index] = 0;
 	} // text
-	if (input_check[16] == 0) 	{ 
+	if (input_check[16] == 0) 	{
 		x->ri_txt_spn_n[x->ri_index] = 0;
 	} // text span
-	if (input_check[17] == 0) 	{ 
+	if (input_check[17] == 0) 	{
 		x->ri_tie[x->ri_index] = 0;
 	} // tie
-	if (input_check[18] == 0) 	{ 
+	if (input_check[18] == 0) 	{
 		x->ri_clu[x->ri_index] = 0;
 	} // cluster
-	if (input_check[19] == 0) 	{ 
+	if (input_check[19] == 0) 	{
 		x->ri_arp[x->ri_index] = 0;
 	} // arpeggio
-    if (input_check[20] == 0) 	{ 
+    if (input_check[20] == 0) 	{
 		x->ri_hpp_n[x->ri_index] = 0;
 	} // harp-pedal
 	x->ri_index++;
@@ -589,12 +589,12 @@ void notes_input(t_notes *x, t_symbol *s, int argcount, t_atom *argvec) {
 void notes_write(t_notes *x, t_symbol *s)								{
 	int i, j, k, barcount, barsize, beatsize, dur_remainder, bar_number, beatcount, beat_number, sub_beatsize, subdiv;
 	int pow2dot_array[18] = {0, 1, 2, 3, 4, 6, 8, 12, 16, 24, 32, 48, 64, 96, 128, 192, 256, 384};
-	int harmonics[6][2] = { {12, 12}, {7, 19}, {5, 24}, {4, 28}, {3, 31}, {2, 34}}; 
+	int harmonics[6][2] = { {12, 12}, {7, 19}, {5, 24}, {4, 28}, {3, 31}, {2, 34}};
 	float temp_f=0;//, temp_f2;
 	bar_number=beatcount=barcount=dur_remainder=beat_number = j= i=k= 0;
 	x->sb_tp_index = x->i_index = x->tp_index = x->tp_n = x->b_index = x->be_index = x->sb_index = 0;
-	
-	if (x->ri_index > 0) 					{	
+
+	if (x->ri_index > 0) 					{
 		post("notes: Generating Score ...");
 	//// ____________________________________________________________ INPUT SORTING
 		if (x->debug >= 1) 				{
@@ -622,33 +622,33 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			post("\nSORTING INPUT :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
 		}
 		x->tp_index = x->tp_n = 0;
-		
+
 		// SORT INTO TUPLETS, GRACE NOTES, AND REGULAR NOTES
 		for(i=0; i<x->ri_index; i++) 	{
 			if (x->ri_tup[i][0] != 0) {
-				//if (x->debug >= 3) 
+				//if (x->debug >= 3)
 				if (x->debug >= 1) post("TUP");
 				x->ri_index_sort[i] = 2;
 				x->tp_info[x->tp_n][0] = x->ri_tup[i][0]; // reference beat duration
 				x->tp_info[x->tp_n][1] = x->ri_tup[i][1]; // fit
 				x->tp_info[x->tp_n][2] = x->ri_tup[i][2]; // into
-				x->tp_info[x->tp_n][3] = i; // starting tp index************			
-		
+				x->tp_info[x->tp_n][3] = i; // starting tp index************
+
 				x->i_mtr[x->i_index][0] = x->ri_mtr[i][0];
 				x->i_mtr[x->i_index][1] = x->ri_mtr[i][1];
 				x->i_tup[x->i_index]	= x->tp_n;
 				x->i_dur[x->i_index]	= x->refdur/x->ri_tup[i][0] * x->ri_tup[i][2]; //(added / refdur
 				x->i_tie[x->i_index]	= 0;
 				dur_remainder 			= x->refdur/x->ri_tup[i][0] * x->ri_tup[i][1];
-				x->i_rii[x->i_index]	= i; 
-			
+				x->i_rii[x->i_index]	= i;
+
 				x->tp_i[x->tp_index]	= x->i_index; // reference to clean/precessed input or just "input"
 				x->tp_ri[x->tp_index]	= i; // reference to raw input indexes
-				x->tp_dur[x->tp_index]	= x->ri_dur[i]; 
+				x->tp_dur[x->tp_index]	= x->ri_dur[i];
 				x->tp_num[x->tp_index]	= x->tp_n;
 				beatcount 				= x->tp_dur[x->tp_index];
 				//post("a");
-				x->tp_index++; 
+				x->tp_index++;
 				if (x->debug >= 1) post("PRE  While Fx: beatcount=%d\tdur_remainder=%d", beatcount, dur_remainder);
 				while (  (beatcount + x->ri_dur[i+1]) <= dur_remainder && i < x->ri_index && beatcount-dur_remainder !=0) {
 					i++;
@@ -663,26 +663,26 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						x->tp_i[x->tp_index]	= x->i_index; // reference to clean/precessed input or just "input"
 						x->tp_ri[x->tp_index]	= i; // reference to raw input indexes
 						x->ri_index_sort[i]  	= 1;
-						x->tp_dur[x->tp_index]	= x->ri_dur[i]; 
+						x->tp_dur[x->tp_index]	= x->ri_dur[i];
 						x->tp_tie[x->tp_index]	= 0;
 						x->tp_num[x->tp_index]	= x->tp_n;
 						beatcount 				+= x->tp_dur[x->tp_index];
 						x->tp_index++;
-					}				
+					}
 				//	post("b");
 				}
 				x->i_index++;
 				if (x->debug >= 1) post("POST While Fx: beatcount=%d\tdur_remainder=%d", beatcount, dur_remainder);
 				if (beatcount < dur_remainder) {
 					post("¡¡¡¡¡¡¡WARNING!!!!!! Tuplet no. %d has a longer duration than declared length, tied to regular beat", x->tp_n);
-				
+
 					i++;
 					x->tp_i[x->tp_index]	= x->i_index; // reference to clean/precessed input or just "input"
 					x->tp_ri[x->tp_index]	= i; // reference to raw input indexes
 					x->tp_dur[x->tp_index]	= dur_remainder - beatcount;
 					x->tp_tie[x->tp_index]	= 1;
 					x->tp_num[x->tp_index]	= x->tp_n;
-				
+
 					x->i_mtr[x->i_index][0] = x->i_mtr[x->i_index-1][0];
 					x->i_mtr[x->i_index][1] = x->i_mtr[x->i_index-1][1];
 					x->i_dur[x->i_index]	= x->ri_dur[i] - x->tp_dur[x->tp_index];
@@ -692,13 +692,13 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				//	x->tp_info[x->tp_n][4] = x->tp_index; // ending tp index
 					//post("c");
 					x->i_index++;
-					x->tp_index++;	
-				}	
+					x->tp_index++;
+				}
 				x->tp_info[x->tp_n][4] = i; // ending tp index
-				x->tp_n++;	
+				x->tp_n++;
 			}      	//// TUPLETS
 			else if (x->ri_grc[i][0] > 0) {
-			//	if (x->debug >= 3) 
+			//	if (x->debug >= 3)
 				if (x->debug >= 1) post("GRACE");
 				x->ri_index_sort[i]  = 3;
 				x->g_rii[x->i_index] = i;
@@ -706,7 +706,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				x->g_index++;
 			}		//// GRACE NOTES
 			else {
-				//if (x->debug >= 3) 
+				//if (x->debug >= 3)
 				if (x->debug >= 1) post("NO TUP");
 				x->ri_index_sort[i] = 2;
 				x->i_mtr[x->i_index][0] = x->ri_mtr[i][0];
@@ -724,9 +724,9 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		}
 	//// ____________________________________________________________  GRACE PROGRAM
 		for(i=0; i<x->g_index; i++){
-			
+
 		}
-	//// ____________________________________________________________  TUPLET PROGRAM 
+	//// ____________________________________________________________  TUPLET PROGRAM
 		if (x->debug >= 1) 				{
 			post("\nRAW TUPLET INFO :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
 			post("i\trefdur\tfit\tinto\tstart\tend");
@@ -764,7 +764,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				if (x->debug >= 3) post("beatsize=%d\tsubdiv=%d\tsub_beatsize=%d", beatsize, subdiv, sub_beatsize);
 				i = 0;
 				if (x->debug >= 3) post("%d 1***************   TUPLET %d   *************** %d", i, i, i);
-				for(i=0; i<x->b_tp_index; i++) { 
+				for(i=0; i<x->b_tp_index; i++) {
 					while (beatcount >= beatsize) {
 						beatcount -= beatsize;
 					}
@@ -837,8 +837,8 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								x->sb_tp_i[x->sb_tp_index]		= x->b_tp_i[i];
 								x->sb_tp_tie[x->sb_tp_index]	= 1;
 								x->sb_tp_num[x->sb_tp_index] 	= x->b_tp_num[i];
-								if (x->debug >= 3) {post("%d\t%d\t%d\t%d\t%d\t%d", 	x->sb_tp_index, x->sb_tp_num[x->sb_tp_index], x->sb_tp_ri[x->sb_tp_index], x->sb_tp_i[x->sb_tp_index], x->sb_tp_dur[x->sb_tp_index], x->sb_tp_tie[x->sb_tp_index]); post("-   -   -   -   -   -   -   -   -   -   -   -   ");}					
-								x->sb_tp_index++;				
+								if (x->debug >= 3) {post("%d\t%d\t%d\t%d\t%d\t%d", 	x->sb_tp_index, x->sb_tp_num[x->sb_tp_index], x->sb_tp_ri[x->sb_tp_index], x->sb_tp_i[x->sb_tp_index], x->sb_tp_dur[x->sb_tp_index], x->sb_tp_tie[x->sb_tp_index]); post("-   -   -   -   -   -   -   -   -   -   -   -   ");}
+								x->sb_tp_index++;
 								dur_remainder = x->b_tp_dur[i] - x->sb_tp_dur[x->sb_tp_index-1];
 							}
 							else {
@@ -854,16 +854,16 @@ void notes_write(t_notes *x, t_symbol *s)								{
 
 								if (x->debug >= 3){ post("%d\t%d\t%d\t%d\t%d\t%d", 	x->sb_tp_index, x->sb_tp_num[x->sb_tp_index], x->sb_tp_ri[x->sb_tp_index], x->sb_tp_i[x->sb_tp_index], x->sb_tp_dur[x->sb_tp_index], x->sb_tp_tie[x->sb_tp_index]); post("-   -   -   -   -   -   -   -   -   -   -   -   ");}
 								x->sb_tp_index++;
-						
+
 								dur_remainder 					-= sub_beatsize;
 							}
-			
+
 							x->sb_tp_dur[x->sb_tp_index] 	= dur_remainder;
 							x->sb_tp_ri[x->sb_tp_index]		= x->b_tp_ri[i];
 							x->sb_tp_i[x->sb_tp_index]		= x->b_tp_i[i];
 							x->sb_tp_tie[x->sb_tp_index]	= x->b_tp_tie[i];
 							x->sb_tp_num[x->sb_tp_index] 	= x->b_tp_num[i];
-					
+
 							beatcount 			+= x->b_tp_dur[i];
 							while (beatcount >= sub_beatsize) {
 								beatcount -= sub_beatsize;
@@ -885,7 +885,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						if (x->debug >= 3 && beatcount % beatsize == 0) post("-   -   -   -   -   -   -   -   -   -   -   -   ");
 						x->sb_tp_index++;
 					}
-			
+
 				}
 				for(i=0; i<x->sb_tp_index; i++){
 					x->b_tp_dur[i] 		= x->sb_tp_dur[i];
@@ -905,9 +905,9 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		for(i=0; i<x->sb_tp_index; i++) {
 			if (x->sb_tp_num[i] != x->sb_tp_num[i-1]) if (x->debug >= 1) post("-   -   -   -   -   -   -   -   -   -   -   -   ");
 			if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d", i, x->sb_tp_num[i], x->sb_tp_ri[i], x->sb_tp_i[i], (int) x->sb_tp_dur[i], x->sb_tp_tie[i]);
-		} 
-		
-	//// ____________________________________________________________ BAR and BEAT Programs 
+		}
+
+	//// ____________________________________________________________ BAR and BEAT Programs
 		if (x->debug >= 1) 				{
 			post("\nCLEAN INPUT LIST :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n");
 			post("i\traw_i\tdur\ttie\ttup");
@@ -919,7 +919,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			}
 		}
 	//	/*
-	//// ____________________________________________________________  BAR SUBDIVISION 
+	//// ____________________________________________________________  BAR SUBDIVISION
 		if (x->debug >= 1) post(".\nBAR PROGRAMs ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n.");
 /////////////////////// BREAK INPUT INTO BARS
 		int ii;
@@ -936,11 +936,11 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				post("refdur=%d denom=%d beatsize=%d", x->refdur, x->i_mtr[0][1], beatsize);
 				post("barsize=%d\n", barsize);
 				post("i\tbar no.\tclean i\traw i\tdur\ttie\ttuplet");
-				post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+				post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 			}
-			barcount = 0; 
+			barcount = 0;
 			for(i=0; i<x->i_index; i++) 	{
-				if		(i > 1 && (x->i_mtr[i][0] != x->i_mtr[i-1][0] || x->i_mtr[i][1] != x->i_mtr[i-1][1])) {	
+				if		(i > 1 && (x->i_mtr[i][0] != x->i_mtr[i-1][0] || x->i_mtr[i][1] != x->i_mtr[i-1][1])) {
 					if 	(barcount != 0) {
 						x->bar_info[bar_number][1] = barcount;
 						x->bar_info[bar_number][2] = 32;
@@ -988,7 +988,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						x->bar_info[bar_number][2] 	= x->i_mtr[i][1];
 						x->bar_info[bar_number][3] 	= beatsize;
 						x->bar_info[bar_number][4] 	= barsize;
-						if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+						if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 					}
 				}
 				else 	{
@@ -1008,8 +1008,8 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					x->bar_info[bar_number][2] = x->i_mtr[i][1];
 					x->bar_info[bar_number][3] = beatsize;
 					x->bar_info[bar_number][4] = barsize;
-					if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
-						
+					if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
+
 					while (dur_remainder > 0) {
 						if		(barcount + dur_remainder <= barsize) {
 							x->b_dur[x->b_index] 	= dur_remainder;
@@ -1029,7 +1029,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								x->bar_info[bar_number][2] 	= x->i_mtr[i][1];
 								x->bar_info[bar_number][3] 	= beatsize;
 								x->bar_info[bar_number][4] 	= barsize;
-								if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+								if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 							}
 							dur_remainder = 0;
 						}
@@ -1051,8 +1051,8 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							x->bar_info[bar_number][2] = x->i_mtr[i][1];
 							x->bar_info[bar_number][3] = beatsize;
 							x->bar_info[bar_number][4] = barsize;
-							if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
-						} 
+							if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
+						}
 					}
 				}
 			}
@@ -1087,9 +1087,9 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				post("refdur=%d denom=%d beatsize=%d", x->refdur, x->bar_info[0][2], beatsize);
 				post("barsize=%d\n", barsize);
 				post("i\tbar no.\tclean i\traw i\tdur\ttie\ttuplet");
-				post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+				post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 			}
-			barcount = 0; 
+			barcount = 0;
 			x->bar_info[bar_number][0] = x->b_index;
 			for(i=0; i<x->i_index; i++) 	{
 				if		(barcount + x->i_dur[i] <= barsize){
@@ -1116,7 +1116,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							beatsize 					= x->bar_info[bar_number][3];
 							barsize 					= x->bar_info[bar_number][4];
 						}
-						if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+						if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 					}
 				}
 				else 	{
@@ -1142,8 +1142,8 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						beatsize 					= x->bar_info[bar_number][3];
 						barsize 					= x->bar_info[bar_number][4];
 					}
-					if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
-						
+					if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
+
 					while (dur_remainder > 0) {
 						if		(barcount + dur_remainder <= barsize) {
 							x->b_dur[x->b_index] 	= dur_remainder;
@@ -1169,7 +1169,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 									beatsize 					= x->bar_info[bar_number][3];
 									barsize 					= x->bar_info[bar_number][4];
 								}
-								if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
+								if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
 							}
 							dur_remainder = 0;
 						}
@@ -1197,11 +1197,11 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								beatsize 					= x->bar_info[bar_number][3];
 								barsize 					= x->bar_info[bar_number][4];
 							}
-							if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);	
-						} 
+							if (x->debug >= 1) post("BAR %d - - - - - - - - - - - - - - - - - - - - - - - - - - - - ", bar_number);
+						}
 					}
 				}
-			}	
+			}
 		}
 		if (x->debug >= 1) 				{
 			post("\nChecking for tuplet errors\n");
@@ -1246,12 +1246,12 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			}
 		} //// Print BAR INFOR
 	//	x->debug = 0;
-	//// _______________________________________________ BEAT SUBDIVISION 
+	//// _______________________________________________ BEAT SUBDIVISION
 		if (x->debug >= 1) 				{
 			post(".\nBEAT PROGRAM :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n.");
 			post("beatsize=%d\n", beatsize);
 			post("i\tbar_n\tbeat_n\tclean_i\traw_i\tdur\ttie\ttuplet");
-			post("METER = %d/%d\t beatsize = %d", x->bar_info[x->be_bar_n[0]][1], x->bar_info[x->be_bar_n[0]][2], beatsize);			
+			post("METER = %d/%d\t beatsize = %d", x->bar_info[x->be_bar_n[0]][1], x->bar_info[x->be_bar_n[0]][2], beatsize);
 			post("BAR %d ===============================================", 0);
 		}
 		beatcount = beat_number = 0;
@@ -1268,7 +1268,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					x->bar_info[x->bar_n[i]][2] != x->bar_info[x->bar_n[i-1]][2] ) {
 					beatsize 	= x->bar_info[x->bar_n[i]][3];
 					barsize		= x->bar_info[x->bar_n[i]][4];
-					if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d", x->bar_info[x->bar_n[i]][1], x->bar_info[x->bar_n[i]][2], beatsize);			
+					if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d", x->bar_info[x->bar_n[i]][1], x->bar_info[x->bar_n[i]][2], beatsize);
 				}
 			}
 		///// ASSIGN DURATIONS
@@ -1287,7 +1287,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				if (x->debug >= 3) post("<<<<<<<<< beatcount = %d", beatcount);
 				if (beatcount == beatsize) {
 					beatcount = 0;
-					if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+					if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 				}
 				x->be_index++;
 			}
@@ -1310,11 +1310,11 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							beat_number					+= x->be_dur[x->be_index];
 							if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->be_index, x->be_bar_n[x->be_index], x->be_beat_n[x->be_index], x->be_i[x->be_index], x->be_rii[x->be_index], x->be_dur[x->be_index], x->be_tie[x->be_index], x->be_tup[x->be_index]);
 							if (x->debug >= 3) post("BEAT:::: EXACT-2orDOT beatcount = %d,\tdur:%d", beatcount, x->be_dur[x->be_index]);
-							if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+							if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 							x->be_index++;
 						} // If it is exactly power or dot
 						else {
-							beatcount += x->b_dur[i] % beatsize;							
+							beatcount += x->b_dur[i] % beatsize;
 							while (dur_remainder > 0) {
 								if (dur_remainder >= beatsize) {
 									for(j=0; j<18; j++){
@@ -1322,7 +1322,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 											if (x->debug >= 3) post("%d, temp=%d", j, (int) temp_f);
 											break;
 										}
-									} 
+									}
 									if (x->debug >= 3) post("rem=%d\tj=%d\tdur=%d", dur_remainder, j-1, pow2dot_array[j-1]);
 									x->be_dur[x->be_index] 		= pow2dot_array[j-1];
 									dur_remainder 				-= x->be_dur[x->be_index];
@@ -1341,14 +1341,14 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								beat_number					+= x->be_dur[x->be_index];
 								if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->be_index, x->be_bar_n[x->be_index], x->be_beat_n[x->be_index], x->be_i[x->be_index], x->be_rii[x->be_index], x->be_dur[x->be_index], x->be_tie[x->be_index], x->be_tup[x->be_index]);
 								if (x->debug >= 3) post("BEAT:::: ==0 Closest 2ordot beatcount = %d\tdur=%d", beatcount, x->be_dur[x->be_index]);
-								if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+								if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 								x->be_index++;
-							}						
-						} 
+							}
+						}
 						break;
 					}
 				}
-			} 
+			}
 			else if	(beatcount == 0 && x->b_dur[i]%beatsize != 0)	{
 				dur_remainder = x->b_dur[i];
 				while (dur_remainder > 0) {
@@ -1358,7 +1358,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								if (x->debug >= 3) post("%d, temp=%d", j, (int) temp_f);
 								break;
 							}
-						} 
+						}
 						if (x->debug >= 3) post("rem=%d\tj=%d\tdur=%d", dur_remainder, j-1, pow2dot_array[j-1]);
 						x->be_dur[x->be_index] 		= pow2dot_array[j-1];
 						dur_remainder 				-= x->be_dur[x->be_index];
@@ -1378,11 +1378,11 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->be_index, x->be_bar_n[x->be_index], x->be_beat_n[x->be_index], x->be_i[x->be_index], x->be_rii[x->be_index], x->be_dur[x->be_index], x->be_tie[x->be_index], x->be_tup[x->be_index]);
 					if (x->debug >= 3) post("BEAT:::: !=0 Closest 2ordot beatcount = %d\tdur=%d", beatcount, x->be_dur[x->be_index]);
 					beatcount += x->be_dur[x->be_index] % beatsize;
-					if (beatcount == 0) if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+					if (beatcount == 0) if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 					x->be_index++;
 				}
 			}
-			////// NOT ZERO 
+			////// NOT ZERO
 			else 											{
 				x->be_dur[x->be_index] 		= beatsize - beatcount;
 				dur_remainder 				= x->b_dur[i] - x->be_dur[x->be_index];
@@ -1396,7 +1396,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				beat_number					+= x->be_dur[x->be_index];
 				if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->be_index, x->be_bar_n[x->be_index], x->be_beat_n[x->be_index], x->be_i[x->be_index], x->be_rii[x->be_index], x->be_dur[x->be_index], x->be_tie[x->be_index], x->be_tup[x->be_index]);
 				if (x->debug >= 3) post("BEAT::::not zero beatcount = %d", beatcount);
-				if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");					
+				if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 				x->be_index++;
 				while (dur_remainder > 0) {
 					if	(dur_remainder <= beatsize) {
@@ -1413,7 +1413,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						if (x->debug >= 3) post("BEAT::::ELSE while <= beatcount = %d", beatcount);
 						if (beatcount == beatsize) {
 							beatcount = 0;
-							if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+							if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 						}
 						dur_remainder = 0;
 						x->be_index++;
@@ -1436,19 +1436,19 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						beatcount 					= 0;
 						if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->be_index, x->be_bar_n[x->be_index], x->be_beat_n[x->be_index], x->be_i[x->be_index], x->be_rii[x->be_index], x->be_dur[x->be_index], x->be_tie[x->be_index], x->be_tup[x->be_index]);
 						if (x->debug >= 3) post("BEAT::::while else beatcount 	= %d", beatcount);
-						if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");	
+						if (x->debug >= 1) post("-      -      -      -      -      -      -      -      -      -      -      -      -      -");
 						x->be_index++;
-					} 
+					}
 				}
-			}	
+			}
 		}
-	//// _______________________________________________ SUB-BEAT SUBDIVISION 
+	//// _______________________________________________ SUB-BEAT SUBDIVISION
 		for (j=1; j<3; j++) 			{
 			if (x->debug >= 1) post("SUB-BEAT PROGRAM %d :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::", j);
 			beatsize = x->bar_info[x->be_bar_n[0]][3];
 			if (x->debug >= 1) post("....\nbeatsize=%d\n", beatsize);
 			if (x->debug >= 1) post("i\tbar_n\tbeat_n\tclean_i\traw_i\tdur\ttie\ttuplet");
-			if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d", x->bar_info[x->be_bar_n[0]][1], x->bar_info[x->be_bar_n[0]][2], beatsize);			
+			if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d", x->bar_info[x->be_bar_n[0]][1], x->bar_info[x->be_bar_n[0]][2], beatsize);
 			if (x->debug >= 1) post("BAR %d ===============================================", 0);
 			x->sb_index = beatcount = 0;
 			subdiv = j*2; if (x->debug >= 1) post("j=%d",j);
@@ -1462,7 +1462,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						beatsize = x->bar_info[x->be_bar_n[i]][3];
 						sub_beatsize = beatsize / subdiv;
 						if (sub_beatsize < 2) sub_beatsize = 2;
-						if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d\t sub_beatsize = %d", x->bar_info[x->be_bar_n[i]][1], x->bar_info[x->be_bar_n[i]][2], beatsize, sub_beatsize);			
+						if (x->debug >= 1) post("METER = %d/%d\t beatsize = %d\t sub_beatsize = %d", x->bar_info[x->be_bar_n[i]][1], x->bar_info[x->be_bar_n[i]][2], beatsize, sub_beatsize);
 						beatcount = 0;
 					}
 					while (beatcount >= sub_beatsize) {
@@ -1486,7 +1486,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					x->sb_beat_n[x->sb_index]	= 	x->be_beat_n[i];
 					if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
 					x->sb_index++;
-					beatcount += x->be_dur[i];	
+					beatcount += x->be_dur[i];
 					if( (((beatcount + x->be_dur[i]) == sub_beatsize) || ((beatcount + x->be_dur[i]) % sub_beatsize == 0)) && (sub_beatsize > 2) ) {
 						if (x->debug >= 1) post(".   .    .    .    .    .    .    .    .    .    .    .    .    .    .   .    .    .    .    .    .    .    .    .    .    .    .    .    .%d", sub_beatsize);
 					}
@@ -1505,13 +1505,13 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						x->sb_beat_n[x->sb_index]	= 	x->be_beat_n[i];
 						if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
 						x->sb_index++;
-						beatcount += x->be_dur[i];	
+						beatcount += x->be_dur[i];
 						if( (((beatcount + x->be_dur[i]) == sub_beatsize) || ((beatcount + x->be_dur[i]) % sub_beatsize == 0)) && (sub_beatsize > 2) ) {
 							if (x->debug >= 1) post(".   .    .    .    .    .    .    .    .    .    .    .    .    .    .   .    .    .    .    .    .    .    .    .    .    .    .    .    .%d", sub_beatsize);
 						}
 						while (beatcount >= sub_beatsize) {
 							beatcount -= sub_beatsize;
-						}	
+						}
 					} /// less than sub_beatsize
 					else if ( (((beatcount % sub_beatsize) == 0) && (((beatcount + x->be_dur[i]) % sub_beatsize) == 0)) 		&& (sub_beatsize > 2) ) {
 						x->sb_dur[x->sb_index] 		=	x->be_dur[i];
@@ -1539,7 +1539,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						x->sb_bar_n[x->sb_index]	= 	x->be_bar_n[i]; // bar number
 						x->sb_beat_n[x->sb_index]	= 	x->be_beat_n[i];
 						if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
-			
+
 						x->sb_index++;
 						beatcount += x->be_dur[i];
 						if (beatcount % sub_beatsize == 0) 	if (x->debug >= 1) post(".   .    .    .    .    .    .    .    .    .    .    .    .    .    .   .    .    .    .    .    .    .    .    .    .    .    .    .    .%d", sub_beatsize);
@@ -1561,7 +1561,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
 							if ((beatcount + x->sb_dur[x->sb_index]) % sub_beatsize == 0) if (x->debug >= 1)  post(".   .    .    .    .    .    .    .    .    .    .    .    .    .    .   .    .    .    .    .    .    .    .    .    .    .    .    .    .%d", sub_beatsize);
 							x->sb_index++;
-				
+
 							x->sb_dur[x->sb_index] 		= dur_remainder;
 							x->sb_tie[x->sb_index] 		= x->be_tie[i];
 							x->sb_i[x->sb_index] 		= x->be_i[i]; // input number (original input index)
@@ -1571,7 +1571,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							x->sb_beat_n[x->sb_index]	= x->be_beat_n[i];
 							if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
 							x->sb_index++;
-				
+
 							beatcount 					+= x->be_dur[i];
 							if (beatcount % sub_beatsize == 0) 	if (x->debug >= 1) post(".   .    .    .    .    .    .    .    .    .    .    .    .    .    .   .    .    .    .    .    .    .    .    .    .    .    .    .    .%d", sub_beatsize);
 							while (beatcount >= sub_beatsize) {
@@ -1591,10 +1591,10 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				x->be_bar_n[i]	= x->sb_bar_n[i]; // bar number
 				x->be_beat_n[i]	= x->sb_beat_n[i];
 				x->be_index		= x->sb_index;
-			}		
+			}
 		}
 		post("notes: ... Rhythmic computation done");
-	//// ____________________________________   produce a single final list 
+	//// ____________________________________   produce a single final list
 		if (x->debug >= 1) post("\n......... beginning final list!!!!! ");
 		ii = 0;
 		x->sb_index = 0;
@@ -1626,22 +1626,22 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				x->sb_tup[x->sb_index] 		= x->be_tup[i]; // tuplet
 				x->sb_bar_n[x->sb_index]	= x->be_bar_n[i]; // bar number
 				x->sb_beat_n[x->sb_index]	= x->be_beat_n[i];
-				if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\tregular_loop", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);			
+				if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t%d\tregular_loop", x->sb_index, x->sb_bar_n[x->sb_index], x->sb_beat_n[x->sb_index], x->sb_i[x->sb_index], x->sb_rii[x->sb_index], x->sb_dur[x->sb_index], x->sb_tie[x->sb_index], x->sb_tup[x->sb_index]);
 				x->sb_index++;
-			}			
+			}
 		}
 		post("notes: ... Formatting Score... ");
 	//// _______________________________________________ ENGRAVING Programs
-		char o_pitch[10], o_jump[15], o_text[64], command[MAXPDSTRING];
-		int o_dur, t, f, tp;	
+		char o_pitch[10], o_jump[15], o_text[64], command[MAXPDSTRING], launch[MAXPDSTRING];
+		int o_dur, t, f, tp;
 		char buf[MAXPDSTRING], partname[MAXPDSTRING], scorename[MAXPDSTRING], linename[MAXPDSTRING];
 		int m, tempint, span_switch, gliss_switch, clu_switch, gliss_break_switch;
-		int jj = t= m = tempint = tp = span_switch = gliss_switch = clu_switch = gliss_break_switch = 0; 
-		f = 1;	
-				
-				
+		int jj = t= m = tempint = tp = span_switch = gliss_switch = clu_switch = gliss_break_switch = 0;
+		f = 1;
+
+
 		FILE *fp1, *fp2;
-	//// _______________________________________________ OPEN FILE		
+	//// _______________________________________________ OPEN FILE
 		canvas_makefilename(x->x_canvas, s->s_name, buf, MAXPDSTRING); /// This is a Pd function to get the path relative to the canvas
 		sys_bashfilename(buf, buf);
 		strcpy( scorename, buf);
@@ -1651,12 +1651,12 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			error("%s: couldn't create", buf);
 			return;
 		}
-	//// _______________________________________________ WRITE SCORE	
-		else 							{  
+	//// _______________________________________________ WRITE SCORE
+		else 							{
 			post("notes: writing into %s", scorename);
 			fprintf(fp1, "%% [notes] external for Pure Data\n%% development-version August 16, 2018 \n%% by Jaime E. Oliver La Rosa\n%% la.rosa@nyu.edu\n%% @ the Waverly Labs in NYU MUSIC FAS\n%% Open this file with Lilypond\n%% more information is available at lilypond.org\n%% Released under the GNU General Public License.\n\n");
 			fprintf(fp1, "%% HEADERS\n\nglissandoSkipOn = {\n\t\\override NoteColumn.glissando-skip = ##t\n\t\\hide NoteHead\n\t\\hide Accidental\n\t\\hide Tie\n\t\\override NoteHead.no-ledgers = ##t\n}\n\nglissandoSkipOff = {\n\t\\revert NoteColumn.glissando-skip\n\t\\undo \\hide NoteHead\n\t\\undo \\hide Tie\n\t\\undo \\hide Accidental\n\t\\revert NoteHead.no-ledgers\n}\n");
-			
+
 			if (x->auth_n > 0 || x->titl_n > 0 || x->sub_title_n > 0) {
 				fprintf(fp1, "\n\\header {");
 				if (x->auth_n 		> 0) {
@@ -1690,7 +1690,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				error("%s: couldn't create", buf);
 				return;
 			}
-			else {	
+			else {
 				strcpy(linename, x->inst);
 				strcat(linename, "_part = ");
 				fprintf(fp2, "%s", linename);
@@ -1729,15 +1729,15 @@ void notes_write(t_notes *x, t_symbol *s)								{
 //// __________________________________________//// __________________________________________|
 //// ________________________ WRITE SOME NOTES //// __________________________________________|
 //// __________________________________________//// __________________________________________V
-				fprintf(fp2, "\n%% ________________________________________bar 1 :\n");				
+				fprintf(fp2, "\n%% ________________________________________bar 1 :\n");
 				for (i=0; i<x->sb_index; i++)	{
 					jj=j+1;
 					j = x->sb_rii[i];
 			///////////////////////////// SEPARATION
-				// close tupletttt: ________________________________________________________	
+				// close tupletttt: ________________________________________________________
 					if (i>0 &&((x->sb_tup[i] > x->sb_tup[i-1] && x->sb_tup[i-1] > -1) || (x->sb_tup[i]==-1 && x->sb_tup[i-1] > -1))	) {
-						fprintf(fp2, "} ");	
-						tp = 0;	
+						fprintf(fp2, "} ");
+						tp = 0;
 					}
 				// GRACES NOTES
 					if (i>0 && j!=jj && x->ri_index_sort[jj]==3 && x->sb_tie[i-1] != 1) {
@@ -1789,7 +1789,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 											}
 											fprintf(fp2, "\"} ");
 										}
-										else if (x->ri_txt_spn[j][4] == 3 || x->ri_txt_spn[j][4] == 6) {	
+										else if (x->ri_txt_spn[j][4] == 3 || x->ri_txt_spn[j][4] == 6) {
 											fprintf(fp2, "\n\t\\once \\override TextSpanner.bound-details.right.arrow = ##t ");
 											if (x->ri_txt_spn[j][4] == 3) fprintf(fp2, "\n\t\\once \\override TextSpanner.style = #'dashed-line ");
 											if (x->ri_txt_spn[j][4] == 6) fprintf(fp2, "\n\t\\once \\override TextSpanner.style = #'line ");
@@ -1798,14 +1798,14 @@ void notes_write(t_notes *x, t_symbol *s)								{
 										fprintf(fp2, "\n");
 									}
 								}
-						// chord run ________________________________________________________	
+						// chord run ________________________________________________________
 							if (x->ri_cho[j]>1 || x->ri_hrm_n[j]>0) fprintf(fp2, "<");
 							for (k=0; k<x->ri_cho[j]; k++) {
 								// note heads
 								if (x->ri_nhs_n[j]>0)
 								find_notehead((int) x->ri_nhs[j][0], (FILE *) fp2);
 								// pitch
-								find_pitch(x->ri_pit[j][k], x->ri_acc[j], o_pitch); 
+								find_pitch(x->ri_pit[j][k], x->ri_acc[j], o_pitch);
 								fprintf(fp2, "%1.8s", o_pitch);
 								// jumps
 								if (i>0) { // interval jumps
@@ -1835,16 +1835,16 @@ void notes_write(t_notes *x, t_symbol *s)								{
 									temp_f = (float) harmonics[m][0];
 									temp_f += x->ri_pit[j][k];
 									fprintf(fp2, " ");
-									find_pitch(temp_f, x->ri_acc[j], o_pitch); 
+									find_pitch(temp_f, x->ri_acc[j], o_pitch);
 									fprintf(fp2, "%1.8s", o_pitch);
 									if (find_jump((int) temp_f, (int) x->ri_pit[j][k], (int) x->ri_acc[j], o_jump)==1)
 										fprintf(fp2, "%1.8s", o_jump);
 									fprintf(fp2, "\\harmonic ");
-							
+
 								/*	temp_f2 = (float) harmonics[m][1];
 									temp_f2 += x->ri_pit[j][k];
 									fprintf(fp2, " \\parenthesize ");
-									find_pitch(temp_f2, x->ri_acc[j], o_pitch); 
+									find_pitch(temp_f2, x->ri_acc[j], o_pitch);
 									fprintf(fp2, "%1.8s", o_pitch);
 									if (find_jump((int) temp_f2, (int) temp_f, (int) x->ri_acc[j], o_jump)==1)
 										fprintf(fp2, "%1.8s", o_jump);*/
@@ -1958,8 +1958,8 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						fprintf(fp2, " ");
 					//	post("close grace");
 						//j+=1;
-						j=tempint;	
-					}					
+						j=tempint;
+					}
 				// BAR BREAK ________________________________________________________
 					if (i>0 && x->sb_bar_n[i] != x->sb_bar_n[i-1]) {
 					//	if(f==2) fprintf(fp2, "]");
@@ -1967,7 +1967,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						f = 1;
 					// write meter
 						if (	(i>0) && (x->bar_info[x->sb_bar_n[i]][1] != x->bar_info[x->sb_bar_n[i-1]][1] || x->bar_info[x->sb_bar_n[i]][2] != x->bar_info[x->sb_bar_n[i-1]][2] )	)  {
-							fprintf(fp2, "\\time %i/%i\n\n", x->bar_info[x->sb_bar_n[i]][1], x->bar_info[x->sb_bar_n[i]][2]);	
+							fprintf(fp2, "\\time %i/%i\n\n", x->bar_info[x->sb_bar_n[i]][1], x->bar_info[x->sb_bar_n[i]][2]);
 						}
 					}
 				// BEAT Tab ________________________________________________________
@@ -2004,11 +2004,11 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								}
 							}
 						}
-					}	
+					}
 			//////////////////////////// NOTE EXPRESSION
 				// Clef
 					if (i>0 && x->ri_clef[j] != x->ri_clef[j-1]) {
-						find_clef((int) x->ri_clef[j], (FILE *) fp2);				
+						find_clef((int) x->ri_clef[j], (FILE *) fp2);
 					}
 				// Pitched Trill
 					if (x->ri_spa_p[j] > 0 && ( i==0 || j != x->sb_rii[i-1] ))
@@ -2049,7 +2049,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 								}
 								fprintf(fp2, "\"} ");
 							}
-							else if (x->ri_txt_spn[j][4] == 3 || x->ri_txt_spn[j][4] == 6) {	
+							else if (x->ri_txt_spn[j][4] == 3 || x->ri_txt_spn[j][4] == 6) {
 								fprintf(fp2, "\n\t\\once \\override TextSpanner.bound-details.right.arrow = ##t ");
 								if (x->ri_txt_spn[j][4] == 3) fprintf(fp2, "\n\t\\once \\override TextSpanner.style = #'dashed-line ");
 								if (x->ri_txt_spn[j][4] == 6) fprintf(fp2, "\n\t\\once \\override TextSpanner.style = #'line ");
@@ -2067,7 +2067,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				// note heads
 					if (x->ri_nhs_n[j]>0)
 					find_notehead((int) x->ri_nhs[j][0], (FILE *) fp2);
-				// Chord? ________________________________________________________	
+				// Chord? ________________________________________________________
 					//cluster
 					if (x->ri_clu[j]==1 && clu_switch == 0) {
 						fprintf(fp2, "\\makeClusters {");
@@ -2076,7 +2076,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					else if (x->ri_clu[j]==0 && clu_switch == 1) {
 						fprintf(fp2, "}");
 						clu_switch = 0;
-					}	
+					}
 					//arpeggio
 					if (x->ri_cho[j]>1 && x->ri_arp[j]>0) {
 						if (i==0 || j != x->sb_rii[i-1]) {
@@ -2088,7 +2088,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				//pitch, jumps, harmonics
 					for (k=0; k<x->ri_cho[j]; k++) {
 					// pitch
-						find_pitch(x->ri_pit[j][k], x->ri_acc[j], o_pitch); 
+						find_pitch(x->ri_pit[j][k], x->ri_acc[j], o_pitch);
 						fprintf(fp2, "%1.8s", o_pitch);
 					// jumps
 						if (i>0) { // interval jumps
@@ -2117,16 +2117,16 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							temp_f = (float) harmonics[m][0];
 							temp_f += x->ri_pit[j][k];
 							fprintf(fp2, " ");
-							find_pitch(temp_f, x->ri_acc[j], o_pitch); 
+							find_pitch(temp_f, x->ri_acc[j], o_pitch);
 							fprintf(fp2, "%1.8s", o_pitch);
 							if (find_jump((int) temp_f, (int) x->ri_pit[j][k], (int) x->ri_acc[j], o_jump)==1)
 								fprintf(fp2, "%1.8s", o_jump);
 							fprintf(fp2, "\\harmonic ");
-							
+
 					/*		temp_f2 = (float) harmonics[m][1];
 							temp_f2 += x->ri_pit[j][k];
 							fprintf(fp2, " \\parenthesize ");
-							find_pitch(temp_f2, x->ri_acc[j], o_pitch); 
+							find_pitch(temp_f2, x->ri_acc[j], o_pitch);
 							fprintf(fp2, "%1.8s", o_pitch);
 							if (find_jump((int) temp_f2, (int) temp_f, (int) x->ri_acc[j], o_jump)==1)
 								fprintf(fp2, "%1.8s", o_jump); */
@@ -2135,7 +2135,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						if (x->ri_cho[j]>1 || x->ri_hrm_n[j]>0) fprintf(fp2, " ");
 						if (x->ri_pit[j][0] > 0)	x->lastpit 		= x->ri_pit[j][0];
 						if (x->ri_pit[j][k] > 0)	x->lastpit_ch 	= x->ri_pit[j][k];
-					} 
+					}
 				// close chord
 					if (x->ri_cho[j]>1|| x->ri_hrm_n[j]>0) {
 						if (x->ri_art_n[j] > 0) {
@@ -2147,7 +2147,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						}
 						fprintf(fp2, ">");
 					}
-			/////// DURATION ________________________________________________________			
+			/////// DURATION ________________________________________________________
 					for(k=0; k<64; k++){
 						t = (int) exp2( (float) k );
 						if 		( x->sb_dur[i] == t ) {
@@ -2167,12 +2167,12 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					if (i==0 || j != x->sb_rii[i-1]) {
 						for (k=0; k<x->ri_spa_n[j]; k++){
 							if (	x->ri_spa[j][k] == 8 ||
-									(gliss_switch == 1 && j != x->sb_rii[i+1]) 
+									(gliss_switch == 1 && j != x->sb_rii[i+1])
 								){
 								gliss_break_switch = 1;
 							}
 						}
-					}					
+					}
 					if (gliss_switch != 0 && gliss_break_switch == 0) {
 	//					post("------------------------ o_dur = %d", o_dur);
 						if (o_dur == 4){
@@ -2208,7 +2208,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							}
 						}
 					}
-					else { 
+					else {
 						fprintf(fp2, "%i", o_dur);
 				// dot ________________________________________________________
 					if (t==1) fprintf(fp2, ".");
@@ -2219,7 +2219,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				// tremolo ________________________________________________________
 					if (x->ri_trm[j] > 0) fprintf(fp2, ":%i", x->ri_trm[j]);
 				// tie ________________________________________________________
-					if 	((x->ri_pit[j][0] > 0) && 
+					if 	((x->ri_pit[j][0] > 0) &&
 						(x->sb_tie[i] == 1  ) ) {
 						tempint = 1;
 						if (x->ri_spa_n[j] > 0) {
@@ -2301,7 +2301,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							}
 						}
 					}
-				// beat grouping ________________________________________________________	
+				// beat grouping ________________________________________________________
 					if (f == 1 && tp != 1) {
 						if ( x->sb_beat_n[i] == x->sb_beat_n[i+1] && x->sb_bar_n[i] == x->sb_bar_n[i+1] ) {
 						//	fprintf(fp2, "[");
@@ -2322,7 +2322,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 							}
 							if (x->ri_spa_p[j] > 0) {
 								// pitch
-									find_pitch(x->ri_spa_p[j], x->ri_acc[j], o_pitch); 
+									find_pitch(x->ri_spa_p[j], x->ri_acc[j], o_pitch);
 									fprintf(fp2, " %1.8s", o_pitch);
 								// jumps
 									if (find_jump((int) x->ri_spa_p[j], (int) x->lastpit, (int) x->ri_acc[j], o_jump)==1)
@@ -2336,13 +2336,13 @@ void notes_write(t_notes *x, t_symbol *s)								{
 						gliss_switch = 0;
 					}
 					if (gliss_switch == 1 && ( i==0 || j != x->sb_rii[i-1] )) {
-						fprintf(fp2, "\\glissandoSkipOn "); 	
+						fprintf(fp2, "\\glissandoSkipOn ");
 					}
 					else {
 						for (k=0; k<x->ri_spa_n[j]; k++){
 							if (x->ri_spa[j][k] == 7 && ( i==0 || j != x->sb_rii[i-1] )) {
-								fprintf(fp2, "\\glissandoSkipOn "); 
-								gliss_switch = 2;	
+								fprintf(fp2, "\\glissandoSkipOn ");
+								gliss_switch = 2;
 							}
 						}
 					}
@@ -2367,7 +2367,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				strcat(linename, "_part");
 				fprintf(fp1, "\n\\score {\n\t\\new Staff ");
 				if (x->inst_n == 1) fprintf(fp1, "\\with { instrumentName = \"%s\" } ", x->inst);
-				fprintf(fp1, "{\n\t\t\\new Voice {\n\t\t\t\\%s\n\t\t}\n\t}\n\t\\layout {", linename);	
+				fprintf(fp1, "{\n\t\t\\new Voice {\n\t\t\t\\%s\n\t\t}\n\t}\n\t\\layout {", linename);
 				fprintf(fp1, "\n\t\t\\mergeDifferentlyHeadedOn");
 				fprintf(fp1, "\n\t\t\\mergeDifferentlyDottedOn");
 				fprintf(fp1, "\n\t\t\\set harmonicDots = ##t");
@@ -2389,37 +2389,36 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				if(x->paperorientation==1) fprintf(fp1, "landscape\")");
 				else fprintf(fp1, "\")");
 				fprintf(fp1, "\n\t}\n\t\\midi { }\n}");
-			//// ____________________________________________________________ CLOSE SCORE 
+			//// ____________________________________________________________ CLOSE SCORE
 				fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% notes Pd External testing version  \n");
 				fclose(fp1);
 				post("notes: .ly score finished");
-				
+
 				t_atom paths[MAXPDSTRING];
 				SETSYMBOL(&paths[0], gensym(x->inst));
 				SETSYMBOL(&paths[1], gensym(partname));
    				outlet_list(x->x_outlet0, 0, 2, paths);
-			}	
+			}
 		//// ____________________________________________________________ COMPILE AND OPEN
 	/*		char dirresult[MAXPDSTRING], *nameresult;
     		int fd;
 			post("scorename = %s", scorename);
 			fd = canvas_open(x->x_canvas, scorename, "", dirresult, &nameresult, MAXPDSTRING, 1);
 			post("dirresult = %s", dirresult);
-			post("nameresult = %s", nameresult); */		
-			
+			post("nameresult = %s", nameresult); */
+
     }
-#ifdef _WIN32
-         post("notes: compiling score on windows not implemented yet");
-#endif
+
 #ifdef __APPLE__
           // post("notes: compiling score on mac");
           strcpy( command, "exec ");
           strcat( command, x->lily_dir);
           strcat( command, "/");
-#elif unix
-          strcpy( command, "lilypond -o ")
+#else
+          strcpy( command, "lilypond -o ");
 #endif
-#ifdef UNIX
+
+
           // post("notes: compiling score on unix");
           strcat( command, "lilypond -o ");
           strcat( command, buf); // relative position to patch found whenopening fp1 above
@@ -2428,53 +2427,54 @@ void notes_write(t_notes *x, t_symbol *s)								{
           if (x->debug >= 1) post("notes: command = %s", command);
 			////	RENDER lilypond SCORE ________________________________________________
           if (x->SLAVE == 0 && x->render == 1) 				{
-				    post("notes: compiling score "); 
+				    post("notes: compiling score ");
             system( command);
           }
-#endif
+
 #ifdef unix // linux
-          strcpy( command, "xdg-open ");  
-          strcat( command, buf);
+          strcpy( launch, "xdg-open ");
+          strcat( launch, buf);
 #endif
 #ifdef __APPLE__
-          strcpy( command, "open ");
-          strcat( command, buf);
+          strcpy( launch, "open ");
+          strcat( launch, buf);
 #endif
-#ifdef UNIX
+#ifdef _WIN32
+          strcpy( launch, buf);
+#endif
 			////	OPEN PDF SCORE ________________________________________________________
           if (x->SLAVE == 0 && x->render == 1) 				{
             post("notes: Opening PDF score ");
-			    	strcat( command, ".pdf");
-				    system( command);
+			    	strcat( launch, ".pdf");
+				    system( launch);
           }
-#endif
 	} // if a file is correctly provided.
 	else 									{
-		post("notes: ERROR: Can't flush because no input has been provided... you have to enter some notes!"); 
+		post("notes: ERROR: Can't flush because no input has been provided... you have to enter some notes!");
 	} //exit(1);
 	outlet_bang(x->x_outlet2);
 }
 ////	____________________________________________________ CLEAR
-void notes_clear(t_notes *x)											{	
+void notes_clear(t_notes *x)											{
 	x->auth_n = x->titl_n = x->sb_tp_index = x->i_index = x->ri_index = x->tp_index = x->tp_n = x->b_index = x->be_index = x->sb_index = 0;
 	x->refdur = 32;
  //   x->debug = 0;
     x->tempo = 0;
-    x->auth_n = x->titl_n = x->sub_title_n = 0; 
+    x->auth_n = x->titl_n = x->sub_title_n = 0;
     x->ri_mtr[x->ri_index][0] = x->ri_mtr[x->ri_index][1] = 4;
-	post("notes: Cleared"); 
+	post("notes: Cleared");
 }
 ////	____________________________________________________ PRINT
-void notes_print(t_notes *x)											{	
+void notes_print(t_notes *x)											{
 	post("notes: x->sb_tp_index = %d\nx->i_index = %d\nx->ri_index = %d\nx->tp_index = %d\nx->tp_n = %d\nx->b_index = %d\nx->be_index = %d\nx->sb_index = %d\n", x->sb_tp_index, x->i_index, x->ri_index, x->tp_index, x->tp_n, x->b_index, x->be_index, x->sb_index);
-} 
+}
 ////	____________________________________________________ REFERENCE DURATION
-void notes_refdur(t_notes *x, t_floatarg f) 							{	
+void notes_refdur(t_notes *x, t_floatarg f) 							{
 	x->refdur = f;
 	post("notes: Reference duration set to a 1/%i note", x->refdur);
 }
 ////	____________________________________________________ RENDERING SWITCH
-void notes_render(t_notes *x, t_floatarg f) 							{	
+void notes_render(t_notes *x, t_floatarg f) 							{
 	int i;
 	if (f == 0) {
 		i = 0;
@@ -2486,11 +2486,11 @@ void notes_render(t_notes *x, t_floatarg f) 							{
 	}
 	x->render = i;
 }
-////	____________________________________________________ DEBUG  
-void notes_debug(t_notes *x, t_floatarg f) 								{	
+////	____________________________________________________ DEBUG
+void notes_debug(t_notes *x, t_floatarg f) 								{
 	x->debug = (int) f;
 	post("debugging level = %d", x->debug);
-} 
+}
 ////	____________________________________________________ TITLE
 void notes_title(t_notes *x, t_symbol *s, int argc, t_atom *argv) 		{
 	x->dummysym = s->s_name;
@@ -2498,17 +2498,17 @@ void notes_title(t_notes *x, t_symbol *s, int argc, t_atom *argv) 		{
 	for(i=0;i<argc;i++){
 		atom_string(argv+i, x->title[i], 1000);
 	//	post(x->title[i]);
-	}	
+	}
 	x->titl_n = argc;
 }
-////	____________________________________________________ SUB_TITLE  
+////	____________________________________________________ SUB_TITLE
 void notes_sub_title(t_notes *x, t_symbol *s, int argc, t_atom *argv) 	{
 	x->dummysym = s->s_name;
 	int i;
 	for(i=0;i<argc;i++){
 		atom_string(argv+i, x->sub_title[i], 1000);
 	//	post(x->sub_title[i]);
-	}	
+	}
 	x->sub_title_n = argc;
 }
 ////	____________________________________________________ AUTHOR
@@ -2519,13 +2519,13 @@ void notes_author(t_notes *x, t_symbol *s, int argc, t_atom *argv) 		{
 		atom_string(argv+i, x->author[i], 1000);
 	//	post(x->author[i]);
 	}
-	x->auth_n = argc;	
+	x->auth_n = argc;
 }
 ////	____________________________________________________ AUTHOR
 void notes_inst(t_notes *x, t_symbol *s) 		{
 	strcpy (x->inst, s->s_name);
 	post("notes: instrument name = %s", x->inst);
-	x->inst_n = 1;	
+	x->inst_n = 1;
 }
 ////	____________________________________________________ Lilypond Location
 void notes_lily_dir(t_notes *x, t_symbol *s, int argc, t_atom *argv) 	{
@@ -2542,10 +2542,10 @@ void notes_readfile(t_notes *x, t_symbol *s)							{
 	post("notes: Master Bar File RECEIVED at %s", x->barfile);
 }
 ////	____________________________________________________ PAPER SIZE
-void notes_paper(t_notes *x, t_floatarg f, t_floatarg g) 								{	
+void notes_paper(t_notes *x, t_floatarg f, t_floatarg g) 								{
 	x->papersize 		= (int) f;
 	x->paperorientation = (int) g;
-} 
+}
 
 t_class *notes_class;
 void *notes_new(t_floatarg ff)												{
@@ -2559,7 +2559,7 @@ void *notes_new(t_floatarg ff)												{
     x->SLAVE 			= (int) ff;
     x->sb_tp_index = x->i_index = x->ri_index = x->tp_index = x->tp_n = x->b_index = x->be_index = 0;
     x->debug = 0;
-    x->inst_n = x->tempo = x->auth_n = x->titl_n = 0; 
+    x->inst_n = x->tempo = x->auth_n = x->titl_n = 0;
     x->refdur 			= 32;
     x->render 			= 1;
     x->papersize 		= 4;
@@ -2573,7 +2573,7 @@ void notes_setup(void)														{
     notes_class = 	class_new(gensym("notes"), (t_newmethod)notes_new, 0, sizeof(t_notes), 0, A_DEFFLOAT, 0);
 
 	class_addmethod(notes_class, (t_method)notes_input, 	gensym("input"), 	A_GIMME, 	0);
-	class_addmethod(notes_class, (t_method)notes_write, 	gensym("write"), 	A_SYMBOL,	0);	
+	class_addmethod(notes_class, (t_method)notes_write, 	gensym("write"), 	A_SYMBOL,	0);
 	class_addmethod(notes_class, (t_method)notes_title, 	gensym("title"), 	A_GIMME, 	0);
 	class_addmethod(notes_class, (t_method)notes_sub_title, gensym("sub_title"),A_GIMME, 	0);
 	class_addmethod(notes_class, (t_method)notes_author, 	gensym("author"), 	A_GIMME, 	0);
