@@ -469,3 +469,25 @@ void copyfiles(FILE *f, FILE *g)			{
 		if (a != EOF) fputc(a,  f);
 	}
 } // f1 into f2 
+
+void compile_score(char *buf, char *name, int debug, int SLAVE, int render) {
+    char command[MAXPDSTRING], launch[MAXPDSTRING];
+    // assume the lilypond command exists in the Path
+    strcpy( command, "lilypond -o ");
+    strcat( command, buf); 
+    strcat( command, " ");
+    strcat( command, name);
+    if (debug >= 1) post("notes: command = %s", command);
+    // RENDER THE SCORE TO PDF
+    if (SLAVE == 0 && render == 1) {
+      post("notes: compiling score ");
+      system( command);
+    }
+    // OPEN THE SCORE 
+    if (SLAVE == 0 && render == 1) 				{
+        snprintf(launch, MAXPDSTRING, "::pd_menucommands::menu_openfile {%s.pdf}\n", buf);
+        launch[MAXPDSTRING-1] = 0;
+        post("notes: Opening PDF score %s", launch);
+        sys_gui(launch);
+    }
+}
