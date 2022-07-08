@@ -1632,7 +1632,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		}
 		post("notes: ... Formatting Score... ");
 	//// _______________________________________________ ENGRAVING Programs
-		char o_pitch[10], o_jump[15], o_text[64], command[MAXPDSTRING], launch[MAXPDSTRING];
+		char o_pitch[10], o_jump[15], o_text[64];
 		int o_dur, t, f, tp;
 		char buf[MAXPDSTRING], partname[MAXPDSTRING], scorename[MAXPDSTRING], linename[MAXPDSTRING];
 		int m, tempint, span_switch, gliss_switch, clu_switch, gliss_break_switch;
@@ -2399,55 +2399,10 @@ void notes_write(t_notes *x, t_symbol *s)								{
 				SETSYMBOL(&paths[1], gensym(partname));
    				outlet_list(x->x_outlet0, 0, 2, paths);
 			}
-		//// ____________________________________________________________ COMPILE AND OPEN
-	/*		char dirresult[MAXPDSTRING], *nameresult;
-    		int fd;
-			post("scorename = %s", scorename);
-			fd = canvas_open(x->x_canvas, scorename, "", dirresult, &nameresult, MAXPDSTRING, 1);
-			post("dirresult = %s", dirresult);
-			post("nameresult = %s", nameresult); */
 
     }
-
-#ifdef __APPLE__
-          // post("notes: compiling score on mac");
-          strcpy( command, "exec ");
-          strcat( command, x->lily_dir);
-          strcat( command, "/");
-#else
-          strcpy( command, "lilypond -o ");
-#endif
-
-
-          // post("notes: compiling score on unix");
-          strcat( command, "lilypond -o ");
-          strcat( command, buf); // relative position to patch found whenopening fp1 above
-          strcat( command, " ");
-          strcat( command, scorename);
-          if (x->debug >= 1) post("notes: command = %s", command);
-			////	RENDER lilypond SCORE ________________________________________________
-          if (x->SLAVE == 0 && x->render == 1) 				{
-				    post("notes: compiling score ");
-            system( command);
-          }
-
-#ifdef unix // linux
-          strcpy( launch, "xdg-open ");
-          strcat( launch, buf);
-#endif
-#ifdef __APPLE__
-          strcpy( launch, "open ");
-          strcat( launch, buf);
-#endif
-#ifdef _WIN32
-          strcpy( launch, buf);
-#endif
-			////	OPEN PDF SCORE ________________________________________________________
-          if (x->SLAVE == 0 && x->render == 1) 				{
-            post("notes: Opening PDF score ");
-			    	strcat( launch, ".pdf");
-				    system( launch);
-          }
+    // compile and open
+    compile_score(buf, scorename, x->debug, x->SLAVE, x->render);
 	} // if a file is correctly provided.
 	else 									{
 		post("notes: ERROR: Can't flush because no input has been provided... you have to enter some notes!");

@@ -49,7 +49,7 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 //	post("WRITE METHOD");
 	int i, min, j, k, m, d, done[x->i_part_i];
 	char a;
-	char command[MAXPDSTRING], buf[MAXPDSTRING], partpath[MAXPDSTRING], scorename[MAXPDSTRING], linename[MAXPDSTRING];
+	char buf[MAXPDSTRING], partpath[MAXPDSTRING], scorename[MAXPDSTRING], linename[MAXPDSTRING];
 	FILE *fp1, *fp2;
 //// _______________________________________________ REORDER INPUT
 	post("mainscore: Sorting Input ...");
@@ -207,44 +207,8 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 		fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% mainscore Pd External version testing \n");
 		fclose(fp1);
 		post("mainscore: .ly score finished");
-	//// ____________________________________________________________ COMPILE AND OPEN	
-#ifdef _WIN32
-         post("notes: compiling score on windows not implemented yet");
-#endif
-#ifdef __APPLE__
-          strcpy( command, "exec ");
-          strcat( command, x->lily_dir);
-          strcat( command, "/");
-#endif
-#ifdef UNIX
-          strcpy( command, "lilypond -o ");
-          strcat( command, buf); // relative position to patch found whenopening fp1 above
-          strcat( command, " ");
-          strcat( command, scorename);
-          if (x->debug >= 1) post("notes: command = %s", command);
-          // if (x->SLAVE == 0 && x->render == 1) 				{
-			////	RENDER lilypond SCORE ________________________________________________
-				    post("notes: compiling score "); 
-            system( command);
-          // }
-#endif
-#ifdef unix // linux
-          strcpy( command, "xdg-open ");  
-          strcat( command, buf);
-#endif
-#ifdef __APPLE__
-          strcpy( command, "open ");
-          strcat( command, buf);
-#endif
-#ifdef UNIX
-			////	OPEN PDF SCORE ________________________________________________________
-          // if (x->SLAVE == 0 && x->render == 1) 				{
-            post("notes: Opening PDF score ");
-			    	strcat( command, ".pdf");
-				    system( command);
-          // }
-#endif
-
+    // compile and open
+    compile_score(buf, scorename, x->debug, 0, 1);
     }  // if a file is correctly provided.
 	//*/
 }
