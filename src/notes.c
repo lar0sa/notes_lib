@@ -49,7 +49,7 @@ typedef struct notes 													{
 ////////////////// ******* SUB-BEAT DATA:
   int sb_index, sb_bar_n[MXS], sb_beat_n[MXS], sb_tie[MXS], sb_dur[MXS], sb_i[MXS], sb_rii[MXS], sb_tup[MXS];
 
-  char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[130], barfile[150], inst[150];
+  char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[MAXPDSTRING], barfile[MAXPDSTRING], inst[150];
   const char *dummysym; // const to remove warning
   int ii, refdur, debug, auth_n, titl_n, sub_title_n, tempo, OS, lastpit_ch, lastpit;
   int SLAVE, inst_n, papersize, paperorientation, render;
