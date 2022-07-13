@@ -1,0 +1,7 @@
+.DS_Store
+*.o
+*.s
+*.pd_darwin
+*.pd_linux
+*.dll
+.vscode/
