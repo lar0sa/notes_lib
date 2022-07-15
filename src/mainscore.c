@@ -20,6 +20,7 @@ typedef struct mainscore 														{
   const char *dummysym; // const to remove warning
   int ii, debug, auth_n, titl_n, sub_title_n;
   int inst_n, papersize, paperorientation, part_i, i_part_i, voice, total_voices;
+  int open;
 } 
 t_mainscore;
 ////	____________________________________________________ INPUT
@@ -208,7 +209,9 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 		fclose(fp1);
 		post("mainscore: .ly score finished");
     // compile and open
-    compile_score(buf, scorename, x->debug, 0, 1);
+    if(!compile_and_open(buf, scorename, x->debug, 0, 1, x->open)){
+      pd_error(x, "notes: error compiling score");
+    }
     }  // if a file is correctly provided.
 	//*/
 }
@@ -217,6 +220,19 @@ void mainscore_clear(t_mainscore *x)											{
 	x->part_i = x->i_part_i = 0;
     x->auth_n = x->titl_n = x->sub_title_n = 0; 
 	post("mainscore: Cleared");
+}
+////	____________________________________________________ OPENING SWITCH
+void mainscore_open(t_mainscore *x, t_floatarg f) 							{
+	int i;
+	if (f == 0) {
+		i = 0;
+		post("mainscore: score opening off");
+	}
+	else {
+		i = 1;
+		post("mainscore: score opening on");
+	}
+	x->open = i;
 }
 ////	____________________________________________________ DEBUG  
 void mainscore_debug(t_mainscore *x, t_floatarg f) 								{	
@@ -281,6 +297,7 @@ void *mainscore_new(t_floatarg ff)												{
 	x->paperorientation 	= 0;
 	x->part_i = x->part_i	= 0;
 	x->total_voices			= (int) ff;
+  x->open = 1;
     return (void *)x;
 }
 void mainscore_setup(void)														{
@@ -295,6 +312,7 @@ void mainscore_setup(void)														{
 	class_addmethod(mainscore_class, (t_method)mainscore_clear, 	gensym("clear"), 				0);
 	class_addmethod(mainscore_class, (t_method)mainscore_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(mainscore_class, (t_method)mainscore_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
+  class_addmethod(mainscore_class, (t_method)mainscore_open, 	gensym("open"), 	A_DEFFLOAT, 0);
   class_sethelpsymbol(mainscore_class, gensym("notes"));
 	// post("mainscore:\ttesting version: 2015-03-26");
 }

@@ -52,7 +52,7 @@ typedef struct notes 													{
   char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[MAXPDSTRING], barfile[MAXPDSTRING], inst[150];
   const char *dummysym; // const to remove warning
   int ii, refdur, debug, auth_n, titl_n, sub_title_n, tempo, OS, lastpit_ch, lastpit;
-  int SLAVE, inst_n, papersize, paperorientation, render;
+  int SLAVE, inst_n, papersize, paperorientation, render, open;
 }
 t_notes;
 
@@ -2402,7 +2402,9 @@ void notes_write(t_notes *x, t_symbol *s)								{
 
     }
     // compile and open
-    compile_score(buf, scorename, x->debug, x->SLAVE, x->render);
+    if(compile_and_open(buf, scorename, x->debug, x->SLAVE, x->render, x->open)){
+      pd_error(x, "notes: error compiling score");
+    }
 	} // if a file is correctly provided.
 	else 									{
 		post("notes: ERROR: Can't flush because no input has been provided... you have to enter some notes!");
@@ -2440,6 +2442,19 @@ void notes_render(t_notes *x, t_floatarg f) 							{
 		post("notes: score rendering on");
 	}
 	x->render = i;
+}
+////	____________________________________________________ OPENING SWITCH
+void notes_open(t_notes *x, t_floatarg f) 							{
+	int i;
+	if (f == 0) {
+		i = 0;
+		post("notes: score opening off");
+	}
+	else {
+		i = 1;
+		post("notes: score opening on");
+	}
+	x->open = i;
 }
 ////	____________________________________________________ DEBUG
 void notes_debug(t_notes *x, t_floatarg f) 								{
@@ -2517,6 +2532,7 @@ void *notes_new(t_floatarg ff)												{
     x->inst_n = x->tempo = x->auth_n = x->titl_n = 0;
     x->refdur 			= 32;
     x->render 			= 1;
+    x->open         = 1;
     x->papersize 		= 4;
 	x->paperorientation = 0;
   x->OS = -1; // -1 = undefined OS, 0 = Mac, 1 = Linux
@@ -2541,4 +2557,5 @@ void notes_setup(void)														{
 	class_addmethod(notes_class, (t_method)notes_render, 	gensym("render"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
+	class_addmethod(notes_class, (t_method)notes_open, 	gensym("open"), 	A_DEFFLOAT, 0);
 }

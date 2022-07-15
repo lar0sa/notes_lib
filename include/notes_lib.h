@@ -47,7 +47,10 @@ void find_arpeggio(int a, FILE *f);
 void find_notehead(int a, FILE *f);
 int readbarfile(int a[][8], FILE *f);
 void copyfiles(FILE *f, FILE *g);
-void compile_score(char *buf, char *name, int debug, int SLAVE, int render);
+// score compiling and opening routines
+int compile(char *buf, char *name, int debug);
+void open_pdf(char *buf);
+int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, int open);
 
 // setup routines
 void mainscore_setup();
