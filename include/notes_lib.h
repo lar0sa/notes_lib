@@ -3,10 +3,10 @@
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
 // updated by Fede Camara Halac (fch226@nyu.edu)
-// Released under the GNU General Public License. 
+// Released under the GNU General Public License.
 
 #include "m_pd.h"
-#include "g_canvas.h" 
+#include "g_canvas.h"
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,10 +15,10 @@
 #define MXS 2048 // Maximum size of arrays  ( or input messages...)
 
 #if  defined(__APPLE__) || defined(unix)
-#define UNIX 1 
-#else 
+#define UNIX 1
+#else
 // We need this for getline() to work on windows. TODO: remove this dependency.
-#include "getline.h" 
+#include "getline.h"
 #endif
 
 // The following are the definitions for the Lilypond path in different platforms. Used in the compile() function in notes_lib.c
@@ -27,11 +27,11 @@
 // assume the lilypond is in Applications...
 #define LYDIR "/Applications/LilyPond.app"
 #define LYBINDIR "/Contents/Resources/bin/"
-
-#elif defined _WIN32
-// assume lilypond is in Program Files (x86)...
-#define LYDIR "C:\\Program Files (x86)\\LilyPond"
-#define LYBINDIR "\\usr\\bin\\"
+//
+// #elif defined _WIN32
+// // assume lilypond is in Program Files (x86)...
+// #define LYDIR "C:\Program Files (x86)\LilyPond"
+// #define LYBINDIR "\\usr\\bin\\"
 
 #else // Do not define LY paths for other platforms.
 // assume the lilypond command exists in the Path
@@ -74,5 +74,3 @@ int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, in
 void mainscore_setup();
 void line2score_setup();
 void notes_setup();
-
-
