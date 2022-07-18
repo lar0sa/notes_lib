@@ -125,7 +125,7 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 	strcat( scorename, ".ly");
 	fp1 = fopen(scorename, "w");
 	if(!fp1)						{
-		error("%s: couldn't create", buf);
+		pd_error(x,"%s: couldn't create", buf);
 		return;
 	}
 //// _______________________________________________ WRITE SCORE	
@@ -209,7 +209,7 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 		fclose(fp1);
 		post("mainscore: .ly score finished");
     // compile and open
-    if(!compile_and_open(buf, scorename, x->debug, 0, 1, x->open)){
+    if(compile_and_open(buf, scorename, x->debug, 0, 1, x->open,LYBINDIR)){
       pd_error(x, "notes: error compiling score");
     }
     }  // if a file is correctly provided.

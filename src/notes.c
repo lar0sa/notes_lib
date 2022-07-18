@@ -1063,7 +1063,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			FILE *fp3;
 			fp3 = fopen( x->barfile, "r");
 			if(!fp3) {
-				error("%s: couldn't read barfile, send one to the second inlet", x->barfile);
+				pd_error(x, "%s: couldn't read barfile, send one to the second inlet", x->barfile);
 				return;
 			}
 			else 	ii = readbarfile(x->bar_info, (FILE *) fp3); //////sdsdfsdfsdfsdf
@@ -1225,7 +1225,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			outlet_symbol(x->x_outlet1, masterbar);
 			fp = fopen(bar_buf, "w");
 			if(!fp)	{
-				error("%s: couldn't create", bar_buf);
+				pd_error(x, "%s: couldn't create", bar_buf);
 				return;
 			}
 			else {
@@ -1648,7 +1648,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		strcat( scorename, ".ly");
 		fp1 = fopen(scorename, "w");
 		if(!fp1)						{
-			error("%s: couldn't create", buf);
+			pd_error(x, "%s: couldn't create", buf);
 			return;
 		}
 	//// _______________________________________________ WRITE SCORE
@@ -1687,7 +1687,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			strcat( partname, "_part.ly");
 			fp2 = fopen(partname, "w");
 			if(!fp2)						{
-				error("%s: couldn't create", buf);
+				pd_error(x, "%s: couldn't create", buf);
 				return;
 			}
 			else {
@@ -2402,7 +2402,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 
     }
     // compile and open
-    if(compile_and_open(buf, scorename, x->debug, x->SLAVE, x->render, x->open)){
+    if(compile_and_open(buf,scorename,x->debug,x->SLAVE,x->render,x->open, x->lily_dir)){
       pd_error(x, "notes: error compiling score");
     }
 	} // if a file is correctly provided.
@@ -2501,7 +2501,7 @@ void notes_inst(t_notes *x, t_symbol *s) 		{
 void notes_lily_dir(t_notes *x, t_symbol *s, int argc, t_atom *argv) 	{
 	int i; i = argc; i++;
 	x->dummysym = s->s_name;
-	atom_string(argv, x->lily_dir, 1000);
+	atom_string(argv, x->lily_dir, MAXPDSTRING);
 	post("notes: Lilypond directory set to: %s", x->lily_dir);
 }
 ////	____________________________________________________ READFILE
@@ -2534,15 +2534,15 @@ void *notes_new(t_floatarg ff)												{
     x->render 			= 1;
     x->open         = 1;
     x->papersize 		= 4;
-	x->paperorientation = 0;
-  x->OS = -1; // -1 = undefined OS, 0 = Mac, 1 = Linux
-	strcpy( x->lily_dir, "~/bin");
-    strcpy (x->inst, "inst");
+	  x->paperorientation = 0;
+  
+	  strcpy(x->lily_dir, LYDIR); // see notes_lib.h
+    strcpy(x->inst, "inst");
     return (void *)x;
 }
 void notes_setup(void)														{
-    notes_class = 	class_new(gensym("notes"), (t_newmethod)notes_new, 0, sizeof(t_notes), 0, A_DEFFLOAT, 0);
-
+    notes_class = class_new(gensym("notes"), (t_newmethod)notes_new, 0, sizeof(t_notes), 0, A_DEFFLOAT, 0);
+  
 	class_addmethod(notes_class, (t_method)notes_input, 	gensym("input"), 	A_GIMME, 	0);
 	class_addmethod(notes_class, (t_method)notes_write, 	gensym("write"), 	A_SYMBOL,	0);
 	class_addmethod(notes_class, (t_method)notes_title, 	gensym("title"), 	A_GIMME, 	0);

@@ -470,21 +470,22 @@ void copyfiles(FILE *f, FILE *g)			{
 	}
 } // f1 into f2 
 
-int compile(char *buf, char *name, int debug) {
+int compile(char *buf, char *name, int debug, char *lily_dir) {
     char cmdbuf[MAXPDSTRING];
-    post("notes: compiling score");
-    // assume the lilypond command exists in the Path
-    snprintf(cmdbuf, MAXPDSTRING, "lilypond -o %s %s", buf, name);
+    if (debug >= 1) post("notes: compiling score");
+
+    snprintf(cmdbuf, MAXPDSTRING, "%s%slilypond -o %s %s", lily_dir, LYBINDIR, buf, name);
+
     cmdbuf[MAXPDSTRING-1] = 0;
     if (debug >= 1) post("notes: cmdbuf = %s", cmdbuf);
     // RENDER THE SCORE TO PDF
     if (!system(cmdbuf)) {    
-      post("notes: score compiled");
+      if (debug >= 1) post("notes: score compiled");
       return 0;
     } else {
       post("notes: score did not compile");
-      post("... you might want to run the following command manually:");
-      post("%s", cmdbuf);
+      post("... you might want to run the following command manually:\n");
+      post("%s\n", cmdbuf);
       return 1;
     }
 }
@@ -498,21 +499,21 @@ void open_pdf(char *buf) {
     sys_gui(cmdbuf);
 }
 
-int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, int OPEN) {
+int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, int OPEN, char *lily_dir) {
     if (!render) {
       if (debug >= 1) post("notes: skipping score rendering");
     } else if (SLAVE == 1) {
       if (debug >= 1) post("notes: render disabled in slave mode");
     } else { // SLAVE == 0 && render == 1
       if (!system(NULL)) {
-        post("notes: system() not found");
+        if (debug >= 1) post("notes: system() not found");
         return 1;
       } else {
-        if(compile(buf, name, debug))  {
-          post("notes: score did not compile");
-          return 1;
+        if(!compile(buf, name, debug, lily_dir))  {
+            if (OPEN) open_pdf(buf);
          } else {
-           if (OPEN) open_pdf(buf);
+            if (debug >= 1) post("notes: score did not compile");
+            return 1;
          }
       }
     }

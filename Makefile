@@ -1,7 +1,7 @@
 # Makefile for notes
 
 # specify a location for Pd if desired
-# PDDIR = /home/yourname/somedirectory/pd-0.49-0
+PDDIR = ../pure-data
 
 lib.name = notesLib
 
