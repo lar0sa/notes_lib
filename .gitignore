@@ -5,3 +5,4 @@
 *.pd_linux
 *.dll
 .vscode/
+tests/

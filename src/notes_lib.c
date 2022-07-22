@@ -470,24 +470,52 @@ void copyfiles(FILE *f, FILE *g)			{
 	}
 } // f1 into f2 
 
-void compile_score(char *buf, char *name, int debug, int SLAVE, int render) {
-    char command[MAXPDSTRING], launch[MAXPDSTRING];
-    // assume the lilypond command exists in the Path
-    strcpy( command, "lilypond -o ");
-    strcat( command, buf); 
-    strcat( command, " ");
-    strcat( command, name);
-    if (debug >= 1) post("notes: command = %s", command);
+int compile(char *buf, char *name, int debug, char *lily_dir) {
+    char cmdbuf[MAXPDSTRING];
+    if (debug >= 1) post("notes: compiling score");
+
+    snprintf(cmdbuf, MAXPDSTRING, "%s%slilypond -o %s %s", lily_dir, LYBINDIR, buf, name);
+
+    cmdbuf[MAXPDSTRING-1] = 0;
+    if (debug >= 1) post("notes: cmdbuf = %s", cmdbuf);
     // RENDER THE SCORE TO PDF
-    if (SLAVE == 0 && render == 1) {
-      post("notes: compiling score ");
-      system( command);
+    if (!system(cmdbuf)) {    
+      if (debug >= 1) post("notes: score compiled");
+      return 0;
+    } else {
+      post("notes: score did not compile");
+      post("... you might want to run the following command manually:\n");
+      post("%s\n", cmdbuf);
+      return 1;
     }
-    // OPEN THE SCORE 
-    if (SLAVE == 0 && render == 1) 				{
-        snprintf(launch, MAXPDSTRING, "::pd_menucommands::menu_openfile {%s.pdf}\n", buf);
-        launch[MAXPDSTRING-1] = 0;
-        post("notes: Opening PDF score %s", launch);
-        sys_gui(launch);
+}
+
+void open_pdf(char *buf) {
+    char cmdbuf[MAXPDSTRING];
+    post("notes: Opening PDF score");
+    // OPEN THE .PDF SCORE (adapted from pdcontrol's browse method)
+    snprintf(cmdbuf, MAXPDSTRING, "::pd_menucommands::menu_openfile {%s.pdf}\n", buf);
+    cmdbuf[MAXPDSTRING-1] = 0;
+    sys_gui(cmdbuf);
+}
+
+int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, int OPEN, char *lily_dir) {
+    if (!render) {
+      if (debug >= 1) post("notes: skipping score rendering");
+    } else if (SLAVE == 1) {
+      if (debug >= 1) post("notes: render disabled in slave mode");
+    } else { // SLAVE == 0 && render == 1
+      if (!system(NULL)) {
+        if (debug >= 1) post("notes: system() not found");
+        return 1;
+      } else {
+        if(!compile(buf, name, debug, lily_dir))  {
+            if (OPEN) open_pdf(buf);
+         } else {
+            if (debug >= 1) post("notes: score did not compile");
+            return 1;
+         }
+      }
     }
+    return 0;
 }
