@@ -1,4 +1,4 @@
-#N canvas 625 0 693 778 10;
+#N canvas 625 0 664 804 10;
 #X declare -lib notesLib;
 #N canvas 148 114 650 567 rhythm-test 0;
 #X obj 49 20 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
@@ -103,7 +103,7 @@ is 32 \, and therefore to get a 16th note -dur must be 2 \, an 8th
 #X connect 18 0 8 0;
 #X connect 21 0 8 0;
 #X connect 22 0 2 0;
-#X restore 541 123 pd rhythm-test;
+#X restore 541 140 pd rhythm-test;
 #N canvas 284 58 515 711 tuplet-test 0;
 #X obj 17 13 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -434,7 +434,7 @@ you'll get a warning., f 76;
 #X connect 35 0 23 0;
 #X connect 36 0 23 0;
 #X connect 37 0 2 0;
-#X restore 543 253 pd tuplet-test;
+#X restore 543 270 pd tuplet-test;
 #N canvas 233 58 462 328 chords 0;
 #N canvas 271 90 412 519 generating-chords 0;
 #X obj -412 -15 f;
@@ -532,10 +532,10 @@ produce., f 35;
 #X connect 13 0 8 0;
 #X connect 14 0 8 0;
 #X connect 15 0 0 0;
-#X restore 571 101 pd chords;
-#X obj 39 564 notes;
-#X msg 39 56 clear;
-#X msg 114 82 refdur 32;
+#X restore 571 118 pd chords;
+#X obj 39 581 notes;
+#X msg 39 73 clear;
+#X msg 114 99 refdur 32;
 #N canvas 249 58 448 421 rests 0;
 #X obj 17 49 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -641,7 +641,7 @@ duration., f 64;
 #X connect 14 0 10 0;
 #X connect 15 0 4 0;
 #X connect 16 0 3 0;
-#X restore 577 166 pd rests;
+#X restore 577 183 pd rests;
 #N canvas 271 58 683 484 dynamics 0;
 #X obj 33 16 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -689,7 +689,7 @@ They can be stopped with a 2 or with any dynamic marking from 3 to
 #X connect 17 0 11 0;
 #X connect 18 0 11 0;
 #X connect 19 0 11 0;
-#X restore 561 209 pd dynamics;
+#X restore 561 226 pd dynamics;
 #N canvas 2131 188 467 373 articulation 0;
 #X obj 44 20 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -769,7 +769,7 @@ numbers 0 through 50, f 62;
 #X connect 15 0 1 0;
 #X connect 16 0 17 0;
 #X connect 17 0 8 0;
-#X restore 537 231 pd articulation;
+#X restore 537 248 pd articulation;
 #N canvas 15 74 403 481 meter 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -806,7 +806,7 @@ to be to fit as in the example above.., f 63;
 #X connect 8 0 5 0;
 #X connect 11 0 5 0;
 #X connect 12 0 5 0;
-#X restore 579 275 pd meter;
+#X restore 579 292 pd meter;
 #N canvas 607 219 422 381 tempo 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -836,8 +836,8 @@ are 120 quarter notes in a minute., f 65;
 #X connect 8 1 7 0;
 #X connect 9 0 6 0;
 #X connect 10 0 6 0;
-#X restore 580 297 pd tempo;
-#X msg 109 190 60 \, 62 \, 64 \, 65 \, 67 \, 69 \, 71 \, 72;
+#X restore 580 314 pd tempo;
+#X msg 109 207 60 \, 62 \, 64 \, 65 \, 67 \, 69 \, 71 \, 72;
 #N canvas 146 73 691 465 pitches 0;
 #X obj 139 320 notes;
 #X obj 108 23 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
@@ -1006,7 +1006,7 @@ we're using and its product in notation., f 74;
 #X connect 24 0 0 0;
 #X connect 25 0 13 0;
 #X connect 26 0 17 0;
-#X restore 565 80 pd pitches;
+#X restore 565 97 pd pitches;
 #N canvas 94 68 427 467 clefs 0;
 #X obj 80 54 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -1047,7 +1047,7 @@ show how each number corresponds to each clef: -clf 0 is treble \,
 #X connect 13 1 12 0;
 #X connect 14 0 11 0;
 #X connect 15 0 11 0;
-#X restore 577 144 pd clefs;
+#X restore 577 161 pd clefs;
 #N canvas 61 82 658 457 tremolo 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -1075,7 +1075,7 @@ f 49;
 #X connect 7 0 3 0;
 #X connect 8 0 3 0;
 #X connect 9 0 3 0;
-#X restore 568 319 pd tremolo;
+#X restore 568 336 pd tremolo;
 #N canvas 142 183 662 727 analysis-to-score 0;
 #X obj 46 -10 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -1345,7 +1345,7 @@ f 49;
 #X connect 38 1 17 0;
 #X connect 39 0 10 0;
 #X connect 40 0 8 0;
-#X restore 504 625 pd analysis-to-score;
+#X restore 504 642 pd analysis-to-score;
 #N canvas 301 81 624 790 spans 0;
 #X obj 31 7 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -1558,7 +1558,7 @@ see all options, f 35;
 #X connect 39 2 13 0;
 #X connect 40 0 7 0;
 #X connect 41 0 17 0;
-#X restore 580 341 pd spans;
+#X restore 580 358 pd spans;
 #N canvas 158 50 621 732 text 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -1835,28 +1835,28 @@ or arrow)., f 49;
 #X connect 42 0 13 0;
 #X connect 43 0 13 0;
 #X connect 44 0 4 0;
-#X restore 588 407 pd text;
-#X text 83 55 clear all input;
-#X msg 212 524 author www.nyu-waverlylabs.org;
-#X obj 140 463 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
+#X restore 588 424 pd text;
+#X text 83 72 clear all input;
+#X msg 212 541 author www.nyu-waverlylabs.org;
+#X obj 140 480 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
 #000000 #000000;
-#X obj 137 439 loadbang;
-#X text 222 433 titles and subtitles;
-#X msg 212 454 title notes: a music notation external for Pd, f 24
+#X obj 137 456 loadbang;
+#X text 222 450 titles and subtitles;
+#X msg 212 471 title notes: a music notation external for Pd, f 24
 ;
-#X msg 212 489 sub_title encodes your pd generated information into
+#X msg 212 506 sub_title encodes your pd generated information into
 lilyond readable syntax, f 41;
-#X text 138 105 1) For [notes] to generate a valid score \, you must
+#X text 138 122 1) For [notes] to generate a valid score \, you must
 provide a reference duration. [refdur 32( means that the smallest duration
 that will be provided (1) will be a 32nd. This is also the default.
 All durations must be integers., f 57;
-#X text 137 358 3) Finally \, the "write" message will produce the
+#X text 137 375 3) Finally \, the "write" message will produce the
 score \, encode it in lilypond syntax(other syntaxes would be possible)
 \, save it in the specified path and file name (in this case "./temp.ly")
 \, compile \, and open it., f 57;
-#X text 36 672 **************************************************************************************************
+#X text 36 689 **************************************************************************************************
 , f 98;
-#X text 37 41 **************************************************************************************************
+#X text 37 58 **************************************************************************************************
 , f 98;
 #N canvas 0 84 221 107 working-stuff 0;
 #N canvas 0 50 164 74 to_do 0;
@@ -2298,7 +2298,7 @@ score \, encode it in lilypond syntax(other syntaxes would be possible)
 #X connect 86 0 87 0;
 #X connect 87 0 80 1;
 #X restore 19 80 pd testing-relative;
-#X restore 38 685 pd working-stuff;
+#X restore 524 818 pd working-stuff;
 #N canvas 66 78 414 279 layout 0;
 #X obj 49 210 notes;
 #N canvas 0 58 414 391 somecontent 0;
@@ -2352,7 +2352,7 @@ score \, encode it in lilypond syntax(other syntaxes would be possible)
 #X connect 5 0 0 0;
 #X connect 7 0 0 0;
 #X connect 8 0 0 0;
-#X restore 558 503 pd layout;
+#X restore 558 520 pd layout;
 #N canvas 17 135 802 674 simple-probabilities 0;
 #X obj 182 158 t b b;
 #X obj 275 333 *;
@@ -2522,20 +2522,20 @@ score \, encode it in lilypond syntax(other syntaxes would be possible)
 #X connect 42 0 5 0;
 #X connect 43 0 34 0;
 #X connect 44 0 34 1;
-#X restore 486 647 pd simple-probabilities;
+#X restore 486 664 pd simple-probabilities;
 #X text 37 15 [notes] - an external to fit data into music notation
 and engraving it using lilypond, f 70;
-#X text 499 62 Single line EXAMPLES:;
-#X text 509 522 multiple voices and staves EXAMPLES:, f 19;
-#X msg 112 334 write test-score;
-#X text 497 604 EXAMPLE APPLICATIONS:;
-#X text 136 232 2) Every note expression begins with the word "input"
+#X text 499 79 Single line EXAMPLES:;
+#X text 509 539 multiple voices and staves EXAMPLES:, f 19;
+#X msg 112 351 write test-score;
+#X text 497 621 EXAMPLE APPLICATIONS:;
+#X text 136 249 2) Every note expression begins with the word "input"
 followed by a note's attributes. "-pit" for pitch \, "-dur" for duration
 \, -mtr for meter \, etc. In this case \, the first note "-pit 60"
 produces a middle C \, with a duration of 4 32nds ("-dur 4") which
 produces an 8th note. You must have at least one of these to generate
 a score., f 59;
-#X msg 109 211 input -pit \$1 -dur 4;
+#X msg 109 228 input -pit \$1 -dur 4;
 #N canvas 449 138 647 548 grace 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -2701,7 +2701,7 @@ in pairs and the second element specifies the rhythic value so 16 means
 #X connect 17 0 16 0;
 #X connect 19 0 8 0;
 #X connect 20 0 8 0;
-#X restore 580 363 pd grace;
+#X restore 580 380 pd grace;
 #N canvas 17 80 646 444 noteheads 0;
 #X obj 17 17 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
 #000000;
@@ -2755,7 +2755,7 @@ a chord., f 36;
 #X connect 20 0 12 0;
 #X connect 21 0 11 0;
 #X connect 21 0 20 0;
-#X restore 556 384 pd noteheads;
+#X restore 556 401 pd noteheads;
 #N canvas 83 78 373 422 tie 0;
 #X obj 48 318 notes;
 #X obj 17 21 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
@@ -2813,7 +2813,7 @@ a chord., f 36;
 #X connect 9 0 10 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X restore 590 188 pd tie;
+#X restore 590 205 pd tie;
 #N canvas 159 67 634 453 cluster 0;
 #X obj -22 342 notes;
 #X obj -53 9 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
@@ -2874,7 +2874,7 @@ a chord., f 36;
 #X connect 9 0 0 0;
 #X connect 10 0 0 0;
 #X connect 11 0 0 0;
-#X restore 570 429 pd cluster;
+#X restore 570 446 pd cluster;
 #N canvas 0 50 450 300 arpeggios 0;
 #X obj -429 -125 t b b b, f 14;
 #X obj -429 -151 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc
@@ -2912,7 +2912,7 @@ produce., f 35;
 #X connect 12 0 10 1;
 #X connect 13 0 4 0;
 #X connect 14 0 4 0;
-#X restore 558 450 pd arpeggios;
+#X restore 558 467 pd arpeggios;
 #N canvas 2047 224 279 310 instrument-specific 0;
 #N canvas 0 60 805 610 harp-pedal 0;
 #X obj 173 506 notes;
@@ -3198,8 +3198,8 @@ touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 #X connect 28 0 6 0;
 #X connect 29 0 6 0;
 #X restore 17 69 pd harmonics;
-#X restore 499 471 pd instrument-specific;
-#N canvas 0 60 427 120 multiple 1;
+#X restore 499 488 pd instrument-specific;
+#N canvas 0 60 427 120 multiple 0;
 #N canvas 51 74 534 682 multiple_voices 0;
 #X obj 68 368 s \$0-master-path;
 #X obj 238 429 r \$0-master-path;
@@ -3755,36 +3755,25 @@ with [notes] and [mainscore] objects \, paper 4 1, f 23;
 material \, try to use [notes 0] and then mainscore. Whenever possible
 give meter markings to all parts rather than trusting the automatic
 metering from a main part on to others., f 40;
-#X restore 555 563 pd multiple;
-#X text 161 754 https://github.com/lar0sa/notes_lib;
-#X obj 497 18 declare -lib notesLib;
-#N canvas 113 166 899 618 CONFIGURATION 0;
+#X restore 555 580 pd multiple;
+#X text 78 755 Jaime E. Oliver La Rosa \, 2014-22 // la.rosa@nyu.edu
+// https://github.com/lar0sa/notes_lib Fede Cámara Halac \, 2022 //
+fch226@nyu.edu // fdch.github.io, f 91;
+#X obj 477 14 cnv 15 150 30 empty empty empty 20 12 0 14 #ffc7c6 #404040
+0;
+#X obj 486 22 declare -lib notesLib;
+#X obj 205 713 cnv 15 250 30 empty empty empty 20 12 0 14 #c6ffc7 #404040
+0;
+#N canvas 113 166 577 539 CONFIGURATION 0;
 #X text 58 172 notes can compile your created lilypond scores into
 pdfs \, but in order to do so you must install Lilypond in a place
 the external will be able to find it., f 68;
-#X text 54 494 Finally \, it would be really fantastic if you could
-e-mail me to let me know about the projects you've used the object
-on \, and acknowldge it wherever appropriate as this is how the university
-values the impact of its research., f 68;
 #X text 58 113 The external will produce scores that should compile
 with Lilypond. It is not designed to produce final scores although
 this is conceivable. I often go to lilypond and edit \, copy \, combine
 and modify scores in various ways., f 68;
-#X text 56 554 Thanks!;
-#X text 296 559 Jaime E. Oliver La Rosa \, la.rosa@nyu.edu, f 24;
-#X text 54 431 The object is for use under your own risk and I do want
-to hear your suggestions \, requests \, and bug reports. Please do
-that through github or the Pd List as there are a few more users out
-there that could help. Of course \, you're welcome to suggest code
-and modify the source code yourself., f 68;
-#X text 59 17 The notes external for Pure Data was conceived as an
-aid for computer assisted composition (CAC) \, generative music \,
-and other places where traditional music notation might come useful.
-While it is designed primarily for my own use in composing and teaching
-\, I thought it could be of general use \, so I made a decent external
-and released it under the GPL license. With contributions by Fede Camara
-it now works in newer OSX systems and Windows and there are now friendlier
-ways to work.., f 68;
+#X text 57 431 Thanks!;
+#X text 297 436 Jaime E. Oliver La Rosa \, la.rosa@nyu.edu, f 24;
 #N canvas 64 64 450 300 installing 0;
 #N canvas 39 380 424 330 locating 0;
 #X obj 14 286 notes;
@@ -3815,24 +3804,53 @@ in your Applications forlder by sending a message, f 68;
 to simply run "lilypond" in the command line to execute it. Updated
 recommendations will be in INSTALL.txt, f 68;
 #X restore 59 230 pd installing and locating Lilypond;
-#N canvas 96 96 450 300 how 0;
-#X text 13 23 Needless to say \, the external itself must be in Pd's
-search path \, otherwise \, it won't load and you'll see a dotted line
-in the external box. This is generally done with a [declare -path]
-object or through the path menu in the Pd preferences. I hope we can
-add it to deken shortly. For now \, the usual place for externals is
-in youruser/Documents/Pd/Externals \, so you should drop your notes_lib
-folder there. Updated recommendations will be in INSTALL.txt, f 68
+#N canvas 96 96 445 392 how 0;
+#X text 13 23 [notes] is a library that contains three Pd objects.
+To use it \, you can either 1) tell Pd to load the notesLib binary
+file at startup via Pd's "Preferences/Startup" dialog \, or 2) use
+the [declare] object to load notes as needed per patch., f 68;
+#X text 18 245 For method 2) \, assuming notes is installed to the
+default Externals Install Directory \, you can simply use the [declare]
+object like this: [declare -lib notes/notesLib];
+#X text 19 290 If notes is loaded successfully (using either method)
+\, you will see a message in Pd's post window stating the notes version
+number.;
+#X text 14 77 For method 1) \, make a new startup path in the Startup
+dialog \, and provide the path to the notesLib binary in this directory.
+Note that you must not list the extension of the notesLib file (i.e.
+\, pd_linux \, pd_darwin \, or dll). For example: /home/yourname/Pd/externals/notes/notesLib
 ;
+#X text 18 145 When using Pd's Startup dialog on Windows \, note that
+you still give the path with forward slashes \, and spaces in the path
+are ok. There is still no need to list the library file extension of
+.dll. For instance: C:/Users/Your Name/Documents/Pd/externals/notes/notesLib
+;
+#X text 18 209 Once you have listed the path to notesLib in the Startup
+dialog \, you must quit and restart Pd.;
 #X restore 59 251 pd how will pd find your external;
 #N canvas 128 128 450 300 compile 0;
 #X text 14 24 if you want to compile a score \, but not open it \,
 you need to send the message "open 1" or "open 0" to the notes or mainscore
 objects;
 #X restore 60 275 pd compile but not open a score;
-#X restore 432 685 pd CONFIGURATION and suggestions;
-#X text 90 710 Jaime E. Oliver La Rosa \, 2014-22 // la.rosa@nyu.edu
-// nyu-waverlylabs.org Fede Cámara Halac \, 2022 //, f 75;
+#X text 59 17 The notes external for Pure Data was conceived as an
+aid for computer assisted composition (CAC) \, generative music \,
+and other places where traditional music notation might come useful.
+While it is designed primarily for my own use in composing and teaching
+\, I thought it could be of general use \, so I made a decent external
+and released it under the GPL license. With contributions by Fede Cámara
+it now works in newer OSX systems and Windows and several other gret
+improvements.., f 68;
+#X text 55 308 The object is for use under your own risk and we do
+want to hear your suggestions \, requests \, and bug reports. Please
+do that through github or the Pd List as there are a few more users
+out there that could help. Of course \, you're welcome to suggest code
+and modify the source code yourself., f 68;
+#X text 55 371 Finally \, it would be really fantastic if you could
+e-mail me to let me know about the projects you've used the object
+on \, and acknowldge it wherever appropriate as this is how the university
+\, my employer \, values the impact of its research., f 68;
+#X restore 236 721 pd CONFIGURATION and suggestions;
 #X connect 4 0 3 0;
 #X connect 5 0 3 0;
 #X connect 11 0 38 0;
