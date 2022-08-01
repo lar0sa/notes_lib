@@ -1,6 +1,8 @@
 # about notes
 
-## loading the library in Pd
+##############################
+## LOADING the library in Pd
+##############################
 
 [notes] is a library that contains three Pd objects. To use it, you can either 1) tell Pd to load the notesLib binary file at startup via Pd's "Preferences/Startup" dialog, or 2) use the [declare] object to load notes as needed per patch.
 
@@ -20,10 +22,28 @@ For method 2), assuming notes is installed to the default Externals Install Dire
 
 If notes is loaded successfully (using either method), you will see a message in Pd's post window stating the notes version number.
 
-## building notes from source
+##############################
+## BUILDING notes from source
+##############################
 
 As of notes 0.2, pd-lib-builder is used for building:
 
 <https://github.com/pure-data/pd-lib-builder>
 
 Once you have installed pd-lib-builder, you must specify its location at the bottom of the Makefile in this directory (default is one directory above, ie: "../"). Then, you can make notes by typing "make" in this directory.
+
+##############################
+## INSTALLING LilyPond to compile PDFs directly from within Pd
+##############################
+
+## LINUX ##
+
+Install lilypond via apt-get, yum, or similar and make sure you can run it from the command line and notes will find it.
+
+## OSX ##
+
+Install Lilypond with the regular installer from lilypond.org. Notes will use the default location in the Applications folder. If you install it elsewhere you will need to point to it from inside the patch by sending a lily_dir message to the notes object. See helpfile for further details.
+
+## WINDOWS ##
+
+Install Lilypond with the regular installer from lilypond.org, and then follow these instructions to run it in the command line: https://lilypond.org/windows.html

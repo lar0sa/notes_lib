@@ -12,7 +12,7 @@
 #include <string.h>
 
 #define MXV 128 // Maximum number of voices (for mainscore)
-#define MXS 2048 // Maximum size of arrays  ( or input messages...)
+#define MXS 4096 // Maximum size of arrays  ( or input messages or notes per score...)
 
 #if  defined(__APPLE__) || defined(unix)
 #define UNIX 1
@@ -43,7 +43,7 @@
 #define fopen sys_fopen
 #define fclose sys_fclose
 
-#define NOTESLIBVERSION "Testing version: 2021-07-03"
+#define NOTESLIBVERSION "0.2: 2022-08-01"
 
 // helper functions in notes_lib.c
 float reduce_meter(int a);

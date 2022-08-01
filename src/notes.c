@@ -52,7 +52,7 @@ typedef struct notes 													{
   char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[MAXPDSTRING], barfile[MAXPDSTRING], inst[150];
   const char *dummysym; // const to remove warning
   int ii, refdur, debug, auth_n, titl_n, sub_title_n, tempo, OS, lastpit_ch, lastpit;
-  int SLAVE, inst_n, papersize, paperorientation, render, open;
+  int FOLLOW, inst_n, papersize, paperorientation, render, open;
 }
 t_notes;
 
@@ -923,7 +923,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 		if (x->debug >= 1) post(".\nBAR PROGRAMs ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::\n.");
 /////////////////////// BREAK INPUT INTO BARS
 		int ii;
-		if (x->SLAVE == 0) {
+		if (x->FOLLOW == 0) {
 			beatsize = exp2f( (float) (log2f((float) x->refdur) - log2f((float) x->i_mtr[0][1])));
 			barsize = (int) x->i_mtr[0][0] * beatsize;
 			x->bar_info[0][0] = 0;
@@ -1214,7 +1214,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 			post("\nBAR INFORMATION\n");
 			post("i\tinit\telems\tnum\tden\tbeatsize\tbarsize");
 		} //// Print bar info headers
-		if (x->SLAVE == 0) 				{
+		if (x->FOLLOW == 0) 				{
 			char bar_buf[MAXPDSTRING];
 			FILE *fp;
 
@@ -1233,7 +1233,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 					j = x->bar_info[i+1][0] - x->bar_info[i][0];
 					if (i == bar_number) j = x->b_index - x->bar_info[i][0];
 					if (x->debug >= 1) post("%d\t%d\t%d\t%d\t%d\t%d\t%d\t", i, x->bar_info[i][0], j, x->bar_info[i][1], x->bar_info[i][2], x->bar_info[i][3], x->bar_info[i][4]);
-					if (x->SLAVE == 0) fprintf(fp, "%d %d %d %d %d\n", i, x->bar_info[i][1], x->bar_info[i][2], x->bar_info[i][3], x->bar_info[i][4]);
+					if (x->FOLLOW == 0) fprintf(fp, "%d %d %d %d %d\n", i, x->bar_info[i][1], x->bar_info[i][2], x->bar_info[i][3], x->bar_info[i][4]);
 				}
 			}
 			fclose(fp);
@@ -2402,7 +2402,7 @@ void notes_write(t_notes *x, t_symbol *s)								{
 
     }
     // compile and open
-    if(compile_and_open(buf,scorename,x->debug,x->SLAVE,x->render,x->open, x->lily_dir)){
+    if(compile_and_open(buf,scorename,x->debug,x->FOLLOW,x->render,x->open, x->lily_dir)){
       pd_error(x, "notes: error compiling score");
     }
 	} // if a file is correctly provided.
@@ -2526,7 +2526,7 @@ void *notes_new(t_floatarg ff)												{
   	x->x_outlet2 = outlet_new(&x->x_ob, &s_symbol);
   	x->x_outlet3 = outlet_new(&x->x_ob, gensym("float"));
     x->x_canvas = canvas_getcurrent();
-    x->SLAVE 			= (int) ff;
+    x->FOLLOW 			= (int) ff;
     x->sb_tp_index = x->i_index = x->ri_index = x->tp_index = x->tp_n = x->b_index = x->be_index = 0;
     x->debug = 0;
     x->inst_n = x->tempo = x->auth_n = x->titl_n = 0;

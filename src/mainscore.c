@@ -16,7 +16,8 @@ typedef struct mainscore 														{
   
   int part_n[MXV][2], i_part_n[MXV][2];
   char parts[MXV][2][130], i_parts[MXV][2][130];
-  char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[130], barfile[150], inst[150];
+  char title[64][130], sub_title[64][130], author[64][130], osname[130], lily_dir[MAXPDSTRING], barfile[MAXPDSTRING], inst[150];
+ 
   const char *dummysym; // const to remove warning
   int ii, debug, auth_n, titl_n, sub_title_n;
   int inst_n, papersize, paperorientation, part_i, i_part_i, voice, total_voices;
