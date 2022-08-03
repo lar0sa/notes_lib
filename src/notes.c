@@ -2,7 +2,7 @@
 // Encodes information created in Pd into a Lilypond score (lilypond.org)
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
-// updated by Fede Camara Halac (fch226@nyu.edu)
+// with contributions by Fede Camara Halac (fch226@nyu.edu)
 // Released under the GNU General Public License.
 
 #include "notes_lib.h"
@@ -2556,5 +2556,5 @@ void notes_setup(void)														{
 	class_addmethod(notes_class, (t_method)notes_render, 	gensym("render"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(notes_class, (t_method)notes_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
-	class_addmethod(notes_class, (t_method)notes_open, 	gensym("open"), 	A_DEFFLOAT, 0);
+	class_addmethod(notes_class, (t_method)notes_open, 		gensym("open"), 	A_DEFFLOAT, 0);
 }

@@ -318,5 +318,5 @@ void mainscore_setup(void)														{
 	class_addmethod(mainscore_class, (t_method)mainscore_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
     class_addmethod(mainscore_class, (t_method)mainscore_open, 	gensym("open"), 	A_DEFFLOAT, 0);
     class_sethelpsymbol(mainscore_class, gensym("notes"));
-	post("mainscore:\ttesting: 20220802-1");
+	//post("mainscore:\ttesting: 20220802-1");
 }

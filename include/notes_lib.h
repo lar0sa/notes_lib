@@ -2,7 +2,7 @@
 // Encodes information created in Pd into a Lilypond score (lilypond.org)
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
-// updated by Fede Camara Halac (fch226@nyu.edu)
+// with contributions by Fede Camara Halac (fch226@nyu.edu)
 // Released under the GNU General Public License.
 
 #include "m_pd.h"
@@ -43,7 +43,7 @@
 #define fopen sys_fopen
 #define fclose sys_fclose
 
-#define NOTESLIBVERSION "0.2: 2022-08-01"
+#define NOTESLIBVERSION "0.2: 2022-08-02"
 
 // helper functions in notes_lib.c
 float reduce_meter(int a);

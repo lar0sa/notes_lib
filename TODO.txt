@@ -1,1 +1,1 @@
-- implement multiple voices, staves, and instrument names
+- check compatibility with other languages
