@@ -2,7 +2,7 @@
 // Encodes information created in Pd into a Lilypond score (lilypond.org)
 // developed by Jaime Oliver La Rosa (la.rosa@nyu.edu)
 // @ the NYU Waverly Labs in the Music Department - FAS. (nyu-waverlylabs.org)
-// updated by Fede Camara Halac (fch226@nyu.edu)
+// with contributions by Fede Camara Halac (fch226@nyu.edu)
 // Released under the GNU General Public License. 
 
 #include "notes_lib.h"

@@ -1,1 +1,1 @@
-- check compatibility with other languages
+- check compatibility with other languages in OS X ie. "Applications" vs "Aplicaciones"
