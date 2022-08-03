@@ -2491,7 +2491,7 @@ void notes_author(t_notes *x, t_symbol *s, int argc, t_atom *argv) 		{
 	}
 	x->auth_n = argc;
 }
-////	____________________________________________________ AUTHOR
+////	____________________________________________________ INSTRUMENT
 void notes_inst(t_notes *x, t_symbol *s) 		{
 	strcpy (x->inst, s->s_name);
 	post("notes: instrument name = %s", x->inst);
@@ -2528,11 +2528,11 @@ void *notes_new(t_floatarg ff)												{
     x->x_canvas = canvas_getcurrent();
     x->FOLLOW 			= (int) ff;
     x->sb_tp_index = x->i_index = x->ri_index = x->tp_index = x->tp_n = x->b_index = x->be_index = 0;
-    x->debug = 0;
+    x->debug 			= 0;
     x->inst_n = x->tempo = x->auth_n = x->titl_n = 0;
     x->refdur 			= 32;
     x->render 			= 1;
-    x->open         = 1;
+    x->open         	= 1;
     x->papersize 		= 4;
 	x->paperorientation = 0;
 	strcpy(x->lily_dir, LYDIR); // see notes_lib.h

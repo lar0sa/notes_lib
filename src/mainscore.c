@@ -274,9 +274,9 @@ void mainscore_author(t_mainscore *x, t_symbol *s, int argc, t_atom *argv) 		{
 }
 ////	____________________________________________________ Lilypond Location
 void mainscore_lily_dir(t_mainscore *x, t_symbol *s, int argc, t_atom *argv) 	{
-	int i; i = argc;
+	int i; i = argc; i++;
 	x->dummysym = s->s_name;
-	atom_string(argv, x->lily_dir, 1000);
+	atom_string(argv, x->lily_dir, MAXPDSTRING);
 	post("mainscore: Lilypond directory set to: %s", x->lily_dir);
 }
 ////	____________________________________________________ PAPER SIZE
@@ -284,7 +284,6 @@ void mainscore_paper(t_mainscore *x, t_floatarg f, t_floatarg g) 								{
 	x->papersize 		= (int) f;
 	x->paperorientation = (int) g;
 } 
-
 t_class *mainscore_class;
 void *mainscore_new(t_floatarg ff)												{
     t_mainscore *x = (t_mainscore *)pd_new(mainscore_class);
