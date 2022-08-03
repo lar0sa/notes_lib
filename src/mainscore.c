@@ -132,7 +132,7 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 //// _______________________________________________ WRITE SCORE	
 	else 							{  
 		post("mainscore: writing into %s", scorename);
-		fprintf(fp1, "%% [notes] external for Pure Data\n%% development-version July 14, 2014 \n%% by Jaime E. Oliver La Rosa\n%% la.rosa@nyu.edu\n%% @ the Waverly Labs in NYU MUSIC FAS\n%% Open this file with Lilypond\n%% more information is available at lilypond.org\n%% Released under the GNU General Public License.\n\n");
+		fprintf(fp1, "%% [notes] external for Pure Data\n%% version 0.2 August 2, 2022 \n%% by Jaime E. Oliver La Rosa\n%% la.rosa@nyu.edu\n%% @ the Waverly Labs in NYU MUSIC FAS\n%% With contributions from Fede Camara Halac\n%% Open this file with Lilypond\n%% more information is available at lilypond.org\n%% Released under the GNU General Public License.\n\n");
 		//// _______________________________________ COPY PARTS TO MAIN SCORE
 		for (i=0; i<x->part_i; i++) {	
 			strcpy(partpath, x->parts[i][1]);
@@ -206,12 +206,14 @@ void mainscore_write(t_mainscore *x, t_symbol *s)								{
 		if(x->paperorientation==1) fprintf(fp1, "landscape\")");
 		else fprintf(fp1, "\")");
 		fprintf(fp1, "\n\t}\n\t\\midi { }\n}");	
-		fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% mainscore Pd External version testing \n");
+		fprintf(fp1, "\n\n\\version \"2.18.2\"\n%% mainscore Pd External version 0.2 \n");
 		fclose(fp1);
 		post("mainscore: .ly score finished");
     // compile and open
-    if(compile_and_open(buf, scorename, x->debug, 0, 1, x->open,LYBINDIR)){
-      pd_error(x, "notes: error compiling score");
+//	if(compile_and_open(buf,scorename,x->debug,x->FOLLOW,x->render,x->open, x->lily_dir)){ //according to notes
+	if(compile_and_open(buf, scorename, x->debug, 0, 1, x->open, x->lily_dir)){
+    //if(compile_and_open(buf, scorename, x->debug, 0, 1, x->open,LYBINDIR)){
+      pd_error(x, "mainscore: error compiling score");
     }
     }  // if a file is correctly provided.
 	//*/
@@ -290,7 +292,8 @@ void *mainscore_new(t_floatarg ff)												{
   	x->x_outlet0 = outlet_new(&x->x_ob, &s_symbol);
 //  x->x_outlet1 = outlet_new(&x->x_ob, &s_symbol);
   	x->x_canvas = canvas_getcurrent();
-    strcpy( x->lily_dir, "~/bin");
+	strcpy(x->lily_dir, LYDIR); // see notes_lib.h
+	// strcpy( x->lily_dir, "~/bin");
     strcpy (x->inst, "inst");
     x->debug 				= 0;
     x->auth_n = x->titl_n 	= 0; 
@@ -298,7 +301,7 @@ void *mainscore_new(t_floatarg ff)												{
 	x->paperorientation 	= 0;
 	x->part_i = x->part_i	= 0;
 	x->total_voices			= (int) ff;
-  x->open = 1;
+    x->open = 1;
     return (void *)x;
 }
 void mainscore_setup(void)														{
@@ -313,7 +316,7 @@ void mainscore_setup(void)														{
 	class_addmethod(mainscore_class, (t_method)mainscore_clear, 	gensym("clear"), 				0);
 	class_addmethod(mainscore_class, (t_method)mainscore_debug, 	gensym("debug"), 	A_DEFFLOAT, 0);
 	class_addmethod(mainscore_class, (t_method)mainscore_paper, 	gensym("paper"), 	A_DEFFLOAT, A_DEFFLOAT, 0);
-  class_addmethod(mainscore_class, (t_method)mainscore_open, 	gensym("open"), 	A_DEFFLOAT, 0);
-  class_sethelpsymbol(mainscore_class, gensym("notes"));
-	// post("mainscore:\ttesting version: 2015-03-26");
+    class_addmethod(mainscore_class, (t_method)mainscore_open, 	gensym("open"), 	A_DEFFLOAT, 0);
+    class_sethelpsymbol(mainscore_class, gensym("notes"));
+	post("mainscore:\ttesting: 20220802-1");
 }

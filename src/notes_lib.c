@@ -499,12 +499,12 @@ void open_pdf(char *buf) {
     sys_gui(cmdbuf);
 }
 
-int compile_and_open(char *buf, char *name, int debug, int SLAVE, int render, int OPEN, char *lily_dir) {
+int compile_and_open(char *buf, char *name, int debug, int FOLLOW, int render, int OPEN, char *lily_dir) {
     if (!render) {
       if (debug >= 1) post("notes: skipping score rendering");
-    } else if (SLAVE == 1) {
-      if (debug >= 1) post("notes: render disabled in slave mode");
-    } else { // SLAVE == 0 && render == 1
+    } else if (FOLLOW == 1) {
+      if (debug >= 1) post("notes: render disabled in FOLLOW mode");
+    } else { // FOLLOW == 0 && render == 1
       if (!system(NULL)) {
         if (debug >= 1) post("notes: system() not found");
         return 1;

@@ -2534,9 +2534,8 @@ void *notes_new(t_floatarg ff)												{
     x->render 			= 1;
     x->open         = 1;
     x->papersize 		= 4;
-	  x->paperorientation = 0;
-  
-	  strcpy(x->lily_dir, LYDIR); // see notes_lib.h
+	x->paperorientation = 0;
+	strcpy(x->lily_dir, LYDIR); // see notes_lib.h
     strcpy(x->inst, "inst");
     return (void *)x;
 }

@@ -1,4 +1,4 @@
-#N canvas 625 0 664 804 10;
+#N canvas 44 99 664 804 10;
 #X declare -lib notesLib;
 #N canvas 148 114 650 567 rhythm-test 0;
 #X obj 49 20 bng 15 250 50 0 empty empty empty 17 7 0 10 #fcfcfc #000000
@@ -3199,7 +3199,7 @@ touch 4th \, -hrm 4 is touch third \, and -hrm 5 is touch minor 3rd.
 #X connect 29 0 6 0;
 #X restore 17 69 pd harmonics;
 #X restore 499 488 pd instrument-specific;
-#N canvas 0 60 427 120 multiple 0;
+#N canvas 37 60 427 120 multiple 0;
 #N canvas 51 74 534 682 multiple_voices 0;
 #X obj 68 368 s \$0-master-path;
 #X obj 238 429 r \$0-master-path;
@@ -3296,7 +3296,7 @@ and [mainscore] objects \, paper 4 1, f 29;
 #X connect 41 0 16 0;
 #X connect 42 0 16 0;
 #X restore 275 28 pd multiple_voices;
-#N canvas 3 58 1138 706 multiple_staves 0;
+#N canvas 302 71 1138 706 multiple_staves 0;
 #X obj 133 439 notes 1, f 18;
 #X obj 238 506 notes 1, f 19;
 #X obj 95 95 until;
@@ -3775,7 +3775,7 @@ and modify scores in various ways., f 68;
 #X text 57 431 Thanks!;
 #X text 297 436 Jaime E. Oliver La Rosa \, la.rosa@nyu.edu, f 24;
 #N canvas 64 64 450 300 installing 0;
-#N canvas 39 380 424 330 locating 0;
+#N canvas 556 150 424 330 locating 0;
 #X obj 14 286 notes;
 #X text 30 40 Send a Message to tell Lilypond where to find your Lilypond
 software. This is usually in your /Applications folder \, but it could
@@ -3791,7 +3791,7 @@ takes care of the rest. On other platforms \, lilypond must be on the
 PATH. On linux \, this should not be asking too much. On Windows \,
 the steps on lilypond.org are exactly what you need to do \, and there
 is no need to open a terminal., f 63;
-#X msg 14 20 lily_dir /another/path/to/Lilypond.app;
+#X msg 14 20 lily_dir /Applications/LilyPond.app;
 #X connect 2 0 0 0;
 #X restore 16 109 pd locating your lilypond executable;
 #X text 15 27 In Wondows you should install it with the regular installer
