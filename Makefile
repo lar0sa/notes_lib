@@ -1,7 +1,7 @@
 # Makefile for notes
 
 # specify a location for Pd if desired
-PDDIR = ../pure-data
+PDDIR = ../pd-0.52-2
 
 lib.name = notesLib
 
@@ -18,5 +18,5 @@ datafiles = help/notes-help.pd help/hpp-format-o.pd README.md
 # build a multi-object library
 make-lib-executable=yes
 
-PDLIBBUILDER_DIR=../pd-lib-builder/
+PDLIBBUILDER_DIR=../pd-lib-builder
 include $(PDLIBBUILDER_DIR)/Makefile.pdlibbuilder
