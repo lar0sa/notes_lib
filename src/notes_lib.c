@@ -427,6 +427,23 @@ void find_notehead(int a, FILE *f) 			{
 	else if	(a==8)	fprintf(f, "\\once \\override NoteHead.style = #'slash "); //
 	else if	(a==9)	fprintf(f, "\\parenthesize "); // 
 }
+int readbarfile(int a[][8], FILE *f) {
+    int row = 0, col;
+    char * line = NULL;
+    size_t len = 0;
+
+    while (getline(&line, &len, f) != -1) {
+        // We expect 4 integer items. Actually, we can directly read into the output array
+        // because the data type (int) matches the %d specifier.
+        if (sscanf(line, "%d%d%d%d%d", &a[row][0], &a[row][1], &a[row][2], &a[row][3], &a[row][4]) != 5) {
+            // handle error
+        }
+        row++;
+    }
+    free(line);
+    return row;   
+}
+/*
 int readbarfile(int a[][8], FILE *f)		{
 	int i, ii, j, jj, strsize, temp;
 	char * line = NULL;
@@ -440,7 +457,7 @@ int readbarfile(int a[][8], FILE *f)		{
 		jj 		= 4;
 		strsize = (int) read;
 		for (i=strsize-1; i>=0; i--){
-			if 		( line[i] == (int) 32 || line[i] == (int) 10) {
+			if 		( line[i] == (int) 32 || line[i] == (int) 10) { //space or newline
 				if(i != (strsize-1)) {	
 					a[ii][jj] = temp;
 					jj--;
@@ -457,7 +474,7 @@ int readbarfile(int a[][8], FILE *f)		{
 		ii++;
 	}
 	return (ii);	
-}
+}*/
 void copyfiles(FILE *f, FILE *g)			{
 	char a;
 	post("copyfiles");
@@ -488,6 +505,7 @@ int compile(char *buf, char *name, int debug, char *lily_dir) {
       post("%s\n", cmdbuf);
       return 1;
     }
+	free(cmdbuf);
 }
 
 void open_pdf(char *buf) {
@@ -497,6 +515,7 @@ void open_pdf(char *buf) {
     snprintf(cmdbuf, MAXPDSTRING, "::pd_menucommands::menu_openfile {%s.pdf}\n", buf);
     cmdbuf[MAXPDSTRING-1] = 0;
     sys_gui(cmdbuf);
+	free(cmdbuf);
 }
 
 int compile_and_open(char *buf, char *name, int debug, int FOLLOW, int render, int OPEN, char *lily_dir) {
