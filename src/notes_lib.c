@@ -428,7 +428,7 @@ void find_notehead(int a, FILE *f) 			{
 	else if	(a==9)	fprintf(f, "\\parenthesize "); // 
 }
 int readbarfile(int a[][8], FILE *f) {
-    int row = 0, col;
+    int row = 0;
     char * line = NULL;
     size_t len = 0;
 
@@ -505,7 +505,7 @@ int compile(char *buf, char *name, int debug, char *lily_dir) {
       post("%s\n", cmdbuf);
       return 1;
     }
-	free(cmdbuf);
+	// free(cmdbuf);
 }
 
 void open_pdf(char *buf) {
@@ -515,7 +515,7 @@ void open_pdf(char *buf) {
     snprintf(cmdbuf, MAXPDSTRING, "::pd_menucommands::menu_openfile {%s.pdf}\n", buf);
     cmdbuf[MAXPDSTRING-1] = 0;
     sys_gui(cmdbuf);
-	free(cmdbuf);
+	// free(cmdbuf);
 }
 
 int compile_and_open(char *buf, char *name, int debug, int FOLLOW, int render, int OPEN, char *lily_dir) {
