@@ -28,7 +28,8 @@ void notesLib_setup(void)
 
 	post("notes:\t Pd external object library for encoding music notation in lilypond syntax");
 	post("notesLib version %s", NOTESLIBVERSION);
-  post("notes:\t developed by Jaime Oliver La Rosa with contributions by Fede Cámara Halac");
+  post("notes:\t developed by Jaime Oliver La Rosa");
+  post("notes:\t with contributions by Fede Cámara Halac");
   post("notes:\t at NYU Waverly Labs");
   class_sethelpsymbol(notesLib_class, gensym("notes"));
 	mainscore_setup();
